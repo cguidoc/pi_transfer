@@ -1,0 +1,30 @@
+"""Transfter file to serial port
+
+This takes a file, converts it to a string and send it to 
+the serial port"""
+
+__author__ = "Chris Guidotti"
+__version__ = "$Revision: 0.1 $"
+__date__ = "$Date: 2013/11/20 $"
+#!/usr/bin/python
+
+import serial
+import time
+
+ser = serial.Serial(port = "/dev/ttyUSB0", baudrate=9600)
+ser.close()
+ser.open()
+
+def serial_xfer(file):
+	"""Takes a file as input 
+
+	and sends the data in the file to the serial port"""
+
+	fileHandle = open (file, 'r')
+	data = fileHandle.read()
+	fileHandle.close()
+
+	if ser.isOpen(): 	  			
+		ser.write(data)
+		time.sleep(1)
+
