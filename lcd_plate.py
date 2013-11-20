@@ -2,6 +2,8 @@
 
 from time import sleep
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
+import xserial
+
 
 # Initialize the LCD plate.  Should auto-detect correct I2C bus.  If not,
 # pass '0' for early 256 MB Model B boards or '1' for all later versions
@@ -9,7 +11,7 @@ lcd = Adafruit_CharLCDPlate()
 
 # Clear display and show greeting, pause 1 sec
 lcd.clear()
-lcd.message("Adafruit RGB LCD\nPlate w/Keypad!")
+lcd.message("EBE wifi <--> RS232 bridge\nv0.1")
 sleep(1)
 
 # Cycle through backlight colors
@@ -26,12 +28,10 @@ btn = ((lcd.LEFT  , 'Red Red Wine'              , lcd.RED),
        (lcd.RIGHT , 'Purple mountain\nmajesties', lcd.VIOLET),
        (lcd.SELECT, ''                          , lcd.ON))
 prev = -1
-while True:
-    for b in btn:
-        if lcd.buttonPressed(b[0]):
-            if b is not prev:
-                lcd.clear()
-                lcd.message(b[1])
-                lcd.backlight(b[2])
-                prev = b
-            break
+if __name__ == '__main__':
+  lcd.message("Checking for files...")
+  sleep(1)
+  while file_accessible(transfer.txt, "r"):
+    lcd.message("transfer.txt found \npress select to transfer")
+    if lcd.buttonPressed(0):
+      serial_xfer(transfer.txt)
