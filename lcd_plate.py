@@ -37,11 +37,12 @@ if __name__ == '__main__':
   sleep(1)
   lcd.clear()
   while xserial.file_accessible("transfer.txt", "r"):
-    lcd.message("transfer.txt found \npress select to transfer")
+    lcd.message("file found \nselect to send")
     lcd.backlight(lcd.GREEN)
     if lcd.buttonPressed(0):
       lcd.backlight(lcd.YELLOW)
       xserial.serial_xfer("transfer.txt")
+      print "back in main program"
       sleep(1)
       lcd.backlight(lcd.BLUE)
       lcd.message("transfer comp")
