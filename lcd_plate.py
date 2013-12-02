@@ -7,7 +7,7 @@ import xserial
 
 # Initialize the LCD plate.  Should auto-detect correct I2C bus.  If not,
 # pass '0' for early 256 MB Model B boards or '1' for all later versions
-lcd = Adafruit_CharLCDPlate()
+global lcd = Adafruit_CharLCDPlate()
 
 # Clear display and show greeting, pause 1 sec
 lcd.clear()
@@ -45,4 +45,3 @@ if __name__ == '__main__':
       sleep(1)
       lcd.backlight(lcd.BLUE)
       lcd.message("transfer comp")
-      
