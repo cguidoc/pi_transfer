@@ -43,11 +43,11 @@ def serial_xfer(file):
 		#lcd.clear()
 		#lcd.message("opening port")
 		ser = serial.Serial(port = "/dev/ttyUSB0", baudrate=9600)
-		print("  object created")
+		print "  object created"
 		ser.close()
-		print("  object closed")
+		print "  object closed"
 		ser.open()
-		print("  object re-openend")
+		print "  object re-openend"
 
 		#if the serial port is open, send the data string
 		print "sending data..."
@@ -55,6 +55,7 @@ def serial_xfer(file):
 		#lcd.message("sending...")
 		if ser.isOpen(): 	  			
 			ser.write(data)
+			print "...data sent"
 			sleep(1)
 
 if __name__ == '__main__':
