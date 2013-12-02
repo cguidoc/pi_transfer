@@ -18,7 +18,7 @@ def file_accessible(filepath, mode):
     f = open(filepath, mode)
   except IOError as e:
   	print "file not accessible or doesn't exist"
-    return false
+    	return false
   return true
 
 def serial_xfer(file):
