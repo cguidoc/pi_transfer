@@ -395,10 +395,9 @@ display = Display(uiItems)
 display.display()
 
 while 1:
-	sleep(0.25)
-    if (lcd.buttonPressed(lcd.LEFT)):
-		display.update('l')
-		display.display()
+	if (lcd.buttonPressed(lcd.LEFT)):
+	   display.update('l')
+	   display.display()
 
 	if (lcd.buttonPressed(lcd.UP)):
 		display.update('u')
@@ -415,4 +414,4 @@ while 1:
 	if (lcd.buttonPressed(lcd.SELECT)):
 		display.update('s')
 		display.display()
-
+    sleep(0.25)
