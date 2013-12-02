@@ -47,54 +47,57 @@ def DoTransfer():
 			break
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
-			if file_accessible(file,"r"):
-				if DEBUG:
-					print "opening the file and converting to string"
-				lcd.message("converting")
-				fileHandle = open (file, 'r')
-				data = fileHandle.read()
-				fileHandle.close()
-				if DEBUG:
-					print data
-					print "file converted"
-				lcd.clear()
-				lcd.message("file converted")
-				sleep(1)
+			xtransfer()
 
-				#open serial object
-				if DEBUG:
-					print "opening serial port object"
-				lcd.clear()
-				lcd.message("opening port")
-				ser = serial.Serial(
-					port = "/dev/ttyUSB0",  
-					baudrate=4800, 
-					bytesize=serial.SEVENBITS, 
-					stopbits=serial.STOPBITS_ONE, 
-					parity=serial.PARITY_EVEN, 
-					xonxoff = True)
+def xtransfer():
+	if file_accessible(file,"r"):
+		if DEBUG:
+			print "opening the file and converting to string"
+		lcd.message("converting")
+		fileHandle = open (file, 'r')
+		data = fileHandle.read()
+		fileHandle.close()
+		if DEBUG:
+			print data
+			print "file converted"
+		lcd.clear()
+		lcd.message("file converted")
+		sleep(1)
 
-				if DEBUG:
-					print "  object created"
-				ser.close()
-				if DEBUG:
-					print "  object closed"
-				ser.open()
-				if DEBUG:
-					print "  object re-openend"
+		#open serial object
+		if DEBUG:
+			print "opening serial port object"
+		lcd.clear()
+		lcd.message("opening port")
+		ser = serial.Serial(
+			port = "/dev/ttyUSB0",  
+			baudrate=4800, 
+			bytesize=serial.SEVENBITS, 
+			stopbits=serial.STOPBITS_ONE, 
+			parity=serial.PARITY_EVEN, 
+			xonxoff = True)
 
-				#if the serial port is open, send the data string
-				if DEBUG:
-					print "sending data..."
-				lcd.clear()
-				lcd.message("sending...")
-				if ser.isOpen():                
-					ser.write(data)
-					if DEBUG:
-						print "  data sent"
-					ser.close()
-					if DEBUG:
-						print "  object closed"
+		if DEBUG:
+			print "  object created"
+		ser.close()
+		if DEBUG:
+			print "  object closed"
+		ser.open()
+		if DEBUG:
+			print "  object re-openend"
+
+		#if the serial port is open, send the data string
+		if DEBUG:
+			print "sending data..."
+		lcd.clear()
+		lcd.message("sending...")
+		if ser.isOpen():                
+			ser.write(data)
+			if DEBUG:
+				print "  data sent"
+			ser.close()
+			if DEBUG:
+				print "  object closed"
 
 def DoQuit():
     lcd.clear()
