@@ -13,6 +13,7 @@ from Adafruit_I2C import Adafruit_I2C
 from Adafruit_MCP230xx import Adafruit_MCP230XX
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 from ListSelector import ListSelector
+import serial
 
 import smbus
 
