@@ -43,11 +43,13 @@ def file_accessible(filepath, mode):
 def DoTransfer():
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
-	if lcd.buttonPressed(lcd.LEFT):
-		break
-	if lcd.buttonPressed(lcd.SELECT):
-		lcd.clear()
-		xtransfer("transfer.txt")
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		if lcd.buttonPressed(lcd.SELECT):
+			lcd.clear()
+			xtransfer("transfer.txt")
+			break
 
 
 def xtransfer(file):
