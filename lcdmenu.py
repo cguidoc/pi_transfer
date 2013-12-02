@@ -32,7 +32,15 @@ lcd.begin(DISPLAY_COLS, DISPLAY_ROWS)
 lcd.backlight(lcd.OFF)
 
 # commands
+def file_accessible(filepath, mode):
+  '''check if a file exists and is accessable'''
+  try:
+    f = open(filepath, mode)
+  except IOError as e:
+    return False
 
+  return True
+  
 def DoTransfer():
     lcd.clear()
     lcd.message('Are you sure?\nPress Sel for Y')
