@@ -24,7 +24,7 @@ DISPLAY_ROWS = 2
 DISPLAY_COLS = 16
 
 # set busnum param to the correct value for your pi
-lcd = Adafruit_CharLCDPlate(busnum = 1)
+lcd = Adafruit_CharLCDPlate()
 # in case you add custom logic to lcd to check if it is connected (useful)
 #if lcd.connected == 0:
 #    quit()
