@@ -31,6 +31,7 @@ def serial_xfer(file):
 		fileHandle = open (file, 'r')
 		data = fileHandle.read()
 		fileHandle.close()
+		print data
 		print "file converted"
 		lcd.clear()
 		lcd.message("file converted")
