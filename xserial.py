@@ -23,7 +23,8 @@ def file_accessible(filepath, mode):
 
 def serial_xfer(file):
 	'''Takes a file as input and sends the data in the file to the serial port'''
-
+	global lcd
+	
 	if file_accessible(file,"r"):
 		#open the file and convert to string
 		print "opening the file and converting to string"
