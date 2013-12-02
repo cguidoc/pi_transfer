@@ -32,7 +32,7 @@ prev = -1
 if __name__ == '__main__':
   lcd.message("Checking for files...")
   sleep(1)
-  while xserial.file_accessible(transfer.txt, "r"):
+  while xserial.file_accessible("transfer.txt", "r"):
     lcd.message("transfer.txt found \npress select to transfer")
     if lcd.buttonPressed(0):
-      serial_xfer(transfer.txt)
+      xserial.serial_xfer("transfer.txt")
