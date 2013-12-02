@@ -24,32 +24,32 @@ def file_accessible(filepath, mode):
 def serial_xfer(file):
 	'''Takes a file as input and sends the data in the file to the serial port'''
 	global lcd
-	
+
 	if file_accessible(file,"r"):
 		#open the file and convert to string
 		print "opening the file and converting to string"
-		lcd.message("converting")
+		#lcd.message("converting")
 		fileHandle = open (file, 'r')
 		data = fileHandle.read()
 		fileHandle.close()
 		print data
 		print "file converted"
-		lcd.clear()
-		lcd.message("file converted")
+		#lcd.clear()
+		#lcd.message("file converted")
 		sleep(1)
 
 		#open serial object
 		print "opening serial port object"
-		lcd.clear()
-		lcd.message("opening port")
+		#lcd.clear()
+		#lcd.message("opening port")
 		ser = serial.Serial(port = "/dev/ttyUSB0", baudrate=9600)
 		ser.close()
 		ser.open()
 
 		#if the serial port is open, send the data string
 		print "sending data..."
-		lcd.clear()
-		lcd.message("sending...")
+		#lcd.clear()
+		#lcd.message("sending...")
 		if ser.isOpen(): 	  			
 			ser.write(data)
 			sleep(1)
