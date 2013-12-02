@@ -40,7 +40,7 @@ def file_accessible(filepath, mode):
     return False
 
   return True
-  
+
 def DoTransfer():
     lcd.clear()
     lcd.message('Are you sure?\nPress Sel for Y')
@@ -414,4 +414,5 @@ while 1:
 	if (lcd.buttonPressed(lcd.SELECT)):
 		display.update('s')
 		display.display()
+    sleep(.25)
 
