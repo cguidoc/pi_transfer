@@ -28,6 +28,7 @@ btn = ((lcd.LEFT  , 'Red Red Wine'              , lcd.RED),
        (lcd.RIGHT , 'Purple mountain\nmajesties', lcd.VIOLET),
        (lcd.SELECT, ''                          , lcd.ON))
 prev = -1
+
 if __name__ == '__main__':
   lcd.message("Checking for files...")
   sleep(1)
