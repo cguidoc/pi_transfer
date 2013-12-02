@@ -10,7 +10,7 @@ __date__ 		= "$Date: 2013/11/20 $"
 
 
 import serial
-import time
+from time import sleep
 
 def file_accessible(filepath, mode):
   '''check if a file exists and is accessable'''
