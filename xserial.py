@@ -42,7 +42,11 @@ def serial_xfer(file):
 		print "opening serial port object"
 		#lcd.clear()
 		#lcd.message("opening port")
-		ser = serial.Serial(port = "/dev/ttyUSB0", baudrate=9600, bytesize=SEVENBITS, stopbits=STOPBITS_ONE, parity=PARITY_EVEN, xonxoff = True)
+		ser = serial.Serial(port = "/dev/ttyUSB0", 	baudrate=4800, 
+													bytesize=SEVENBITS, 
+													stopbits=STOPBITS_ONE, 
+													parity=PARITY_EVEN, 
+													xonxoff = True)
 		print "  object created"
 		ser.close()
 		print "  object closed"
