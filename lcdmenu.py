@@ -47,9 +47,9 @@ def DoTransfer():
 			break
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
-			xtransfer()
+			xtransfer("transfer.txt")
 
-def xtransfer():
+def xtransfer(file):
 	if file_accessible(file,"r"):
 		if DEBUG:
 			print "opening the file and converting to string"
