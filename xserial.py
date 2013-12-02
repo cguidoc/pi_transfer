@@ -57,6 +57,7 @@ def serial_xfer(file):
 			ser.write(data)
 			print "...data sent"
 			sleep(1)
+	return True
 
 if __name__ == '__main__':
 	serial_xfer(test.txt)
