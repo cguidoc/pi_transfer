@@ -43,7 +43,7 @@ def serial_xfer(file):
 		print "sending data..."
 		if ser.isOpen(): 	  			
 			ser.write(data)
-			time.sleep(1)
+			sleep(1)
 
 if __name__ == '__main__':
 	serial_xfer(test.txt)

@@ -13,6 +13,7 @@ lcd = Adafruit_CharLCDPlate()
 lcd.clear()
 lcd.message("EBE wifi <--> RS232 bridge\nv0.1")
 sleep(1)
+lcd.clear()
 
 # Cycle through backlight colors
 col = (lcd.RED , lcd.YELLOW, lcd.GREEN, lcd.TEAL,
@@ -20,6 +21,8 @@ col = (lcd.RED , lcd.YELLOW, lcd.GREEN, lcd.TEAL,
 for c in col:
     lcd.backlight(c)
     sleep(.5)
+
+lcd.backlight(lcd.BLUE)
 
 # Poll buttons, display message & set backlight accordingly
 btn = ((lcd.LEFT  , 'Red Red Wine'              , lcd.RED),
@@ -32,7 +35,14 @@ prev = -1
 if __name__ == '__main__':
   lcd.message("Checking for files...")
   sleep(1)
+  lcd.clear()
   while xserial.file_accessible("transfer.txt", "r"):
     lcd.message("transfer.txt found \npress select to transfer")
+    lcd.backlight(lcd.GREEN)
     if lcd.buttonPressed(0):
+      lcd.backlight(lcd.YELLOW)
       xserial.serial_xfer("transfer.txt")
+      sleep(1)
+      lcd.backlight(lcd.BLUE)
+      lcd.message("transfer comp")
+      
