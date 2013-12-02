@@ -415,4 +415,4 @@ while 1:
 	if (lcd.buttonPressed(lcd.SELECT)):
 		display.update('s')
 		display.display()
-    sleep(0.25)
+	sleep(.25)
