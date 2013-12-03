@@ -21,8 +21,12 @@ import time
 import string
 import smbus
 
+#LCD menu configuration
 configfile = 'lcdmenu.xml'
-s_config = file('sconfig.txt')
+#Serial Port configuration file
+f = file('s_config.txt')
+
+
 # set DEBUG=1 for print debug statements
 DEBUG = 1
 DISPLAY_ROWS = 2
@@ -39,7 +43,7 @@ lcd.backlight(lcd.OFF)
 
 # commands
 def create_serial():
-	cfg=Config(s_config)
+	cfg = Config(f)
 	if DEBUG:
 		print "--create serial from file--"
 		print cfg.port
