@@ -165,7 +165,6 @@ def xrec(file):
 		print "serial object closed"
 	lcd.clear()
 	lcd.message("data received")
-	rfile.open()
 	if DEBUG:
 		print "opening file"
 	rfile.write(data)
