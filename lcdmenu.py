@@ -122,7 +122,7 @@ def xsend(file):
 def xrec(file):
 	#create a new file and close it
 	try:
-		rfile = open(file, w+)
+		rfile = open(file, 'w+')
 		if DEBUG:
 			print "creating receiving file"
 	except OSError:
