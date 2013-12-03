@@ -173,9 +173,12 @@ def xrec(file):
 		print "serial object closed"
 	lcd.clear()
 	lcd.message("data received")
+	data = string.join(lines, " ")
 	if DEBUG:
-		print "opening file"
-	rfile.write(lines)
+		print "converting array to string"
+	lcd.clear()
+	lcd.message("data converted")
+	rfile.write(data)
 	if DEBUG:
 		print "writing data to file"
 	rfile.close()
