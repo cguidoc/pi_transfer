@@ -17,6 +17,7 @@ from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 from ListSelector import ListSelector
 import serial
 import time
+import string
 
 import smbus
 
