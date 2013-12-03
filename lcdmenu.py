@@ -9,7 +9,7 @@
 
 import commands
 from string import split
-from time import sleep, strftime, localtime
+from time import sleep, strftime, localtime, time
 from xml.dom.minidom import *
 from Adafruit_I2C import Adafruit_I2C
 from Adafruit_MCP230xx import Adafruit_MCP230XX
@@ -155,6 +155,7 @@ def xrec(file):
 	lcd.clear()
 	lcd.message("receiving...")
 	if ser.isOpen():
+		timeout=1
 		lines = []
 		while True:
 			line = ser.readline()
