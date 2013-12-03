@@ -132,7 +132,6 @@ def xrec(file):
 		return False
 
 	if DEBUG:
-		print "receiving file closed"
 		print "opening serial port object"
 	
 	lcd.clear()
@@ -155,10 +154,20 @@ def xrec(file):
 		print "receiving data..."
 	lcd.clear()
 	lcd.message("receiving...")
-	if ser.isOpen():                
-		data = ser.readline()
-		if DEBUG:
-			print "  ...data received"
+	if ser.isOpen():
+		lines = []
+	    while True:
+	        line = ser.readline()
+	        lines.append(line.decode('utf-8').rstrip())
+
+	        # wait for new data after each line
+	        timeout = time.time() + 0.1
+	        while not ser.inWaiting() and timeout > time.time():
+	            pass
+	        if not ser.inWaiting():
+	            break                 
+	if DEBUG:
+		print "  ...data received"
 	ser.close()
 	if DEBUG:
 		print "serial object closed"
@@ -166,7 +175,7 @@ def xrec(file):
 	lcd.message("data received")
 	if DEBUG:
 		print "opening file"
-	rfile.write(data)
+	rfile.write(lines)
 	if DEBUG:
 		print "writing data to file"
 	rfile.close()
