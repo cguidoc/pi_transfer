@@ -47,11 +47,11 @@ def DoSend():
 		if lcd.buttonPressed(lcd.LEFT):
 			break
 		if lcd.buttonPressed(lcd.SELECT):
-			lcd.clear()
+            lcd.clear()
             LcdRed()
-			xsend("transfer.txt")
+            xsend("transfer.txt")
             LcdGreen()
-			break
+            break
 
 def DoRec():
     lcd.clear()
