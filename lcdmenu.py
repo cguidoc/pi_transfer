@@ -176,7 +176,7 @@ def xrec(file):
 		print "serial object closed"
 	lcd.clear()
 	lcd.message("data received")
-	data = string.join(lines, " ")
+	data = string.join(lines, "\n")
 	if DEBUG:
 		print "converting array to string"
 	lcd.clear()
