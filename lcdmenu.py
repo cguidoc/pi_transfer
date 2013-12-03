@@ -40,7 +40,7 @@ def file_accessible(filepath, mode):
         return False
     return True
 
-def DoTransfer():
+def DoSend():
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
 	while 1:
@@ -48,11 +48,25 @@ def DoTransfer():
 			break
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
-			xtransfer("transfer.txt")
+            LcdRed()
+			xsend("transfer.txt")
+            LcdGreen()
 			break
 
+def DoRec():
+    lcd.clear()
+    lcd.message('Are you sure?\nPress Sel for Y')
+    while 1:
+        if lcd.buttonPressed(lcd.LEFT):
+            break
+        if lcd.buttonPressed(lcd.SELECT):
+            lcd.clear()
+            LcdRed()
+            xrec("incomming.txt")
+            LcdGreen()
+            break
 
-def xtransfer(file):
+def xsend(file):
 	if file_accessible(file,"r"):
 		if DEBUG:
 			print "opening the file and converting to string"
@@ -102,6 +116,63 @@ def xtransfer(file):
 			if DEBUG:
 				print "  object closed"
 
+def xrec(file):
+    #create a new file and close it
+    try:
+        rfile = open(file, w+)
+        if DEBUG:
+            print "creating receiving file"
+    except OSError:
+        lcd.message("error w file")
+        if DEBUG:
+            print "error creating file"
+        return False
+
+    rfile.close()
+    if DEBUG:
+        print "receiving file closed"
+        print "opening serial port object"
+    
+    lcd.clear()
+    lcd.message("opening port")
+    ser = serial.Serial(
+        port = "/dev/ttyUSB0",  
+        baudrate=4800, 
+        bytesize=serial.SEVENBITS, 
+        stopbits=serial.STOPBITS_ONE, 
+        parity=serial.PARITY_EVEN, 
+        xonxoff = True)
+    if DEBUG:
+        print "  serial object created"
+    ser.close()
+    if DEBUG:
+        print "  serial object closed"
+    ser.open()
+    if DEBUG:
+        print "  serial object re-openend"
+        print "receiving data..."
+    lcd.clear()
+    lcd.message("receiving...")
+    if ser.isOpen():                
+        data = ser.readline()
+        if DEBUG:
+            print "  ...data received"
+    ser.close()
+    if DEBUG:
+        print "serial object closed"
+    lcd.clear()
+    lcd.message("data received")
+    rfile.open()
+    if DEBUG:
+        print "opening file"
+    rfile.write(data)
+    if DEBUG:
+        print "writing data to file"
+    rfile.close()
+    if DEBUG:
+        print "closing file"
+    lcd.clear()
+    lcd.message("data saved")    
 
 def DoQuit():
     lcd.clear()
@@ -175,40 +246,6 @@ def ShowIPAddress():
             break
         sleep(0.25)
     
-#only use the following if you find useful
-def Use10Network():
-    "Allows you to switch to a different network for local connection"
-    lcd.clear()
-    lcd.message('Are you sure?\nPress Sel for Y')
-    while 1:
-        if lcd.buttonPressed(lcd.LEFT):
-            break
-        if lcd.buttonPressed(lcd.SELECT):
-            # uncomment the following once you have a separate network defined
-            #commands.getoutput("sudo cp /etc/network/interfaces.hub.10 /etc/network/interfaces")
-            lcd.clear()
-            lcd.message('Please reboot')
-            sleep(1.5)
-            break
-        sleep(0.25)
-
-#only use the following if you find useful
-def UseDHCP():
-    "Allows you to switch to a network config that uses DHCP"
-    lcd.clear()
-    lcd.message('Are you sure?\nPress Sel for Y')
-    while 1:
-        if lcd.buttonPressed(lcd.LEFT):
-            break
-        if lcd.buttonPressed(lcd.SELECT):
-            # uncomment the following once you get an original copy in place
-            #commands.getoutput("sudo cp /etc/network/interfaces.orig /etc/network/interfaces")
-            lcd.clear()
-            lcd.message('Please reboot')
-            sleep(1.5)
-            break
-        sleep(0.25)
-
 class CommandToRun:
     def __init__(self, myName, theCommand):
         self.text = myName

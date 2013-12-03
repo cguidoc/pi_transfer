@@ -1,14 +1,14 @@
 <application>
-  <settings lcdColor="White" lcdBackground="On" />
-  <folder text="System Info">
+  <settings lcdColor="Green" lcdBackground="On" />
+  <widget text="Send File" function="DoSend" />
+  <widget text="Receive File" function="DoRec" />
+  <folder text="System Setup...">
     <widget text="Show Date/Time" function="ShowDateTime" />
     <widget text="Set Date/Time" function="SetDateTime" />
-    <folder text="Network">
+    <folder text="Network...">
       <widget text="IP Address" function="ShowIPAddress" />
-      <widget text="Use 10.1.1.2" function="Use10Network" />
-      <widget text="Use DHCP" function="UseDHCP" />
     </folder>
-    <folder text="LCD Color">
+    <folder text="LCD Color...">
       <widget text="Red" function="LcdRed" />
       <widget text="Green" function="LcdGreen" />
       <widget text="Blue" function="LcdBlue" />
@@ -18,10 +18,9 @@
       <widget text="White" function="LcdOn" />
       <widget text="Off" function="LcdOff" />
     </folder>
-    <run text="Run ls">ls</run>
+    <run text="list files">ls</run>
+    <widget text="Quit" function="DoQuit" />
+    <widget text="Shutdown" function="DoShutdown" />
   </folder>
-  <widget text="Transfer" function="DoTransfer" />
-  <widget text="Quit" function="DoQuit" />
-  <widget text="Shutdown" function="DoShutdown" />
 </application>
 
