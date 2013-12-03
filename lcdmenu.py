@@ -131,7 +131,6 @@ def xrec(file):
 			print "error creating file"
 		return False
 
-	rfile.close()
 	if DEBUG:
 		print "receiving file closed"
 		print "opening serial port object"
