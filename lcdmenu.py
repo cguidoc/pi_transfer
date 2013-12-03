@@ -16,6 +16,7 @@ from Adafruit_MCP230xx import Adafruit_MCP230XX
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 from ListSelector import ListSelector
 import ConfigParser
+import ast
 import serial
 import time
 import string
@@ -56,9 +57,9 @@ def create_serial():
 	return serial.Serial(
 		port = serial_config.get('section1', 'port'),
 		baudrate = serial_config.get('section1', 'baudrate'),
-		bytesize = serial_config.getfloat('section1', 'bytesize'),
-		stopbits = serial_config.getfloat('section1', 'stopbits'),
-		parity = serial_config.get('section1', 'parity'),
+		bytesize = literal_eval(serial_config.get('section1', 'bytesize')),
+		stopbits = literal_eval(serial_config.get('section1', 'stopbits')),
+		parity = literal_eval(serial_config.get('section1', 'parity')),
 		xonxoff = serial_config.get('section1', 'xonxoff'))
 	if DEBUG:
 		print "  serial object created"
