@@ -15,7 +15,7 @@ from Adafruit_I2C import Adafruit_I2C
 from Adafruit_MCP230xx import Adafruit_MCP230XX
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 from ListSelector import ListSelector
-from config import Config
+import ConfigParser
 import serial
 import time
 import string
@@ -24,7 +24,7 @@ import smbus
 #LCD menu configuration
 configfile = 'lcdmenu.xml'
 #Serial Port configuration file
-f = file('s_config.txt')
+serial_config = ConfigParser.RawConfigParser()
 
 
 # set DEBUG=1 for print debug statements
@@ -43,22 +43,23 @@ lcd.backlight(lcd.OFF)
 
 # commands
 def create_serial():
-	cfg = Config(f)
+	#update serial config parameters
+	serial_config.read('s_config.txt')
 	if DEBUG:
 		print "--create serial from file--"
-		print cfg.port
-		print cfg.baudrate
-		print cfg.bytesize
-		print cfg.stopbits
-		print cfg.parity
-		print cfg.xonxoff
+		print serial_config.get('section1', 'port')
+		print serial_config.get('section1', 'baudrate')
+		print serial_config.get('section1', 'bytesize')
+		print serial_config.get('section1', 'stopbits')
+		print serial_config.get('section1', 'parity')
+		print serial_config.get('section1', 'xonxoff')
 	return serial.Serial(
-		port = cfg.port,
-		baudrate = cfg.baudrate,
-		bytesize = cfg.bytesize,
-		stopbits = cfg.stopbits,
-		parity = cfg.parity,
-		xonxoff = cfg.xonxoff,)
+		port = serial_config.get('section1', 'port'),
+		baudrate = serial_config.get('section1', 'baudrate'),
+		bytesize = cserial_config.get('section1', 'bytesize'),
+		stopbits = serial_config.get('section1', 'stopbits'),
+		parity = serial_config.get('section1', 'parity'),
+		xonxoff = serial_config.get('section1', 'xonxoff'))
 	if DEBUG:
 		print "  serial object created"
 
