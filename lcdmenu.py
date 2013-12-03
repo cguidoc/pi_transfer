@@ -48,7 +48,7 @@ def create_serial():
 		print cfg.stopbits
 		print cfg.parity
 		print cfg.xonxoff
-	global ser = serial.Serial(
+	return serial.Serial(
 		port = cfg.port,
 		baudrate = cfg.baudrate,
 		bytesize = cfg.bytesize,
@@ -81,7 +81,7 @@ def xsend(file):
 		sleep(1)
 
 		#open serial object
-		create_serial()
+		ser = create_serial()
 		lcd.clear()
 		lcd.message("opening port")
 		ser.close()
@@ -119,7 +119,7 @@ def xrec(file):
 	if DEBUG:
 		print "opening serial port object"
 	
-	create_serial()
+	ser = create_serial()
 	lcd.clear()
 	lcd.message("opening port")
 	ser.close()
