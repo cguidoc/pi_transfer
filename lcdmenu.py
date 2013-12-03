@@ -4,6 +4,8 @@
 #
 # This provides a menu driven application using the LCD Plates
 # from Adafruit Electronics.
+#
+# version 0.1 - send and receive
 
 import commands
 from string import split
@@ -39,6 +41,7 @@ def file_accessible(filepath, mode):
     except IOError as e:
         return False
     return True
+
 
 def DoSend():
 	lcd.clear()
