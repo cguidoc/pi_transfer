@@ -15,13 +15,14 @@ from Adafruit_I2C import Adafruit_I2C
 from Adafruit_MCP230xx import Adafruit_MCP230XX
 from Adafruit_CharLCDPlate import Adafruit_CharLCDPlate
 from ListSelector import ListSelector
+from config import Config
 import serial
 import time
 import string
-
 import smbus
 
 configfile = 'lcdmenu.xml'
+s_config = file('sconfig.txt')
 # set DEBUG=1 for print debug statements
 DEBUG = 1
 DISPLAY_ROWS = 2
@@ -37,39 +38,32 @@ lcd.begin(DISPLAY_COLS, DISPLAY_ROWS)
 lcd.backlight(lcd.OFF)
 
 # commands
+def create_serial():
+	cfg=Config(s_config)
+	if DEBUG:
+		print "--create serial from file--"
+		print cfg.port
+		print cfg.baudrate
+		print cfg.bytesize
+		print cfg.stopbits
+		print cfg.parity
+		print cfg.xonxoff
+	global ser = serial.Serial(
+		port = cfg.port,
+		baudrate = cfg.baudrate,
+		bytesize = cfg.bytesize,
+		stopbits = cfg.stopbits,
+		parity = cfg.parity,
+		xonxoff = cfg.xonxoff,)
+	if DEBUG:
+		print "  serial object created"
+
 def file_accessible(filepath, mode):
 	try:
 		f = open(filepath, mode)
 	except IOError as e:
 		return False
 	return True
-
-
-def DoSend():
-	lcd.clear()
-	lcd.message('Are you sure?\nPress Sel for Y')
-	while 1:
-		if lcd.buttonPressed(lcd.LEFT):
-			break
-		if lcd.buttonPressed(lcd.SELECT):
-			lcd.clear()
-			LcdRed()
-			xsend("transfer.txt")
-			LcdGreen()
-			break
-
-def DoRec():
-	lcd.clear()
-	lcd.message('Are you sure?\nPress Sel for Y')
-	while 1:
-		if lcd.buttonPressed(lcd.LEFT):
-			break
-		if lcd.buttonPressed(lcd.SELECT):
-			lcd.clear()
-			LcdRed()
-			xrec("incomming.txt")
-			LcdGreen()
-			break
 
 def xsend(file):
 	if file_accessible(file,"r"):
@@ -87,20 +81,9 @@ def xsend(file):
 		sleep(1)
 
 		#open serial object
-		if DEBUG:
-			print "opening serial port object"
+		create_serial()
 		lcd.clear()
 		lcd.message("opening port")
-		ser = serial.Serial(
-			port = "/dev/ttyUSB0",  
-			baudrate=4800, 
-			bytesize=serial.SEVENBITS, 
-			stopbits=serial.STOPBITS_ONE, 
-			parity=serial.PARITY_EVEN, 
-			xonxoff = True)
-
-		if DEBUG:
-			print "  object created"
 		ser.close()
 		if DEBUG:
 			print "  object closed"
@@ -136,17 +119,9 @@ def xrec(file):
 	if DEBUG:
 		print "opening serial port object"
 	
+	create_serial()
 	lcd.clear()
 	lcd.message("opening port")
-	ser = serial.Serial(
-		port = "/dev/ttyUSB0",  
-		baudrate=4800, 
-		bytesize=serial.SEVENBITS, 
-		stopbits=serial.STOPBITS_ONE, 
-		parity=serial.PARITY_EVEN, 
-		xonxoff = True)
-	if DEBUG:
-		print "  serial object created"
 	ser.close()
 	if DEBUG:
 		print "  serial object closed"
@@ -189,6 +164,32 @@ def xrec(file):
 		print "closing file"
 	lcd.clear()
 	lcd.message("data saved")    
+
+def DoSend():
+	lcd.clear()
+	lcd.message('Are you sure?\nPress Sel for Y')
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		if lcd.buttonPressed(lcd.SELECT):
+			lcd.clear()
+			LcdRed()
+			xsend("transfer.txt")
+			LcdGreen()
+			break
+
+def DoRec():
+	lcd.clear()
+	lcd.message('Are you sure?\nPress Sel for Y')
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		if lcd.buttonPressed(lcd.SELECT):
+			lcd.clear()
+			LcdRed()
+			xrec("incomming.txt")
+			LcdGreen()
+			break
 
 def DoQuit():
 	lcd.clear()
