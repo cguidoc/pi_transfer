@@ -56,8 +56,8 @@ def create_serial():
 	return serial.Serial(
 		port = serial_config.get('section1', 'port'),
 		baudrate = serial_config.get('section1', 'baudrate'),
-		bytesize = serial_config.get('section1', 'bytesize'),
-		stopbits = serial_config.get('section1', 'stopbits'),
+		bytesize = serial_config.getint('section1', 'bytesize'),
+		stopbits = serial_config.getint('section1', 'stopbits'),
 		parity = serial_config.get('section1', 'parity'),
 		xonxoff = serial_config.get('section1', 'xonxoff'))
 	if DEBUG:
