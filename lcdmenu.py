@@ -70,7 +70,7 @@ def UpdateSerial():
 				create_serial()
 				LcdGreen()
 				break
-			elif
+			else:
 				if DEBUG:
 					print "file not found or not accessible"
 				lcd.clear()
