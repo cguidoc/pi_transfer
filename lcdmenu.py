@@ -56,6 +56,9 @@ def UpdateSerial():
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
 			LcdRed()
+			if DEBUG:
+				print "web file located at"
+				print web_serial_config
 			if file_accessible(web_serial_config, "r"):
 				lcd.message('new file found\nattempting copy')
 				if DEBUG:
