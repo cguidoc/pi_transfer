@@ -31,7 +31,7 @@ configfile = 'lcdmenu.xml'
 serial_config = ConfigParser.RawConfigParser()
 web_serial_config = '/var/www/Pi_web/config.txt'
 web_folder_location = '/var/www/Pi_web/'
-web_transfer_to_machine = '/var/www/Pi_web/transfer.txt'
+web_transfer_to_machine = '/var/www/Pi_web/uploads/transfer.txt'
 machine_transfer_to_server = 'incomming.txt'
 
 # set DEBUG=1 for print debug statements
@@ -120,6 +120,13 @@ def transfer_with_www():
 	#then delete the transfered file
 	# -- and --
 	#transfer any queued files from www dir to transfer dir
+
+	if DEBUG:
+		print "--Web File Location--"
+		print web_transfer_to_machine
+		print "--Machine File Location--"
+		print machine_transfer_to_server
+
 	if file_accessible(machine_transfer_to_server, "r"):
 		lcd.message('rec file found\nattempting move')
 		sleep(1)
@@ -127,18 +134,19 @@ def transfer_with_www():
 			print "receiving file found\n"
 			print "attempting to move..."
 		shutil.move("incomming.txt", web_folder_location)
-		lcd.clear()
-		lcd.message('...file moved')
-		sleep(1)
 		if DEBUG:
 			print "...file moved"
+		lcd.clear()
+		lcd.message('...file moved')
+		sleep(1)		
 		LcdGreen()
 
 	else:
 		if DEBUG:
-			print "file not found or not accessible"
+			print "machine file not found or not accessible"
 		lcd.clear()
 		lcd.message('file not found\nor no permission')
+		sleep(5)
 	
 	if file_accessible(web_transfer_to_machine, "r"):
 		lcd.message('web file found\nattempting move')
@@ -152,11 +160,10 @@ def transfer_with_www():
 		sleep(1)
 		if DEBUG:
 			print "...file moved"
-		LcdGreen()
-		
+		LcdGreen()		
 	else:
 		if DEBUG:
-			print "file not found or not accessible"
+			print "web file not found or not accessible"
 		lcd.clear()
 		lcd.message('file not found\nor no permission')
 		
