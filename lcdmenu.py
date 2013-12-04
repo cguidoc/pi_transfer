@@ -66,10 +66,17 @@ def UpdateSerial():
 				lcd.message('...file copied')
 				if DEBUG:
 					print "...file copied"
-			#create serial object to test new file		
-			create_serial()
-			LcdGreen()
-			break
+				#create serial object to test new file		
+				create_serial()
+				LcdGreen()
+				break
+			else
+				if DEBUG:
+					print "file not found or not accessible"
+				lcd.clear()
+				lcd.message('file not found\nor no permission')
+				break
+			
 
 def create_serial():
 	#update serial config parameters
