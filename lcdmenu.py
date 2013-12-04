@@ -27,7 +27,7 @@ configfile = 'lcdmenu.xml'
 
 #Serial Port configuration file
 serial_config = ConfigParser.RawConfigParser()
-web_serial_config = '/var/www/config.txt'
+web_serial_config = '/var/www/Pi_web/config.txt'
 
 
 # set DEBUG=1 for print debug statements
