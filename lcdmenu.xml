@@ -3,20 +3,11 @@
   <widget text="Send File" function="DoSend" />
   <widget text="Receive File" function="DoRec" />
   <folder text="System Setup...">
+    <widget text="Update rs232" function="UpdateSerial" />
     <widget text="Show Date/Time" function="ShowDateTime" />
     <widget text="Set Date/Time" function="SetDateTime" />
     <folder text="Network...">
       <widget text="IP Address" function="ShowIPAddress" />
-    </folder>
-    <folder text="LCD Color...">
-      <widget text="Red" function="LcdRed" />
-      <widget text="Green" function="LcdGreen" />
-      <widget text="Blue" function="LcdBlue" />
-      <widget text="Yellow" function="LcdYellow" />
-      <widget text="Teal" function="LcdTeal" />
-      <widget text="Violet" function="LcdViolet" />
-      <widget text="White" function="LcdOn" />
-      <widget text="Off" function="LcdOff" />
     </folder>
     <run text="list files">ls</run>
     <widget text="Quit" function="DoQuit" />

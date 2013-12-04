@@ -24,8 +24,10 @@ import smbus
 
 #LCD menu configuration
 configfile = 'lcdmenu.xml'
+
 #Serial Port configuration file
 serial_config = ConfigParser.RawConfigParser()
+web_serial_config = '/var/www/config.txt'
 
 
 # set DEBUG=1 for print debug statements
@@ -43,24 +45,50 @@ lcd.begin(DISPLAY_COLS, DISPLAY_ROWS)
 lcd.backlight(lcd.OFF)
 
 # commands
+def UpdateSerial():
+	#update serial parameters from config file loaded from webserver
+
+	lcd.clear()
+	lcd.message('Are you sure?\nPress Sel for Y')
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		if lcd.buttonPressed(lcd.SELECT):
+			lcd.clear()
+			LcdRed()
+			if(file_accessible(web_serial_config, "r"):
+				lcd.message('new file found\nattempting copy')
+				if DEBUG:
+					print "new web config found\n"
+					print "attempting to copy..."
+				shutil.copy(web_serial_config, "s_config.txt")
+				lcd.clear()
+				lcd.message('...file copied')
+				if DEBUG:
+					print "...file copied"
+			#create serial object to test new file		
+			create_serial()
+			LcdGreen()
+			break
+
 def create_serial():
 	#update serial config parameters
 	serial_config.read('s_config.txt')
 	if DEBUG:
 		print "--create serial from file--"
-		print serial_config.get('section1', 'port')
-		print serial_config.get('section1', 'baudrate')
-		print serial_config.get('section1', 'bytesize')
-		print serial_config.get('section1', 'stopbits')
-		print serial_config.get('section1', 'parity')
-		print serial_config.get('section1', 'xonxoff')
+		print serial_config.get('serial', 'port')
+		print serial_config.get('serial', 'baudrate')
+		print serial_config.get('serial', 'bytesize')
+		print serial_config.get('serial', 'stopbits')
+		print serial_config.get('serial', 'parity')
+		print serial_config.get('serial', 'xonxoff')
 	return serial.Serial(
-		port = serial_config.get('section1', 'port'),
-		baudrate = serial_config.get('section1', 'baudrate'),
-		bytesize = serial_config.getint('section1', 'bytesize'),
-		stopbits = serial_config.getint('section1', 'stopbits'),
-		parity = serial_config.get('section1', 'parity'),
-		xonxoff = serial_config.getboolean('section1', 'xonxoff'))
+		port = serial_config.get('serial', 'port'),
+		baudrate = serial_config.get('serial', 'baudrate'),
+		bytesize = serial_config.getint('serial', 'bytesize'),
+		stopbits = serial_config.getint('serial', 'stopbits'),
+		parity = serial_config.get('serial', 'parity'),
+		xonxoff = serial_config.getboolean('serial', 'xonxoff'))
 	if DEBUG:
 		print "  serial object created"
 
