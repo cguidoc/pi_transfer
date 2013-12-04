@@ -21,6 +21,7 @@ import serial
 import time
 import string
 import smbus
+import shutil
 
 #LCD menu configuration
 configfile = 'lcdmenu.xml'
