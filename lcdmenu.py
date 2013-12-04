@@ -85,9 +85,7 @@ def UpdateSerial():
 				lcd.clear()
 				lcd.message('file not found\nor no permission')
 				sleep(5)
-				break
-			break
-			
+				break			
 
 def create_serial():
 	#update serial config parameters
