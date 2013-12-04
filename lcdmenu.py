@@ -69,7 +69,7 @@ def UpdateSerial():
 				if DEBUG:
 					print "new web config found\n"
 					print "attempting to copy..."
-				shutil.move("incomming.txt", ''
+				shutil.copy(web_serial_config,'s_config.txt') 
 				lcd.clear()
 				lcd.message('...file copied')
 				sleep(1)
