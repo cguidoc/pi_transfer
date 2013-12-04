@@ -31,7 +31,7 @@ configfile = 'lcdmenu.xml'
 serial_config = ConfigParser.RawConfigParser()
 web_serial_config = '/var/www/Pi_web/config.txt'
 web_folder_location = '/var/www/Pi_web/'
-web_transfer_to_machine = '/var/www/Pi_web/uploads/transfer.txt'
+web_transfer_to_machine = '/var/www/Pi_web/upload/transfer.txt'
 machine_transfer_to_server = 'incomming.txt'
 
 # set DEBUG=1 for print debug statements
@@ -120,7 +120,7 @@ def transfer_with_www():
 	#then delete the transfered file
 	# -- and --
 	#transfer any queued files from www dir to transfer dir
-
+	LcdRed()
 	if DEBUG:
 		print "--Web File Location--"
 		print web_transfer_to_machine
@@ -154,7 +154,7 @@ def transfer_with_www():
 		if DEBUG:
 			print "file from web found\n"
 			print "attempting to move..."
-		shutil.move(web_transfer_to_machine, os.getcwd())
+		shutil.copy(web_transfer_to_machine, os.getcwd())
 		lcd.clear()
 		lcd.message('...file moved')
 		sleep(1)
