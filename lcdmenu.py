@@ -133,14 +133,13 @@ def transfer_with_www():
 		if DEBUG:
 			print "...file moved"
 		LcdGreen()
-		break
+
 	else:
 		if DEBUG:
 			print "file not found or not accessible"
 		lcd.clear()
 		lcd.message('file not found\nor no permission')
-		break
-
+	
 	if file_accessible(web_transfer_to_machine, "r"):
 		lcd.message('web file found\nattempting move')
 		sleep(1)
@@ -154,13 +153,13 @@ def transfer_with_www():
 		if DEBUG:
 			print "...file moved"
 		LcdGreen()
-		break
+		
 	else:
 		if DEBUG:
 			print "file not found or not accessible"
 		lcd.clear()
 		lcd.message('file not found\nor no permission')
-		break
+		
 
 def xsend(file):
 	if file_accessible(file,"r"):
