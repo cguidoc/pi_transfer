@@ -29,10 +29,16 @@ configfile = 'lcdmenu.xml'
 
 #Serial Port configuration file
 serial_config = ConfigParser.RawConfigParser()
+
+#File Names and Locations
 web_serial_config = '/var/www/Pi_web/config.txt'
 web_folder_location = '/var/www/Pi_web/'
-web_transfer_to_machine = '/var/www/Pi_web/upload/transfer.txt'
-machine_transfer_to_server = 'incomming.txt'
+web_transfer_to_machine = '/var/www/Pi_web/upload/to_machine.txt'
+machine_transfer_to_server = 'from_machine.txt'
+machine_serial_config = 's_config.txt'
+machine_log = web_folder_location + 'machine_log.txt'
+machine_queued = 'to_machine.txt'
+current_location = os.getcwd()
 
 # set DEBUG=1 for print debug statements
 DEBUG = 1
@@ -61,20 +67,21 @@ def UpdateSerial():
 			lcd.clear()
 			LcdRed()
 			if DEBUG:
-				print "web file located at"
-				print web_serial_config
+				print "--web file located at--"
+				print web_serial_config + "\n"
 			if file_accessible(web_serial_config, "r"):
-				lcd.message('new file found\nattempting copy')
-				sleep(1)
 				if DEBUG:
 					print "new web config found\n"
 					print "attempting to copy..."
-				shutil.copy(web_serial_config,'s_config.txt') 
+				lcd.message('new file found\nattempting copy')
+				sleep(1)				
+				shutil.copy(web_serial_config, machine_serial_config) 
+				if DEBUG:
+					print "...file copied\n"
 				lcd.clear()
 				lcd.message('...file copied')
 				sleep(1)
-				if DEBUG:
-					print "...file copied"
+				
 				#create serial object to test new file		
 				create_serial()
 				LcdGreen()
@@ -85,11 +92,14 @@ def UpdateSerial():
 				lcd.clear()
 				lcd.message('file not found\nor no permission')
 				sleep(5)
+				LcdGreen()
 				break			
 
 def create_serial():
-	#update serial config parameters
-	serial_config.read('s_config.txt')
+	#returns a serial object with the serial parameters from config file
+
+	#update serial config parameters using config parser
+	serial_config.read(machine_serial_config)
 	if DEBUG:
 		print "--create serial from file--"
 		print serial_config.get('serial', 'port')
@@ -109,11 +119,38 @@ def create_serial():
 		print "  serial object created"
 
 def file_accessible(filepath, mode):
+	#check if file exists and is accessable with selected mode
 	try:
 		f = open(filepath, mode)
 	except IOError as e:
 		return False
 	return True
+
+def transfer(filename, location):
+	#transfer file to the location
+	if file_accessible(filename, "r"):
+		if DEBUG:
+			print "file found"
+		lcd.message('file found\nattempting move')
+		sleep(1)		
+		shutil.move(filename, location)
+		if DEBUG:
+			print filename + "-->" + location + "...done"
+		lcd.clear()
+		lcd.message('...file moved')
+		sleep(5)		
+		LcdGreen()
+
+	else:
+		if DEBUG:
+			print "file not found or not accessible"
+			print filename
+		lcd.clear()
+		lcd.message('file not found\nor no permission')
+		sleep(5)
+		LcdGreen()
+	
+
 
 def transfer_with_www():
 	#transfer any received files from the transfer dir to the www dir
@@ -126,46 +163,13 @@ def transfer_with_www():
 		print web_transfer_to_machine
 		print "--Machine File Location--"
 		print machine_transfer_to_server
-
-	if file_accessible(machine_transfer_to_server, "r"):
-		lcd.message('rec file found\nattempting move')
-		sleep(1)
-		if DEBUG:
-			print "receiving file found\n"
-			print "attempting to move..."
-		shutil.move("incomming.txt", web_folder_location)
-		if DEBUG:
-			print "...file moved"
-		lcd.clear()
-		lcd.message('...file moved')
-		sleep(1)		
-		LcdGreen()
-
-	else:
-		if DEBUG:
-			print "machine file not found or not accessible"
-		lcd.clear()
-		lcd.message('file not found\nor no permission')
-		sleep(5)
-	
-	if file_accessible(web_transfer_to_machine, "r"):
-		lcd.message('web file found\nattempting move')
-		sleep(1)
-		if DEBUG:
-			print "file from web found\n"
-			print "attempting to move..."
-		shutil.copy(web_transfer_to_machine, os.getcwd())
-		lcd.clear()
-		lcd.message('...file moved')
-		sleep(1)
-		if DEBUG:
-			print "...file moved"
-		LcdGreen()		
-	else:
-		if DEBUG:
-			print "web file not found or not accessible"
-		lcd.clear()
-		lcd.message('file not found\nor no permission')
+		print "\n"
+	transfer(machine_transfer_to_server, web_folder_location)
+	if DEBUG:
+		print "machine to web transfered"
+	transfer(web_transfer_to_machine, current_location)
+	if DEBUG:
+		print "web to machine transfered"
 		
 
 def xsend(file):
@@ -219,10 +223,10 @@ def xrec(file):
 			print "error creating file"
 		return False
 
-	if DEBUG:
-		print "opening serial port object"
 	
 	ser = create_serial()
+	if DEBUG:
+		print "opening serial port object"
 	lcd.clear()
 	lcd.message("opening port")
 	ser.close()
@@ -277,7 +281,8 @@ def DoSend():
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
 			LcdRed()
-			xsend("transfer.txt")
+			transfer(web_transfer_to_machine, current_location)
+			xsend(machine_queued)
 			LcdGreen()
 			break
 
@@ -290,7 +295,8 @@ def DoRec():
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
 			LcdRed()
-			xrec("incomming.txt")
+			xrec(machine_transfer_to_server)
+			transfer(machine_transfer_to_server, web_folder_location)
 			LcdGreen()
 			break
 
