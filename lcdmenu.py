@@ -133,7 +133,7 @@ def transfer(filename, location):
 	#transfer file to the location
 	if DEBUG:
 		print "==TRANSFER FUNCTION=="
-		print "  " + filename + "-->" + location + "...done"
+		print "  " + filename + "-->" + location
 	if file_accessible(filename, "r"):
 		if DEBUG:
 			print "  " + filename + " found"
@@ -146,7 +146,6 @@ def transfer(filename, location):
 		lcd.message('...file moved')
 		sleep(5)
 		lcd.clear()		
-
 	else:
 		if DEBUG:
 			print "  " + filename + " not found or" 
