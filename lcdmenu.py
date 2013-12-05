@@ -32,7 +32,7 @@ serial_config = ConfigParser.RawConfigParser()
 
 #File Names and Locations
 web_serial_config = '/var/www/Pi_web/config.txt'
-web_folder_location = '/var/www/Pi_web/'
+web_folder_location = '/var/www/Pi_web/upload/'
 web_transfer_to_machine = '/var/www/Pi_web/upload/to_machine.txt'
 machine_transfer_to_server = 'from_machine.txt'
 machine_serial_config = 's_config.txt'
