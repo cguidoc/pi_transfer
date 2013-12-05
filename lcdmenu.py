@@ -53,11 +53,13 @@ lcd = Adafruit_CharLCDPlate()
 
 lcd.begin(DISPLAY_COLS, DISPLAY_ROWS)
 lcd.backlight(lcd.OFF)
+#write to log file
 
 # commands
 def UpdateSerial():
 	#update serial parameters from config file loaded from webserver
-
+	if DEBUG:
+		print "==UpdateSerial function=="
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
 	while 1:
@@ -67,28 +69,30 @@ def UpdateSerial():
 			lcd.clear()
 			LcdRed()
 			if DEBUG:
-				print "--web file located at--"
-				print web_serial_config + "\n"
+				print "  --web file located at--"
+				print "  " + web_serial_config + "\n"
 			if file_accessible(web_serial_config, "r"):
 				if DEBUG:
-					print "new web config found\n"
-					print "attempting to copy..."
+					print "  new web config found"
+					print "  attempting to copy..."
 				lcd.message('new file found\nattempting copy')
 				sleep(1)				
 				shutil.copy(web_serial_config, machine_serial_config) 
 				if DEBUG:
-					print "...file copied\n"
+					print "  ...file copied\n"
 				lcd.clear()
 				lcd.message('...file copied')
 				sleep(1)
 				
 				#create serial object to test new file		
 				create_serial()
+				if DEBUG:
+					print "  serial object created to test new parameters"
 				LcdGreen()
 				break
 			else:
 				if DEBUG:
-					print "file not found or not accessible"
+					print "  file not found or not accessible"
 				lcd.clear()
 				lcd.message('file not found\nor no permission')
 				sleep(5)
@@ -97,17 +101,18 @@ def UpdateSerial():
 
 def create_serial():
 	#returns a serial object with the serial parameters from config file
-
+	if DEBUG:
+		print "==create_serial function=="
 	#update serial config parameters using config parser
 	serial_config.read(machine_serial_config)
 	if DEBUG:
-		print "--create serial from file--"
-		print serial_config.get('serial', 'port')
-		print serial_config.get('serial', 'baudrate')
-		print serial_config.get('serial', 'bytesize')
-		print serial_config.get('serial', 'stopbits')
-		print serial_config.get('serial', 'parity')
-		print serial_config.get('serial', 'xonxoff')
+		print "  serial parameters read from file"
+		print "      port = " + serial_config.get('serial', 'port')
+		print "  baudrate = " + serial_config.get('serial', 'baudrate')
+		print "  bytesize = " + serial_config.get('serial', 'bytesize')
+		print "  stopbits = " + serial_config.get('serial', 'stopbits')
+		print "    parity = " + serial_config.get('serial', 'parity')
+		print "   xonxoff = " + serial_config.get('serial', 'xonxoff')
 	return serial.Serial(
 		port = serial_config.get('serial', 'port'),
 		baudrate = serial_config.get('serial', 'baudrate'),
@@ -115,9 +120,7 @@ def create_serial():
 		stopbits = serial_config.getint('serial', 'stopbits'),
 		parity = serial_config.get('serial', 'parity'),
 		xonxoff = serial_config.getboolean('serial', 'xonxoff'))
-	if DEBUG:
-		print "  serial object created"
-
+	
 def file_accessible(filepath, mode):
 	#check if file exists and is accessable with selected mode
 	try:
@@ -128,29 +131,30 @@ def file_accessible(filepath, mode):
 
 def transfer(filename, location):
 	#transfer file to the location
+	if DEBUG:
+		print "==TRANSFER FUNCTION=="
+		print "  " + filename + "-->" + location + "...done"
 	if file_accessible(filename, "r"):
 		if DEBUG:
-			print "file found"
+			print "  " + filename + " found"
 		lcd.message('file found\nattempting move')
 		sleep(1)		
 		shutil.move(filename, location)
 		if DEBUG:
-			print filename + "-->" + location + "...done"
+			print "  " + filename + "-->" + location + "...transfer done"
 		lcd.clear()
 		lcd.message('...file moved')
-		sleep(5)		
-		LcdGreen()
+		sleep(5)
+		lcd.clear()		
 
 	else:
 		if DEBUG:
-			print "file not found or not accessible"
-			print filename
+			print "  " + filename + " not found or" 
+			print "  " + location + " not accessible"
 		lcd.clear()
 		lcd.message('file not found\nor no permission')
 		sleep(5)
-		LcdGreen()
-	
-
+		lcd.clear()
 
 def transfer_with_www():
 	#transfer any received files from the transfer dir to the www dir
@@ -159,48 +163,51 @@ def transfer_with_www():
 	#transfer any queued files from www dir to transfer dir
 	LcdRed()
 	if DEBUG:
-		print "--Web File Location--"
-		print web_transfer_to_machine
-		print "--Machine File Location--"
-		print machine_transfer_to_server
-		print "\n"
+		print "==transfer_with_www function=="
 	transfer(machine_transfer_to_server, web_folder_location)
 	if DEBUG:
-		print "machine to web transfered"
+		print "  machine to web transfered"
 	transfer(web_transfer_to_machine, current_location)
 	if DEBUG:
-		print "web to machine transfered"
+		print "  web to machine transfered"
+	lcd.clear()
+	LcdGreen()
 		
 
 def xsend(file):
+	if DEBUG:
+		print "==xsend function=="
+		print "  send " + file + " to machine using rs232"
 	if file_accessible(file,"r"):
 		if DEBUG:
-			print "opening the file and converting to string"
+			print "  opening the file and converting to string"
+		lcd.clear()
 		lcd.message("converting")
 		fileHandle = open (file, 'r')
 		data = fileHandle.read()
 		fileHandle.close()
 		if DEBUG:
-			print data
-			print "file converted"
+			print "  file converted"
 		lcd.clear()
 		lcd.message("file converted")
 		sleep(1)
 
 		#open serial object
 		ser = create_serial()
+		if DEBUG:
+			print "  serial object created"
 		lcd.clear()
 		lcd.message("opening port")
 		ser.close()
 		if DEBUG:
-			print "  object closed"
+			print "  serial object closed"
 		ser.open()
 		if DEBUG:
-			print "  object re-openend"
+			print "  serial object re-openend"
 
 		#if the serial port is open, send the data string
 		if DEBUG:
-			print "sending data..."
+			print "  sending data..."
 		lcd.clear()
 		lcd.message("sending...")
 		if ser.isOpen():                
@@ -212,21 +219,24 @@ def xsend(file):
 				print "  object closed"
 
 def xrec(file):
-	#create a new file and close it
+	
+	if DEBUG:
+		print "==xrec function=="
+		print "  receive " + file + " from machine using rs232"
 	try:
 		rfile = open(file, 'w+')
 		if DEBUG:
-			print "creating receiving file"
+			print "  creating receiving file"
 	except OSError:
 		lcd.message("error w file")
 		if DEBUG:
-			print "error creating file"
+			print "  error creating file"
 		return False
 
 	
 	ser = create_serial()
 	if DEBUG:
-		print "opening serial port object"
+		print " serial object created"
 	lcd.clear()
 	lcd.message("opening port")
 	ser.close()
@@ -235,7 +245,7 @@ def xrec(file):
 	ser.open()
 	if DEBUG:
 		print "  serial object re-openend"
-		print "receiving data..."
+		print "  receiving data..."
 	lcd.clear()
 	lcd.message("receiving...")
 	if ser.isOpen():
@@ -255,24 +265,26 @@ def xrec(file):
 		print "  ...data received"
 	ser.close()
 	if DEBUG:
-		print "serial object closed"
+		print "  serial object closed"
 	lcd.clear()
 	lcd.message("data received")
 	data = string.join(lines, "\n")
 	if DEBUG:
-		print "converting array to string"
+		print " converting data array to string"
 	lcd.clear()
 	lcd.message("data converted")
 	rfile.write(data)
 	if DEBUG:
-		print "writing data to file"
+		print "  writing data to file"
 	rfile.close()
 	if DEBUG:
-		print "closing file"
+		print "  closing file"
 	lcd.clear()
 	lcd.message("data saved")    
 
 def DoSend():
+	if DEBUG:
+		print "==DoSend function=="
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
 	while 1:
@@ -287,6 +299,8 @@ def DoSend():
 			break
 
 def DoRec():
+	if DEBUG:
+		print "==DoRec function=="
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
 	while 1:
