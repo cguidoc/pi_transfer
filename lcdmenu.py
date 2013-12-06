@@ -155,12 +155,14 @@ def file_accessible(filepath, mode):
 def file_iterator(file, character):
 	#takes file and iterates until character is found
 	with open (file, 'r') as f:
-		for line in f:
-			if character in line:
+		file_string = f.read()
+		return_line = ""
+		for line in file_string.splitlines():
+			if line == character:
+				return_line = line
 				break
-			for line in f:
-				return line
-		
+	return return_line
+
 def transfer(filename, location):
 	#transfer file to the location
 	if DEBUG:
@@ -320,6 +322,7 @@ def xrec(file):
 def DoSend():
 	if DEBUG:
 		print "==DoSend function=="
+	transfer(web_transfer_to_machine, current_location)
 	program_name = file_iterator(machine_queued, "O")
 	scroll(program_name)
 	while 1:
@@ -328,7 +331,7 @@ def DoSend():
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
 			LcdRed()
-			transfer(web_transfer_to_machine, current_location)
+			
 			xsend(machine_queued)
 			LcdGreen()
 			write_to_log("NOTICE: file successfully sent to machine")
