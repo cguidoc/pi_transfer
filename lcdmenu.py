@@ -62,7 +62,8 @@ def scroll(message):
 		print type(message)
 		print len(message)
 	lcd.clear()
-	scroll_length = len(message)
+	scroll_length = len(message) + DISPLAY_COLS
+	lcd.message(message)
 	for _ in range(scroll_length): 
 		lcd.scrollDisplayLeft(); 
 		sleep(.25)
