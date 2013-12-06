@@ -56,19 +56,18 @@ lcd.backlight(lcd.OFF)
 #write to log file
 
 # commands
-def scroll_test():
+def scroll(message):
 	lcd.clear()
-	message="test scrolling of the display"
-	stationary_message="don't move"
-	lcd.message(message)
 	scroll_length = len(message) + DISPLAY_COLS
 	for _ in range(scroll_length): 
 		lcd.scrollDisplayLeft(); 
-		lcd.setCursor(1, 2)
-		lcd.message(stationary_message)
 		sleep(.25)
 	sleep(5)
 	lcd.clear()
+
+def DoScroll():
+	scroll("test message to scroll")
+
 
 def write_to_log(entry):
 	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry + "\n"
@@ -321,8 +320,8 @@ def xrec(file):
 def DoSend():
 	if DEBUG:
 		print "==DoSend function=="
-	lcd.clear()
-	lcd.message('Are you sure?\nPress Sel for Y')
+	program_name = file_iterator(machine_queued, "O")
+	scroll(program_name)
 	while 1:
 		if lcd.buttonPressed(lcd.LEFT):
 			break
