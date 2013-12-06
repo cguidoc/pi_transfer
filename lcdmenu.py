@@ -57,7 +57,7 @@ lcd.backlight(lcd.OFF)
 
 # commands
 def write_to_log(entry):
-	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry
+	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry + "\n"
 	with open(machine_log, 'a+') as f:
 		f.write(entry)
 	if DEBUG:
