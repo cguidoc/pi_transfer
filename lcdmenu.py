@@ -58,7 +58,7 @@ lcd.backlight(lcd.OFF)
 # commands
 def write_to_log(entry):
 	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry
-	with open(machine_log, 'w+') as f:
+	with open(machine_log, 'a+') as f:
 		f.write(entry)
 	if DEBUG:
 		print "**Log file updated**"
