@@ -38,7 +38,7 @@ machine_transfer_to_server = 'from_machine.txt'
 machine_serial_config = 's_config.txt'
 machine_log = web_folder_location + 'machine_log.txt'
 machine_queued = 'to_machine.txt'
-current_location = os.getcwd()
+current_location = '/home/pi/pi_transfer/'
 
 # set DEBUG=1 for print debug statements
 DEBUG = 1
@@ -173,7 +173,7 @@ def transfer(filename, location):
 			print "  " + filename + " found"
 		lcd.message('file found\nattempting move')
 		sleep(1)		
-		shutil.move(filename, location)
+		shutil.copy(filename, location)
 		if DEBUG:
 			print "  " + filename + "-->" + location + "...transfer done"
 		lcd.clear()
