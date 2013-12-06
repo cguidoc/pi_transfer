@@ -58,9 +58,13 @@ lcd.backlight(lcd.OFF)
 # commands
 def scroll_test():
 	lcd.clear()
-	lcd.scrollDisplayLeft()
-	lcd.message("test scrolling of the display")
+	message="test scrolling of the display"
+	lcd.message(message)
+	for x in message: 
+		lcd.scrollDisplayLeft(); 
+		sleep(.25)
 	sleep(5)
+	lcd.clear()
 
 def write_to_log(entry):
 	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry + "\n"
