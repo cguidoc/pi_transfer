@@ -62,7 +62,7 @@ def scroll_test():
 	stationary_message="don't move"
 	lcd.message(message)
 	scroll_length = len(message) + DISPLAY_COLS
-	for _ in scroll_length: 
+	for _ in range(scroll_length): 
 		lcd.scrollDisplayLeft(); 
 		lcd.setCursor(0, 1)
 		lcd.message(stationary_message)
