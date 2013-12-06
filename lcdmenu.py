@@ -164,9 +164,11 @@ def file_iterator(file, character):
 		for line in file_string.splitlines():
 			if DEBUG:
 				print line
-			if line == character:
+			if character in line:
 				return_line = line
 				break
+	if DEBUG:
+		print "  " + return_line
 	return return_line
 
 def transfer(filename, location):
