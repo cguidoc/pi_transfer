@@ -59,6 +59,7 @@ lcd.backlight(lcd.OFF)
 def scroll(message):
 	if DEBUG:
 		print "==scroll function=="
+		print "message is a " + type(message)
 	lcd.clear()
 	scroll_length = len(message) + DISPLAY_COLS
 	for _ in range(scroll_length): 
