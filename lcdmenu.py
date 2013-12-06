@@ -159,7 +159,7 @@ def file_iterator(file, character):
 			if character in line:
 				break
 			for line in f:
-				yield line
+				return line
 		
 def transfer(filename, location):
 	#transfer file to the location
