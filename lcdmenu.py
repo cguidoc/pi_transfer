@@ -59,8 +59,6 @@ lcd.backlight(lcd.OFF)
 def scroll(message):
 	if DEBUG:
 		print "==scroll function=="
-		print type(message)
-		print len(message)
 	lcd.clear()
 	scroll_length = len(message) + DISPLAY_COLS
 	lcd.message(message)
@@ -165,8 +163,6 @@ def file_iterator(file, character):
 		file_string = f.read()
 		return_line = ""
 		for line in file_string.splitlines():
-			if DEBUG:
-				print line
 			if character in line:
 				return_line = line
 				break
@@ -230,14 +226,14 @@ def xsend(file):
 		if DEBUG:
 			print "  opening the file and converting to string"
 		lcd.clear()
-		lcd.message("converting")
+		lcd.message("converting...")
 		fileHandle = open (file, 'r')
 		data = fileHandle.read()
 		fileHandle.close()
 		if DEBUG:
 			print "  file converted"
 		lcd.clear()
-		lcd.message("file converted")
+		lcd.message("...file converted")
 		sleep(1)
 
 		#open serial object
@@ -245,7 +241,7 @@ def xsend(file):
 		if DEBUG:
 			print "  serial object created"
 		lcd.clear()
-		lcd.message("opening port")
+		lcd.message("opening port..")
 		ser.close()
 		if DEBUG:
 			print "  serial object closed"
@@ -265,6 +261,9 @@ def xsend(file):
 			ser.close()
 			if DEBUG:
 				print "  object closed"
+		lcd.clear()
+		lcd.message("data sent!")
+		sleep(5)
 
 def xrec(file):
 	
@@ -328,7 +327,8 @@ def xrec(file):
 	if DEBUG:
 		print "  closing file"
 	lcd.clear()
-	lcd.message("data saved")    
+	lcd.message("data saved") 
+	sleep(5)   
 
 def DoSend():
 	if DEBUG:
@@ -336,13 +336,15 @@ def DoSend():
 	transfer(web_transfer_to_machine, current_location)
 	program_name = file_iterator(machine_queued, "O")
 	scroll(program_name)
+	lcd.message("up for name/nsel=y || left=no")
 	while 1:
 		if lcd.buttonPressed(lcd.LEFT):
 			break
+		if lcd.buttonPressed(lcd.UP):
+			scroll(program_name)
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
-			LcdRed()
-			
+			LcdRed()			
 			xsend(machine_queued)
 			LcdGreen()
 			write_to_log("NOTICE: file successfully sent to machine")
