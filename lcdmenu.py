@@ -60,8 +60,9 @@ def scroll(message):
 	if DEBUG:
 		print "==scroll function=="
 		print type(message)
+		print len(message)
 	lcd.clear()
-	scroll_length = len(message) + DISPLAY_COLS
+	scroll_length = len(message)
 	for _ in range(scroll_length): 
 		lcd.scrollDisplayLeft(); 
 		sleep(.25)
