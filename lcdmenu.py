@@ -56,6 +56,12 @@ lcd.backlight(lcd.OFF)
 #write to log file
 
 # commands
+def scroll_test():
+	lcd.clear()
+	lcd.scrollDisplayLeft()
+	lcd.message("test scrolling of the display")
+	sleep(5)
+
 def write_to_log(entry):
 	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry + "\n"
 	with open(machine_log, 'a+') as f:
@@ -138,7 +144,16 @@ def file_accessible(filepath, mode):
 	except IOError as e:
 		return False
 	return True
-
+	
+def file_iterator(file, character):
+	#takes file and iterates until character is found
+	with open (file, 'r') as f:
+		for line in f:
+			if character in line:
+				break
+			for line in f:
+				yield line
+		
 def transfer(filename, location):
 	#transfer file to the location
 	if DEBUG:
