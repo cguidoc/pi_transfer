@@ -56,6 +56,13 @@ lcd.backlight(lcd.OFF)
 #write to log file
 
 # commands
+def write_to_log(entry):
+	entry = strftime("%Y-%m-%d %H:%M:%S", localtimeime()) + " - " + entry
+	with open(machine_log) as f:
+		f.write(entry)
+	if DEBUG:
+		print "**Log file updated**"
+
 def UpdateSerial():
 	#update serial parameters from config file loaded from webserver
 	if DEBUG:
@@ -77,18 +84,19 @@ def UpdateSerial():
 					print "  attempting to copy..."
 				lcd.message('new file found\nattempting copy')
 				sleep(1)				
-				shutil.copy(web_serial_config, machine_serial_config) 
 				if DEBUG:
 					print "  ...file copied\n"
 				lcd.clear()
 				lcd.message('...file copied')
 				sleep(1)
-				
+				shutil.copy(web_serial_config, machine_serial_config) 
 				#create serial object to test new file		
 				create_serial()
 				if DEBUG:
 					print "  serial object created to test new parameters"
+				write_to_log("NOTICE: new serial parameters updated from web")
 				LcdGreen()
+
 				break
 			else:
 				if DEBUG:
@@ -96,8 +104,10 @@ def UpdateSerial():
 				lcd.clear()
 				lcd.message('file not found\nor no permission')
 				sleep(5)
+				write_to_log("ERROR: Serial parameters not updated from web - file access error")
 				LcdGreen()
-				break			
+				break
+
 
 def create_serial():
 	#returns a serial object with the serial parameters from config file
@@ -145,7 +155,9 @@ def transfer(filename, location):
 		lcd.clear()
 		lcd.message('...file moved')
 		sleep(5)
-		lcd.clear()		
+		lcd.clear()
+		message = "NOTICE: File Transfer Success - " + filename + " --> " + location
+		write_to_log(message)	
 	else:
 		if DEBUG:
 			print "  " + filename + " not found or" 
@@ -154,6 +166,8 @@ def transfer(filename, location):
 		lcd.message('file not found\nor no permission')
 		sleep(5)
 		lcd.clear()
+		message = "ERROR: File Transfer not sucessful - "   + filename + " --> " + location
+		write_to_log(message)
 
 def transfer_with_www():
 	#transfer any received files from the transfer dir to the www dir
@@ -295,6 +309,7 @@ def DoSend():
 			transfer(web_transfer_to_machine, current_location)
 			xsend(machine_queued)
 			LcdGreen()
+			write_to_log("NOTICE: file successfully sent to machine")
 			break
 
 def DoRec():
@@ -311,6 +326,7 @@ def DoRec():
 			xrec(machine_transfer_to_server)
 			transfer(machine_transfer_to_server, web_folder_location)
 			LcdGreen()
+			write_to_log("NOTICE: file sucessfully received from machine")
 			break
 
 def DoQuit():
