@@ -139,14 +139,20 @@ def create_serial():
 		print "  stopbits = " + serial_config.get('serial', 'stopbits')
 		print "    parity = " + serial_config.get('serial', 'parity')
 		print "   xonxoff = " + serial_config.get('serial', 'xonxoff')
-
-	write_to_log( "  -- serial parameters read from file --"
-	write_to_log( "           port = " + serial_config.get('serial', 'port'))
-	write_to_log( "       baudrate = " + serial_config.get('serial', 'baudrate'))
-	write_to_log( "       bytesize = " + serial_config.get('serial', 'bytesize'))
-	write_to_log( "       stopbits = " + serial_config.get('serial', 'stopbits'))
-	write_to_log( "         parity = " + serial_config.get('serial', 'parity'))
-	write_to_log( "        xonxoff = " + serial_config.get('serial', 'xonxoff'))
+	message = "  -- serial parameters read from file --"
+	write_to_log(message)
+	message = "           port = " + serial_config.get('serial', 'port')
+	write_to_log(message)
+	message = "       baudrate = " + serial_config.get('serial', 'baudrate')
+	write_to_log(message)
+	message = "       bytesize = " + serial_config.get('serial', 'bytesize')
+	write_to_log(message)
+	message = "       stopbits = " + serial_config.get('serial', 'stopbits')
+	write_to_log(message)
+	message = "         parity = " + serial_config.get('serial', 'parity').
+	write_to_log(message)
+	message = "        xonxoff = " + serial_config.get('serial', 'xonxoff')
+	write_to_log(message)
 	
 	return serial.Serial(
 		port = serial_config.get('serial', 'port'),
