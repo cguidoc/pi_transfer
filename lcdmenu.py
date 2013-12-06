@@ -333,10 +333,11 @@ def xrec(file):
 def DoSend():
 	if DEBUG:
 		print "==DoSend function=="
+	lcd.clear()
 	transfer(web_transfer_to_machine, current_location)
 	program_name = file_iterator(machine_queued, "O")
 	scroll(program_name)
-	lcd.message("up for name/nsel=y || left=no")
+	lcd.message("up for name\nsel=y || left=no")
 	while 1:
 		if lcd.buttonPressed(lcd.LEFT):
 			break
