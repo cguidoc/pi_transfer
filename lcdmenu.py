@@ -64,7 +64,7 @@ def scroll_test():
 	scroll_length = len(message) + DISPLAY_COLS
 	for _ in range(scroll_length): 
 		lcd.scrollDisplayLeft(); 
-		lcd.setCursor(0, 1)
+		lcd.setCursor(1, 2)
 		lcd.message(stationary_message)
 		sleep(.25)
 	sleep(5)
