@@ -60,7 +60,7 @@ def scroll_test():
 	lcd.clear()
 	message="test scrolling of the display"
 	lcd.message(message)
-	for x in message: 
+	for x in message+DISPLAY_COLS: 
 		lcd.scrollDisplayLeft(); 
 		sleep(.25)
 	sleep(5)
