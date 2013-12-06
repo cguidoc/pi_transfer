@@ -149,7 +149,7 @@ def create_serial():
 	write_to_log(message)
 	message = "       stopbits = " + serial_config.get('serial', 'stopbits')
 	write_to_log(message)
-	message = "         parity = " + serial_config.get('serial', 'parity').
+	message = "         parity = " + serial_config.get('serial', 'parity')
 	write_to_log(message)
 	message = "        xonxoff = " + serial_config.get('serial', 'xonxoff')
 	write_to_log(message)
