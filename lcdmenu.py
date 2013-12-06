@@ -154,10 +154,14 @@ def file_accessible(filepath, mode):
 	
 def file_iterator(file, character):
 	#takes file and iterates until character is found
+	if DEBUG:
+		print "==file iterator function=="
 	with open (file, 'r') as f:
 		file_string = f.read()
 		return_line = ""
 		for line in file_string.splitlines():
+			if DEBUG:
+				print line
 			if line == character:
 				return_line = line
 				break
