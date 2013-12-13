@@ -212,7 +212,7 @@ def transfer(filename, location):
 		lcd.message('file not found\nor no permission')
 		sleep(5)
 		lcd.clear()
-		message = "ERROR: File Transfer not sucessful - "   + filename + " --> " + location
+		message = "ERROR: File Transfer not sucessful - " + filename + " --> " + location
 		write_to_log(message)
 
 def transfer_with_www():
