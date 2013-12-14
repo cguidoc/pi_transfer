@@ -1,11 +1,23 @@
 #!/usr/bin/python
 #
-# Created by Alan Aufderheide, February 2013
+# EBE Machine Bridge
+# Provides a network to RS232 bridge to the machine tools
+# Can use WiFi or hardwire for the connection
+# Webserver provides a way to update serial configuration and upload files
+# serial parameters are stored in a local file that is updated from the website
+# 	 - for security and reliability the website does not automatically update serial parameters.
+# Based on code from Adafruit and lan Aufderheide, February 2013
 #
 # This provides a menu driven application using the LCD Plates
 # from Adafruit Electronics.
 #
 # version 0.1 - send and receive
+
+#===Function List for machine bridge
+# DoSend() - takes a file and sends it over RS232
+# DoReceive() - receives a file from RS232
+# UpdateSerial() - updates the serial configuration parameters from website
+
 
 import commands
 from string import split
@@ -23,22 +35,21 @@ import string
 import smbus
 import shutil
 import os
+import glob
 
-#LCD menu configuration
-configfile = 'lcdmenu.xml'
+serial_config = ConfigParser.RawConfigParser()			# Serial Parameter Parser object
 
-#Serial Port configuration file
-serial_config = ConfigParser.RawConfigParser()
-
-#File Names and Locations
-web_serial_config = '/var/www/Pi_web/config.txt'
-web_folder_location = '/var/www/Pi_web/upload/'
-web_transfer_to_machine = '/var/www/Pi_web/upload/to_machine.txt'
-machine_transfer_to_server = 'from_machine.txt'
-machine_serial_config = 's_config.txt'
-machine_log = web_folder_location + 'machine_log.txt'
-machine_queued = 'to_machine.txt'
-current_location = '/home/pi/pi_transfer/'
+#===File Names and Locations===
+configfile = 'lcdmenu.xml'								# LCD Menu Config file
+queuedlist = 'queuedlist.xml'
+web_folder_location = '/var/www/Pi_web/data/'			# Data location of the website
+web_serial_config = web_folder_location + 'wconfig.txt'	# Serial parameters from website	
+machine_transfer_to_server = 'from_machine.txt'			# file for receiving from serial
+machine_serial_config = 's_config.txt'					# "local" serial config parameters				
+machine_log = web_folder_location + 'machine_log.txt'	# Log File Location
+machine_queued = 'to_machine.txt'						# internal queued file to transfer
+web_queued = web_folder_location + '/queued/'
+current_location = '/home/pi/pi_transfer/'				# working directory
 
 # set DEBUG=1 for print debug statements
 DEBUG = 1
@@ -53,31 +64,47 @@ lcd = Adafruit_CharLCDPlate()
 
 lcd.begin(DISPLAY_COLS, DISPLAY_ROWS)
 lcd.backlight(lcd.OFF)
-#write to log file
 
-# commands
-def scroll(message):
+#===MAIN FUNCTIONS===
+# call these functions first to perform various tasks
+
+def DoSend():
 	if DEBUG:
-		print "==scroll function=="
-	lcd.clear()
-	scroll_length = len(message) + DISPLAY_COLS
-	lcd.message(message)
-	for _ in range(scroll_length): 
-		lcd.scrollDisplayLeft(); 
-		sleep(.25)
-	sleep(5)
-	lcd.clear()
+		print "==DoSend function=="
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		if lcd.buttonPressed(lcd.SELECT):
+			lcd.clear()
+			LcdRed()
+			write_to_log("NOTICE: attempting to send a file to the machine")
+			queued_list();	#create a list of programs in the data directory			
+			file_uiItems = Folder('root','')
+			file_dom = parse(queuedlist) # parse an XML file by name
+			file_top = file_dom.documentElement
+			ProcessNode(file_top, file_uiItems)
+			file_display = Display(file_uiItems)
+			file_display.display()
+			LcdGreen()
+			write_to_log("NOTICE: file successfully sent to machine")
+			break
 
-def DoScroll():
-	scroll("test message to scroll")
-
-
-def write_to_log(entry):
-	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry + "\n"
-	with open(machine_log, 'a+') as f:
-		f.write(entry)
+def DoReceive():
 	if DEBUG:
-		print "**Log file updated**"
+		print "==DoRec function=="
+	lcd.clear()
+	lcd.message('Are you sure?\nPress Sel for Y')
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		if lcd.buttonPressed(lcd.SELECT):
+			lcd.clear()
+			LcdRed()
+			xrec(machine_transfer_to_server)
+			transfer(machine_transfer_to_server, web_folder_location)
+			LcdGreen()
+			write_to_log("NOTICE: file sucessfully received from machine")
+			break
 
 def UpdateSerial():
 	#update serial parameters from config file loaded from webserver
@@ -124,6 +151,30 @@ def UpdateSerial():
 				LcdGreen()
 				break
 
+#===HELPER FUNCTIONS===
+# these are called by the main functions
+def queued_list():
+	# generates an xml file with the current list of files in the queued directory
+	if DEBUGG:
+		print "==QUEUED LIST FUNCTION=="
+
+	path = web_queued + '*.txt'
+	file_list = glob.glob(path)
+	with open(queuedlist, 'a+') as f:
+		f.write("<application>\n")
+		for file in file_list
+			widget = '\t<widget text="' + file_iterator(file, ":") + '" function=xsend("' + file + '" />'
+			f.write(widget)
+		f.write("</application>\n")	
+	if DEBUG:
+		print "**queued list updated**"
+
+def write_to_log(entry):
+	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry + "\n"
+	with open(machine_log, 'a+') as f:
+		f.write(entry)
+	if DEBUG:
+		print "**Log file updated**"
 
 def create_serial():
 	#returns a serial object with the serial parameters from config file
@@ -139,6 +190,7 @@ def create_serial():
 		print "  stopbits = " + serial_config.get('serial', 'stopbits')
 		print "    parity = " + serial_config.get('serial', 'parity')
 		print "   xonxoff = " + serial_config.get('serial', 'xonxoff')
+	# Update log file with new serial parameters for troubleshooting on machines
 	message = "  -- serial parameters read from file --"
 	write_to_log(message)
 	message = "           port = " + serial_config.get('serial', 'port')
@@ -163,7 +215,9 @@ def create_serial():
 		xonxoff = serial_config.getboolean('serial', 'xonxoff'))
 	
 def file_accessible(filepath, mode):
-	#check if file exists and is accessable with selected mode
+	# check if file exists and is accessable with selected mode
+	# use this function to check if file exists and capture IO errors so program doesn't halt
+	# returns bool
 	try:
 		f = open(filepath, mode)
 	except IOError as e:
@@ -171,12 +225,16 @@ def file_accessible(filepath, mode):
 	return True
 	
 def file_iterator(file, character):
-	#takes file and iterates until character is found
+	# takes file and iterates line by line until character is found
+	# returns the first string containing the character
+	# if no string is found, returns an empty string
+
 	if DEBUG:
 		print "==file iterator function=="
+	return_line = ""		# string to return
 	with open (file, 'r') as f:
-		file_string = f.read()
-		return_line = ""
+		file_string = f.read()	# read the file into a string
+		
 		for line in file_string.splitlines():
 			if character in line:
 				return_line = line
@@ -212,26 +270,8 @@ def transfer(filename, location):
 		lcd.message('file not found\nor no permission')
 		sleep(5)
 		lcd.clear()
-		message = "ERROR: File Transfer not sucessful - " + filename + " --> " + location
+		message = "ERROR: File Transfer not sucessful - "   + filename + " --> " + location
 		write_to_log(message)
-
-def transfer_with_www():
-	#transfer any received files from the transfer dir to the www dir
-	#then delete the transfered file
-	# -- and --
-	#transfer any queued files from www dir to transfer dir
-	LcdRed()
-	if DEBUG:
-		print "==transfer_with_www function=="
-	transfer(machine_transfer_to_server, web_folder_location)
-	if DEBUG:
-		print "  machine to web transfered"
-	transfer(web_transfer_to_machine, current_location)
-	if DEBUG:
-		print "  web to machine transfered"
-	lcd.clear()
-	LcdGreen()
-		
 
 def xsend(file):
 	if DEBUG:
@@ -279,6 +319,7 @@ def xsend(file):
 		lcd.clear()
 		lcd.message("data sent!")
 		sleep(5)
+		display.display()
 
 def xrec(file):
 	
@@ -345,44 +386,8 @@ def xrec(file):
 	lcd.message("data saved") 
 	sleep(5)   
 
-def DoSend():
-	write_to_log("NOTICE: attempting to send a file to the machine")
-	if DEBUG:
-		print "==DoSend function=="
-	lcd.clear()
-	transfer(web_transfer_to_machine, current_location)
-	program_name = file_iterator(machine_queued, "O")
-	scroll(program_name)
-	lcd.message("up for name\nsel=y || left=no")
-	while 1:
-		if lcd.buttonPressed(lcd.LEFT):
-			break
-		if lcd.buttonPressed(lcd.UP):
-			scroll(program_name)
-		if lcd.buttonPressed(lcd.SELECT):
-			lcd.clear()
-			LcdRed()			
-			xsend(machine_queued)
-			LcdGreen()
-			write_to_log("NOTICE: file successfully sent to machine")
-			break
-
-def DoRec():
-	if DEBUG:
-		print "==DoRec function=="
-	lcd.clear()
-	lcd.message('Are you sure?\nPress Sel for Y')
-	while 1:
-		if lcd.buttonPressed(lcd.LEFT):
-			break
-		if lcd.buttonPressed(lcd.SELECT):
-			lcd.clear()
-			LcdRed()
-			xrec(machine_transfer_to_server)
-			transfer(machine_transfer_to_server, web_folder_location)
-			LcdGreen()
-			write_to_log("NOTICE: file sucessfully received from machine")
-			break
+#===LCD FUNCTIONS===
+# existing functions for controlling the LCD, Menu, and Buttons
 
 def DoQuit():
 	lcd.clear()
