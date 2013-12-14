@@ -158,7 +158,7 @@ def queued_list():
 	if DEBUG:
 		print "==QUEUED LIST FUNCTION=="
 
-	path = web_queued + '*.txt'
+	path = web_queued + '/*.txt'
 	file_list = glob.glob(path)
 	with open(queuedlist, 'a+') as f:
 		f.truncate()
