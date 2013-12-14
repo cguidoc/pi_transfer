@@ -103,7 +103,6 @@ def DoSend():
 					file_display.display()
 				sleep(.25)
 			LcdGreen()
-			switchmenu()
 			break
 
 def DoReceive():
@@ -347,8 +346,6 @@ def xsend(file):
 		sleep(5)
 		write_to_log("NOTICE: file successfully sent to machine")
 		LcdGreen()
-		switchmenu()
-
 
 def xrec(file):
 	
