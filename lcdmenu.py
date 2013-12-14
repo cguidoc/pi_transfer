@@ -343,7 +343,7 @@ def xsend(file):
 				print "  object closed"
 		lcd.clear()
 		lcd.message("data sent!")
-		sleep(5)
+		sleep(1)
 		write_to_log("NOTICE: file successfully sent to machine")
 		LcdGreen()
 
