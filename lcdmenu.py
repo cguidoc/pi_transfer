@@ -85,6 +85,7 @@ def DoSend():
 			ProcessNode(file_top, file_uiItems)
 			file_display = Display(file_uiItems)
 			file_display.display()
+			sleep(1)
 			while 1:
 				if (lcd.buttonPressed(lcd.LEFT)):
 				   break
@@ -103,7 +104,6 @@ def DoSend():
 				sleep(.25)
 
 			LcdGreen()
-			
 			break
 
 def DoReceive():
