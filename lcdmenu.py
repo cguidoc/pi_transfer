@@ -172,6 +172,8 @@ def UpdateSerial():
 # these are called by the main functions
 
 def switchmenu():
+	dom = parse(configfile) # parse an XML file by name
+	top = dom.documentElement
 	ProcessNode(top, uiItems)
 	display.display()
 
