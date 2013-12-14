@@ -163,7 +163,7 @@ def queued_list():
 	with open(queuedlist, 'a+') as f:
 		f.write("<application>\n")
 		for file in file_list:
-			widget = '\t<widget text="' + file_iterator(file, ":") + '" function=xsend("' + file + '" />\n'
+			widget = '\t<widget text="' + file_iterator(file, ":") + '" function="xsend("' + file + '") />\n'
 			f.write(widget)
 		f.write("</application>\n")	
 	if DEBUG:
