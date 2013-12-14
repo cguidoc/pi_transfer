@@ -155,7 +155,7 @@ def UpdateSerial():
 # these are called by the main functions
 def queued_list():
 	# generates an xml file with the current list of files in the queued directory
-	if DEBUGG:
+	if DEBUG:
 		print "==QUEUED LIST FUNCTION=="
 
 	path = web_queued + '*.txt'
