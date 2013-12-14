@@ -85,8 +85,25 @@ def DoSend():
 			ProcessNode(file_top, file_uiItems)
 			file_display = Display(file_uiItems)
 			file_display.display()
+			while 1:
+				if (lcd.buttonPressed(lcd.LEFT)):
+				   break
+
+				if (lcd.buttonPressed(lcd.UP)):
+					file_display.update('u')
+					file_display.display()
+
+				if (lcd.buttonPressed(lcd.DOWN)):
+					file_display.update('d')
+					file_display.display()
+
+				if (lcd.buttonPressed(lcd.SELECT)):
+					file_display.update('s')
+					file_display.display()
+				sleep(.25)
+
 			LcdGreen()
-			write_to_log("NOTICE: file successfully sent to machine")
+			
 			break
 
 def DoReceive():
@@ -320,6 +337,7 @@ def xsend(file):
 		lcd.clear()
 		lcd.message("data sent!")
 		sleep(5)
+		write_to_log("NOTICE: file successfully sent to machine")
 		display.display()
 
 def xrec(file):
