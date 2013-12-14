@@ -162,7 +162,7 @@ def queued_list():
 	file_list = glob.glob(path)
 	with open(queuedlist, 'a+') as f:
 		f.write("<application>\n")
-		for file in file_list
+		for file in file_list:
 			widget = '\t<widget text="' + file_iterator(file, ":") + '" function=xsend("' + file + '" />'
 			f.write(widget)
 		f.write("</application>\n")	
