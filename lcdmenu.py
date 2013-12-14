@@ -102,8 +102,8 @@ def DoSend():
 					file_display.update('s')
 					file_display.display()
 				sleep(.25)
-
 			LcdGreen()
+			switchmenu()
 			break
 
 def DoReceive():
@@ -170,6 +170,12 @@ def UpdateSerial():
 
 #===HELPER FUNCTIONS===
 # these are called by the main functions
+
+def switchmenu():
+	ProcessNode(top, uiItems)
+	display.display()
+
+
 def queued_list():
 	# generates an xml file with the current list of files in the queued directory
 	if DEBUG:
@@ -338,7 +344,9 @@ def xsend(file):
 		lcd.message("data sent!")
 		sleep(5)
 		write_to_log("NOTICE: file successfully sent to machine")
-		display.display()
+		LcdGreen()
+		switchmenu()
+
 
 def xrec(file):
 	
