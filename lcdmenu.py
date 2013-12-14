@@ -48,7 +48,7 @@ machine_transfer_to_server = 'from_machine.txt'			# file for receiving from seri
 machine_serial_config = 's_config.txt'					# "local" serial config parameters				
 machine_log = web_folder_location + 'machine_log.txt'	# Log File Location
 machine_queued = 'to_machine.txt'						# internal queued file to transfer
-web_queued = web_folder_location + '/queued/'
+web_queued = web_folder_location + '/queued'
 current_location = '/home/pi/pi_transfer/'				# working directory
 
 # set DEBUG=1 for print debug statements
@@ -161,9 +161,10 @@ def queued_list():
 	path = web_queued + '*.txt'
 	file_list = glob.glob(path)
 	with open(queuedlist, 'a+') as f:
+		f.truncate()
 		f.write("<application>\n")
 		for file in file_list:
-			widget = '\t<widget text="' + file_iterator(file, ":") + '" function="xsend("' + file + '") />\n'
+			widget = '\t<widget text="' + file_iterator(file, ":") + '" function="xsend("' + file + '")" />\n'
 			f.write(widget)
 		f.write("</application>\n")	
 	if DEBUG:
