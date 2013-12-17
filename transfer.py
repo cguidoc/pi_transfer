@@ -109,19 +109,19 @@ def CreateSerial():
         print "   xonxoff = " + serial_config.get('serial', 'xonxoff')
     # Update log file with new serial parameters for troubleshooting on machines
     message = "  -- serial parameters read from file --"
-    write_to_log(message)
+    WriteToLog(message)
     message = "           port = " + serial_config.get('serial', 'port')
-    write_to_log(message)
+    WriteToLog(message)
     message = "       baudrate = " + serial_config.get('serial', 'baudrate')
-    write_to_log(message)
+    WriteToLog(message)
     message = "       bytesize = " + serial_config.get('serial', 'bytesize')
-    write_to_log(message)
+    WriteToLog(message)
     message = "       stopbits = " + serial_config.get('serial', 'stopbits')
-    write_to_log(message)
+    WriteToLog(message)
     message = "         parity = " + serial_config.get('serial', 'parity')
-    write_to_log(message)
+    WriteToLog(message)
     message = "        xonxoff = " + serial_config.get('serial', 'xonxoff')
-    write_to_log(message)
+    WriteToLog(message)
     
     return serial.Serial(
         port = serial_config.get('serial', 'port'),
@@ -405,7 +405,7 @@ def ReceiveFile():
                 if DEBUG:
                     print " - error creating file"
                 return False
-            
+
     
         ser = CreateSerial()
         if DEBUG:
