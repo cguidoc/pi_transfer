@@ -256,7 +256,7 @@ def UpdateSerial():
 		press = ReadButton()
 		if (press == lcd.LEFT):
 			break
-		if (press = lcd.SELECT):
+		if (press == lcd.SELECT):
 			lcd.clear()
 			lcd.backlight(lcd.RED)
 			if DEBUG:
