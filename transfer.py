@@ -168,7 +168,7 @@ def TestHardware():
            ('Off' , lcd.OFF) , ('On'    , lcd.ON))
 
     for c in col:
-       if DEBUG
+       if DEBUG:
             print "hardware test | " + c[0]
        lcd.clear()
        lcd.message(c[0])
@@ -183,7 +183,7 @@ def ReadButton():
    if(button != 0):  
       while(LCD.buttonPressed() != 0):  
          DelayMilliseconds(1)  
-   return buttons
+   return button
 
 def DelayMilliseconds(milliseconds):  
    seconds = milliseconds / float(1000) # divide milliseconds by 1000 for seconds  
