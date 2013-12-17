@@ -477,7 +477,7 @@ def main():
 	lcd.message(main_menu[menu_loc])
 	
 	while True:
-		lcd.message(menu[menu_loc][0])
+		lcd.message(main_menu[menu_loc][0])
 		press = ReadButton()
 		
 		#Right Button Pressed
@@ -490,7 +490,7 @@ def main():
 			menu_loc += -1
 			if (menu_loc < 0):
 				menu_loc = len(main_menu)
-			lcd.message(menu[menu_loc][0])
+			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print main_menu[menu_loc][0]
 
@@ -499,7 +499,7 @@ def main():
 			menu_loc += 1
 			if (menu_loc > len(main_menu)):
 				menu_loc = 0    #roll over
-			lcd.message(menu[menu_loc][0])
+			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print main_menu[menu_loc][0]
 
