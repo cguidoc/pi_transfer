@@ -57,15 +57,15 @@ web_serial_config = web_folder_location + 'wconfig.txt'             # Serial par
 machine_serial_config = 's_config.txt'                              # "local" serial config parameters  
 received_from_machine = web_folder_location + 'from_machine.txt'    # file for receiving from serial            
 serial_config = ConfigParser.RawConfigParser()                      # Serial Parameter Parser object
-main_menu = (
+main_menu = [
 	['Send File\nto machine', 'Send()'],
 	['Receive File\nfrom machine', 'ReceiveFile()'],
-	['Setup\n(advanced)', 'DisplayMenu(setup_menu)'])
-setup_menu = (
-	('1. Show IP\n  & Address', 'ShowIPAddress()'),
-	('2. Load Serial\n  from website', 'UpdateSerial()'),
-	('3. System\n  Shutdown!', 'ShutdownSys()'),
-	('4. System\n  Test hrdware', 'TestHardware()'))
+	['Setup\n(advanced)', 'DisplayMenu(setup_menu)']]
+setup_menu = [
+	['1. Show IP\n  & Address', 'ShowIPAddress()'],
+	['2. Load Serial\n  from website', 'UpdateSerial()'],
+	['3. System\n  Shutdown!', 'ShutdownSys()'],
+	['4. System\n  Test hrdware', 'TestHardware()']]
 queued_list = []
 DISPLAY_ROWS = 2                                        # Number of LCD Rows
 DISPLAY_COLS = 16                                       # Number of LCD Columns
@@ -85,8 +85,6 @@ lcd = Adafruit_CharLCDPlate()
 # --  HELPER FUNCTIONS
 # ------------------------------------------------
 def WriteToLog(entry):
-	if DEBUG:
-		print "==WriteToLog Function=="
 	entry = strftime("%Y-%m-%d %H:%M:%S", localtime()) + " - " + entry + "\n"
 	with open(machine_log, 'a+') as f:
 		f.write(entry)
@@ -145,9 +143,6 @@ def FileIterator(file, character):
 	# takes file and iterates line by line until character is found
 	# returns the portion of the string after the character, 
 	# if no string is found, returns an empty string
-
-	if DEBUG:
-		print "==FileIterator function=="
 	return_line = ""        # string to return
 	with open (file, 'r') as f:
 		file_string = f.read()  # read the file into a string
@@ -199,6 +194,7 @@ def DisplayMenu(menu):
 		print " - " + menu[menu_loc][0]
 
 	while keep_looping:
+		sleep(.25)				#delay a bit to debounce the switch
 		
 		#Left Button Pressed
 		if(lcd.buttonPressed(lcd.LEFT)):
@@ -237,7 +233,7 @@ def DisplayMenu(menu):
 			if DEBUG:
 				print " - select button pressed - select item"
 			exec menu[menu_loc][1]
-		sleep(.25)
+		
 
 def ShowIPAddress():
 	if DEBUG:
@@ -321,7 +317,7 @@ def Send():
 	if DEBUG:
 		print " - directory crawled"
 	for file in file_list:
-		widget = [FileIterator(file, ":")[-1]]
+		widget = [FileIterator(file, ":")]
 		widget.append('SendFile("' + file + '")')
 		queued_list.append(widget)
 		if DEBUG:
