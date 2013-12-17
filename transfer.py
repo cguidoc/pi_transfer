@@ -230,7 +230,7 @@ def DisplayMenu(menu):
 			lcd.message(menu[menu_loc][0])
 
 		#Select Button Pressed
-		if(lcd.buttonPressed(lcd.SELECT):
+		if(lcd.buttonPressed(lcd.SELECT)):
 			if DEBUG:
 				print " - select button pressed - select item"
 			exec menu[menu_loc][1]
@@ -254,7 +254,7 @@ def UpdateSerial():
 	while 1:
 		if (lcd.buttonPressed(lcd.LEFT)):
 			break
-		if (lcd.buttonPressed(lcd.SELECT):
+		if (lcd.buttonPressed(lcd.SELECT)):
 			lcd.clear()
 			lcd.backlight(lcd.RED)
 			if DEBUG:
@@ -478,7 +478,7 @@ def main():
 		lcd.message(main_menu[menu_loc][0])
 			
 		#Right Button Pressed
-		if(lcd.buttonPressed(lcd.RIGHT):
+		if(lcd.buttonPressed(lcd.RIGHT)):
 			if DEBUG:
 				print "Right Button Pressed - Do nothing"
 
