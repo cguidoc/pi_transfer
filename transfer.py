@@ -194,6 +194,8 @@ def DisplayMenu(menu):
 		print " - " + menu[menu_loc][0]
 
 	while keep_looping:
+		lcd.clear()
+		lcd.message(menu[menu_loc][0])
 		sleep(.25)				#delay a bit to debounce the switch
 		
 		#Left Button Pressed
@@ -214,9 +216,7 @@ def DisplayMenu(menu):
 				print " - up button pressed - move menu"
 			menu_loc += -1
 			if (menu_loc < 0):
-				menu_loc = (len(menu)-1)
-			lcd.clear()
-			lcd.message(menu[menu_loc][0])
+				menu_loc = (len(menu)-1)			
 
 		#DOWN Button Pressed
 		if(lcd.buttonPressed(lcd.DOWN)):
@@ -225,8 +225,6 @@ def DisplayMenu(menu):
 			menu_loc += 1
 			if (menu_loc > (len(menu)-1)):
 				menu_loc = 0
-			lcd.clear()
-			lcd.message(menu[menu_loc][0])
 
 		#Select Button Pressed
 		if(lcd.buttonPressed(lcd.SELECT)):
@@ -478,6 +476,7 @@ def main():
 	while True:
 		lcd.clear()
 		lcd.message(main_menu[menu_loc][0])
+		sleep(.25)
 			
 		#Right Button Pressed
 		if(lcd.buttonPressed(lcd.RIGHT)):
@@ -489,8 +488,6 @@ def main():
 			menu_loc += -1
 			if (menu_loc < 0):
 				menu_loc = len(main_menu)-1
-			lcd.clear()
-			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print " - Menu Location | " + main_menu[menu_loc][0]
 
@@ -499,8 +496,6 @@ def main():
 			menu_loc += 1
 			if (menu_loc > (len(main_menu)-1)):
 				menu_loc = 0    #roll over
-			lcd.clear()
-			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print " - Menu Location | " + main_menu[menu_loc][0]
 
@@ -510,7 +505,6 @@ def main():
 				print main_menu[menu_loc][0]
 			exec main_menu[menu_loc][1]
 
-		sleep(.25)
 
 if __name__ == '__main__':
 	WriteToLog("System Initialized")
