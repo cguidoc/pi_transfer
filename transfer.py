@@ -336,6 +336,8 @@ def Send():
 	lcd.message("file list updated")
 	sleep(.5)
 	lcd.clear()
+	lcd.backlight(lcd.VIOLET)
+	lcd.message("pick file")
 	DisplayMenu(queued_list)
 	lcd.backlight(lcd.GREEN)
 
