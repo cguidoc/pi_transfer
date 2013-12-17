@@ -204,6 +204,7 @@ def DisplayMenu(menu):
 		if(lcd.buttonPressed(lcd.LEFT)):
 			if DEBUG:
 				print " - left button pressed - escaping menu"
+			lcd.clear()
 			keep_looping = False
 
 		#Right Button Pressed
@@ -218,6 +219,7 @@ def DisplayMenu(menu):
 			menu_loc += -1
 			if (menu_loc < 0):
 				menu_loc = (len(menu)-1)
+			lcd.clear()
 			lcd.message(menu[menu_loc][0])
 
 		#DOWN Button Pressed
@@ -227,6 +229,7 @@ def DisplayMenu(menu):
 			menu_loc += 1
 			if (menu_loc > (len(menu)-1)):
 				menu_loc = 0
+			lcd.clear()
 			lcd.message(menu[menu_loc][0])
 
 		#Select Button Pressed
@@ -480,25 +483,27 @@ def main():
 		#Right Button Pressed
 		if(lcd.buttonPressed(lcd.RIGHT)):
 			if DEBUG:
-				print "Right Button Pressed - Do nothing"
+				print " - Right Button Pressed - Do nothing"
 
 		#UP Botton Pressed
 		if(lcd.buttonPressed(lcd.UP)):
 			menu_loc += -1
 			if (menu_loc < 0):
 				menu_loc = len(main_menu)-1
+			lcd.clear()
 			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
-				print main_menu[menu_loc][0]
+				print " - Menu Location | " + main_menu[menu_loc][0]
 
 		#DOWN Button Pressed
 		if(lcd.buttonPressed(lcd.DOWN)):
 			menu_loc += 1
 			if (menu_loc > (len(main_menu)-1)):
 				menu_loc = 0    #roll over
+			lcd.clear()
 			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
-				print main_menu[menu_loc][0]
+				print " - Menu Location | " + main_menu[menu_loc][0]
 
 		#Select Button Pressed
 		if(lcd.buttonPressed(lcd.SELECT)):
