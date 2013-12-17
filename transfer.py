@@ -321,10 +321,11 @@ def Send():
 	if DEBUG:
 		print " - directory crawled"
 	for file in file_list:
-		widget = [FileIterator(file, ":")]
+		widget = [FileIterator(file, ":")[-1]]
 		widget.append('SendFile("' + file + '")')
 		queued_list.append(widget)
 		if DEBUG:
+			print widget
 			print " - file: " + widget[-1][0] + "added"
 		message = " - file: " + widget[-1][0] + "added to list of files"
 		WriteToLog(message)
