@@ -169,7 +169,7 @@ def TestHardware():
 
 	for c in col:
 		if DEBUG:
-			print "hardware test | " + c[0]
+			print " - hardware test | " + c[0]
 		lcd.clear()
 		lcd.message(c[0])
 		lcd.backlight(c[1])
@@ -199,7 +199,7 @@ def DisplayMenu(menu):
 		print " - " + menu[menu_loc][0]
 
 	while keep_looping:
-		press = ReadLCDButtons()
+		press = ReadLCDButton()
 
 		#Left Button Pressed
 		if(press == lcd.LEFT):
@@ -253,7 +253,7 @@ def UpdateSerial():
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
 	while 1:
-		press = ReadLCDButtons()
+		press = ReadLCDButton()
 		if (press == lcd.LEFT):
 			break
 		if (press == lcd.SELECT):
@@ -478,7 +478,7 @@ def main():
 	
 	while True:
 		lcd.message(main_menu[menu_loc][0])
-		press = ReadLCDButtons()
+		press = ReadLCDButton()
 		
 		#Right Button Pressed
 		if(press == lcd.RIGHT):
