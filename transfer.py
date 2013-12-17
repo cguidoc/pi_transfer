@@ -58,9 +58,9 @@ machine_serial_config = 's_config.txt'                              # "local" se
 received_from_machine = web_folder_location + 'from_machine.txt'    # file for receiving from serial            
 serial_config = ConfigParser.RawConfigParser()                      # Serial Parameter Parser object
 main_menu = (
-	('Send File\nto machine', 'Send()'),
-	('Receive File\nfrom machine', 'ReceiveFile()'),
-	('Setup\n(advanced)', 'DisplayMenu(setup_menu)'))
+	['Send File\nto machine', 'Send()'],
+	['Receive File\nfrom machine', 'ReceiveFile()'],
+	['Setup\n(advanced)', 'DisplayMenu(setup_menu)'])
 setup_menu = (
 	('1. Show IP\n  & Address', 'ShowIPAddress()'),
 	('2. Load Serial\n  from website', 'UpdateSerial()'),
@@ -237,6 +237,7 @@ def DisplayMenu(menu):
 			if DEBUG:
 				print " - select button pressed - select item"
 			exec menu[menu_loc][1]
+		sleep(.25)
 
 def ShowIPAddress():
 	if DEBUG:
@@ -510,6 +511,8 @@ def main():
 			if DEBUG:
 				print main_menu[menu_loc][0]
 			exec main_menu[menu_loc][1]
+
+		sleep(.25)
 
 if __name__ == '__main__':
 	WriteToLog("System Initialized")
