@@ -478,7 +478,7 @@ def main():
 	
 	while True:
 		lcd.message(main_menu[menu_loc][0])
-		press = ReadButtons()
+		press = ReadLCDButtons()
 		
 		#Right Button Pressed
 		if(press == lcd.RIGHT):
