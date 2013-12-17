@@ -486,7 +486,7 @@ def main():
 		if(lcd.buttonPressed(lcd.UP)):
 			menu_loc += -1
 			if (menu_loc < 0):
-				menu_loc = len(main_menu)
+				menu_loc = len(main_menu)-1
 			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print main_menu[menu_loc][0]
@@ -494,7 +494,7 @@ def main():
 		#DOWN Button Pressed
 		if(lcd.buttonPressed(lcd.DOWN)):
 			menu_loc += 1
-			if (menu_loc > len(main_menu)):
+			if (menu_loc > (len(main_menu)-1)):
 				menu_loc = 0    #roll over
 			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
