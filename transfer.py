@@ -217,7 +217,7 @@ def DisplayMenu(menu):
 				print " - up button pressed - move menu"
 			menu_loc += -1
 			if (menu_loc < 0):
-				menu_loc = len(menu)
+				menu_loc = (len(menu)-1)
 			lcd.message(menu[menu_loc][0])
 
 		#DOWN Button Pressed
@@ -225,7 +225,7 @@ def DisplayMenu(menu):
 			if DEBUG:
 				print " - down button pressed - move menu"
 			menu_loc += 1
-			if (menu_loc > len(menu)):
+			if (menu_loc > (len(menu)-1):
 				menu_loc = 0
 			lcd.message(menu[menu_loc][0])
 
