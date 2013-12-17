@@ -178,10 +178,10 @@ def TestHardware():
 def ReadLCDButton():
 	if DEBUG:
 		print "==ReadButton function=="  
-	button = lcd.readButtons()
+	button = lcd.Buttons()
 	# Debounce push buttons
 	if(button != 0):
-		while(lcd.readButtons() != 0):
+		while(lcd.Buttons() != 0):
 			DelayMilliseconds(1)
 	return button
 
