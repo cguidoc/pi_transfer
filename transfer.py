@@ -74,7 +74,7 @@ DEBUG = 1                                               # set DEBUG=1 to print d
 # initialize the LCD plate  
 #   use busnum = 0 for raspi version 1 (256MB)   
 #   and busnum = 1 for raspi version 2 (512MB)  
-LCD = Adafruit_CharLCDPlate()
+lcd = Adafruit_CharLCDPlate()
 
 # in case you add custom logic to lcd to check if it is connected (useful)
 #if lcd.connected == 0:
@@ -465,7 +465,7 @@ def ReceiveFile():
 # --  MAIN FUNCTIONS
 # ------------------------------------------------
 def main():
-	LCD.begin(DISPLAY_COLS, DISPLAY_ROWS)
+	lcd.begin(DISPLAY_COLS, DISPLAY_ROWS)
 	lcd.backlight(lcd.ON)
 	TestHardware()
 	lcd.message("East Branch Eng\nDNC System V1.0")
@@ -511,4 +511,3 @@ def main():
 
 if __name__ == '__main__':
 	main()
-	
