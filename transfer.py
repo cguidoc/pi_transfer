@@ -216,7 +216,9 @@ def DisplayMenu(menu):
 			prev = menu_loc
 			menu_loc += -1
 			if (menu_loc < 0):
-				menu_loc = (len(menu)-1)			
+				menu_loc = (len(menu)-1)
+			lcd.clear()
+			lcd.message(menu[menu_loc][0])			
 
 		#DOWN Button Pressed
 		if(lcd.buttonPressed(lcd.DOWN)):
@@ -226,6 +228,8 @@ def DisplayMenu(menu):
 			menu_loc += 1
 			if (menu_loc > (len(menu)-1)):
 				menu_loc = 0
+			lcd.clear()
+			lcd.message(menu[menu_loc][0])
 
 		#Select Button Pressed
 		if(lcd.buttonPressed(lcd.SELECT)):
@@ -233,9 +237,7 @@ def DisplayMenu(menu):
 				print " - select button pressed - select item"
 			exec menu[menu_loc][1]
 		
-		if (menu_loc!=prev):
-			lcd.clear()
-			lcd.message(menu[menu_loc][0])
+			
 		
 
 def ShowIPAddress():
@@ -492,6 +494,8 @@ def main():
 			menu_loc += -1
 			if (menu_loc < 0):
 				menu_loc = (len(main_menu)-1)
+			lcd.clear()
+			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print " - Menu Location down | " + main_menu[menu_loc][0]
 
@@ -500,6 +504,8 @@ def main():
 			menu_loc += 1
 			if (menu_loc > (len(main_menu)-1)):
 				menu_loc = 0    #roll over
+			lcd.clear()
+			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print " - Menu Location up | " + main_menu[menu_loc][0]
 
@@ -508,10 +514,6 @@ def main():
 			if DEBUG:
 				print main_menu[menu_loc][0]
 			exec main_menu[menu_loc][1]
-
-		if (menu_loc!=prev):
-			lcd.clear()
-			lcd.message(main_menu[menu_loc][0])
 
 if __name__ == '__main__':
 	WriteToLog("System Initialized")
