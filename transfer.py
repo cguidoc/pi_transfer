@@ -189,13 +189,12 @@ def DisplayMenu(menu):
 		print "==DisplayMenu function=="
 	keep_looping = True
 	menu_loc = 0
+	prev = 0
 	lcd.message(menu[menu_loc][0])
 	if DEBUG:
 		print " - " + menu[menu_loc][0]
 
 	while keep_looping:
-		lcd.clear()
-		lcd.message(menu[menu_loc][0])
 		sleep(.25)				#delay a bit to debounce the switch
 		
 		#Left Button Pressed
@@ -214,6 +213,7 @@ def DisplayMenu(menu):
 		if(lcd.buttonPressed(lcd.UP)):
 			if DEBUG:
 				print " - up button pressed - move menu"
+			prev = menu_loc
 			menu_loc += -1
 			if (menu_loc < 0):
 				menu_loc = (len(menu)-1)			
@@ -222,6 +222,7 @@ def DisplayMenu(menu):
 		if(lcd.buttonPressed(lcd.DOWN)):
 			if DEBUG:
 				print " - down button pressed - move menu"
+			prev = menu_loc
 			menu_loc += 1
 			if (menu_loc > (len(menu)-1)):
 				menu_loc = 0
@@ -231,6 +232,10 @@ def DisplayMenu(menu):
 			if DEBUG:
 				print " - select button pressed - select item"
 			exec menu[menu_loc][1]
+		
+		if (menu_loc!=prev):
+			lcd.clear()
+			lcd.message(menu[menu_loc][0])
 		
 
 def ShowIPAddress():
@@ -258,7 +263,7 @@ def UpdateSerial():
 			if DEBUG:
 				print "  --web file located at--"
 				print "  " + web_serial_config + "\n"
-			if file_accessible(web_serial_config, "r"):
+			if FileAccessable(web_serial_config, "r"):
 				if DEBUG:
 					print " - new web config found"
 					print " - attempting to copy..."
@@ -469,13 +474,12 @@ def main():
 	sleep(1)    
 
 	menu_loc = 0
+	prev = 0
 	lcd.clear()
 	lcd.backlight(lcd.GREEN)
 	lcd.message(main_menu[menu_loc])
 	
 	while True:
-		lcd.clear()
-		lcd.message(main_menu[menu_loc][0])
 		sleep(.25)
 			
 		#Right Button Pressed
@@ -505,6 +509,9 @@ def main():
 				print main_menu[menu_loc][0]
 			exec main_menu[menu_loc][1]
 
+		if (menu_loc!=prev):
+			lcd.clear()
+			lcd.message(main_menu[menu_loc][0])
 
 if __name__ == '__main__':
 	WriteToLog("System Initialized")
