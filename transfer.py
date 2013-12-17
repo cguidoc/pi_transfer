@@ -178,10 +178,10 @@ def TestHardware():
 def ReadLCDButton():
 	if DEBUG:
 		print "==ReadButton function=="  
-	button = lcd.ReadButtons()
+	button = lcd.readButtons()
 	# Debounce push buttons
 	if(button != 0):
-		while(lcd.ReadButtons() != 0):
+		while(lcd.readButtons() != 0):
 			DelayMilliseconds(1)
 	return button
 
@@ -510,4 +510,5 @@ def main():
 			exec main_menu[menu_loc][1]
 
 if __name__ == '__main__':
+	WriteToLog("System Initialized")
 	main()
