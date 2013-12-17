@@ -433,6 +433,9 @@ class Adafruit_CharLCDPlate(Adafruit_I2C):
     def buttons(self):
         return self.i2c.readU8(self.MCP23017_GPIOA) & 0b11111
 
+    def readButtons(self):
+        return self.mcp.input_all()
+
 
     # ----------------------------------------------------------------------
     # Test code

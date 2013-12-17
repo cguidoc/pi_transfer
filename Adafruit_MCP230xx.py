@@ -154,6 +154,11 @@ class Adafruit_MCP230XX(object):
         self.i2c.write8(MCP23017_OLATA, value & 0xFF)
         self.i2c.write8(MCP23017_OLATB, (value >> 8) & 0xFF)
 
+    def input_all(self):
+        """ return all 5 switches, as a bitmap """
+        assert self.num_gpios >= 16, "16bits required"
+        return  0x1f ^ ( self.i2c.readU8(MCP23017_GPIOA) & 0x1F )
+
 # RPi.GPIO compatible interface for MCP23017 and MCP23008
 
 class MCP230XX_GPIO(object):

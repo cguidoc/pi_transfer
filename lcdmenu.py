@@ -167,6 +167,7 @@ def UpdateSerial():
 				write_to_log("ERROR: Serial parameters not updated from web - file access error")
 				LcdGreen()
 				break
+				
 
 #===HELPER FUNCTIONS===
 # these are called by the main functions

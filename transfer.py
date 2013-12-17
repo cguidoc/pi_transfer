@@ -175,13 +175,13 @@ def TestHardware():
 		lcd.backlight(c[1])
 		sleep(0.5)
 
-def ReadButtons():
+def ReadLCDButton():
 	if DEBUG:
 		print "==ReadButton function=="  
-	button = lcd.buttonPressed()
+	button = lcd.ReadButtons()
 	# Debounce push buttons
 	if(button != 0):
-		while(lcd.buttonPressed() != 0):
+		while(lcd.ReadButtons() != 0):
 			DelayMilliseconds(1)
 	return button
 
@@ -199,7 +199,7 @@ def DisplayMenu(menu):
 		print " - " + menu[menu_loc][0]
 
 	while keep_looping:
-		press = ReadButtons()
+		press = ReadLCDButtons()
 
 		#Left Button Pressed
 		if(press == lcd.LEFT):
@@ -253,7 +253,7 @@ def UpdateSerial():
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
 	while 1:
-		press = ReadButtons()
+		press = ReadLCDButtons()
 		if (press == lcd.LEFT):
 			break
 		if (press == lcd.SELECT):
