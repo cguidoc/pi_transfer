@@ -476,6 +476,7 @@ def main():
 	lcd.message(main_menu[menu_loc])
 	
 	while True:
+		lcd.clear()
 		lcd.message(main_menu[menu_loc][0])
 			
 		#Right Button Pressed
