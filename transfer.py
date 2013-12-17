@@ -199,21 +199,20 @@ def DisplayMenu(menu):
 		print " - " + menu[menu_loc][0]
 
 	while keep_looping:
-		press = ReadLCDButton()
-
+		
 		#Left Button Pressed
-		if(press == lcd.LEFT):
+		if(lcd.buttonPressed(lcd.LEFT)):
 			if DEBUG:
 				print " - left button pressed - escaping menu"
 			keep_looping = False
 
 		#Right Button Pressed
-		if(press == lcd.RIGHT):
+		if(lcd.buttonPressed(lcd.RIGHT)):
 			if DEBUG:
 				print " -  right button pressed - do nothing"
 			
 		#UP Botton Pressed
-		if(press == lcd.UP):
+		if(lcd.buttonPressed(lcd.UP)):
 			if DEBUG:
 				print " - up button pressed - move menu"
 			menu_loc += -1
@@ -222,7 +221,7 @@ def DisplayMenu(menu):
 			lcd.message(menu[menu_loc][0])
 
 		#DOWN Button Pressed
-		if(press == lcd.DOWN):
+		if(lcd.buttonPressed(lcd.DOWN)):
 			if DEBUG:
 				print " - down button pressed - move menu"
 			menu_loc += 1
@@ -231,7 +230,7 @@ def DisplayMenu(menu):
 			lcd.message(menu[menu_loc][0])
 
 		#Select Button Pressed
-		if(press == lcd.SELECT):
+		if(lcd.buttonPressed(lcd.SELECT):
 			if DEBUG:
 				print " - select button pressed - select item"
 			exec menu[menu_loc][1]
@@ -253,10 +252,9 @@ def UpdateSerial():
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
 	while 1:
-		press = ReadLCDButton()
-		if (press == lcd.LEFT):
+		if (lcd.buttonPressed(lcd.LEFT)):
 			break
-		if (press == lcd.SELECT):
+		if (lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
 			lcd.backlight(lcd.RED)
 			if DEBUG:
@@ -323,8 +321,8 @@ def Send():
 		widget.append('SendFile(' + file + ')')
 		queued_list.append(widget)
 		if DEBUG:
-			print " - file: " + widget + "added"
-		message = " - file: " + widget + "added to list of files"
+			print " - file: " + widget[-1][0] + "added"
+		message = " - file: " + widget[-1][0] + "added to list of files"
 		WriteToLog(message)
 	if DEBUG:
 		print " - queued list updated"
@@ -478,15 +476,14 @@ def main():
 	
 	while True:
 		lcd.message(main_menu[menu_loc][0])
-		press = ReadLCDButton()
-		
+			
 		#Right Button Pressed
-		if(press == lcd.RIGHT):
+		if(lcd.buttonPressed(lcd.RIGHT):
 			if DEBUG:
 				print "Right Button Pressed - Do nothing"
 
 		#UP Botton Pressed
-		if(press == lcd.UP):
+		if(lcd.buttonPressed(lcd.UP)):
 			menu_loc += -1
 			if (menu_loc < 0):
 				menu_loc = len(main_menu)
@@ -495,7 +492,7 @@ def main():
 				print main_menu[menu_loc][0]
 
 		#DOWN Button Pressed
-		if(press == lcd.DOWN):
+		if(lcd.buttonPressed(lcd.DOWN)):
 			menu_loc += 1
 			if (menu_loc > len(main_menu)):
 				menu_loc = 0    #roll over
@@ -504,7 +501,7 @@ def main():
 				print main_menu[menu_loc][0]
 
 		#Select Button Pressed
-		if(press == lcd.SELECT):
+		if(lcd.buttonPressed(lcd.SELECT)):
 			if DEBUG:
 				print main_menu[menu_loc][0]
 			exec main_menu[menu_loc][1]
