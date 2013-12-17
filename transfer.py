@@ -508,6 +508,7 @@ def main():
 			if DEBUG:
 				print main_menu[menu_loc][0]
 			exec main_menu[menu_loc][1]
-		
 
-   
+if __name__ == '__main__':
+	main()
+	
