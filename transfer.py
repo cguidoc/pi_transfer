@@ -322,7 +322,7 @@ def Send():
 		print " - directory crawled"
 	for file in file_list:
 		widget = [FileIterator(file, ":")]
-		widget.append('SendFile(' + file + ')')
+		widget.append('SendFile("' + file + '")')
 		queued_list.append(widget)
 		if DEBUG:
 			print " - file: " + widget[-1][0] + "added"
