@@ -319,7 +319,7 @@ def Send():
 	if DEBUG:
 		print " - directory crawled"
 	for file in file_list:
-		widget = [file_iterator(file, ":")]
+		widget = [FileIterator(file, ":")]
 		widget.append('SendFile(' + file + ')')
 		queued_list.append(widget)
 		if DEBUG:
@@ -340,7 +340,7 @@ def SendFile(file):
 	if DEBUG:
 		print "==SendFIle function=="
 		print "  - send " + file + " to machine using rs232"
-	if file_accessible(file,"r"):
+	if FileAccessable(file,"r"):
 		if DEBUG:
 			print " - opening the file and converting to string"
 		lcd.clear()
