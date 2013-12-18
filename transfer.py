@@ -57,15 +57,15 @@ web_serial_config = web_folder_location + 'wconfig.txt'             # Serial par
 machine_serial_config = 's_config.txt'                              # "local" serial config parameters  
 received_from_machine = web_folder_location + 'from_machine.txt'    # file for receiving from serial            
 serial_config = ConfigParser.RawConfigParser()                      # Serial Parameter Parser object
-main_menu = [
-	['Send File\nto machine', 'Send()'],
-	['Receive File\nfrom machine', 'ReceiveFile()'],
-	['Setup\n(advanced)', 'DisplayMenu(setup_menu)']]
-setup_menu = [
-	['1. Show IP\n  & Address', 'ShowIPAddress()'],
-	['2. Load Serial\n  from website', 'UpdateSerial()'],
-	['3. System\n  Shutdown!', 'ShutdownSys()'],
-	['4. System\n  Test hrdware', 'TestHardware()']]
+main_menu = (
+	('Send File\nto machine', 'Send()'),
+	('Receive File\nfrom machine', 'ReceiveFile()'),
+	('Setup\n(advanced)', 'DisplayMenu(setup_menu)'))
+setup_menu = (
+	('1. Show IP\n  & Address', 'ShowIPAddress()'),
+	('2. Load Serial\n  from website', 'UpdateSerial()'),
+	('3. System\n  Shutdown!', 'ShutdownSys()'),
+	('4. System\n  Test hrdware', 'TestHardware()'))
 queued_list = []
 DISPLAY_ROWS = 2                                        # Number of LCD Rows
 DISPLAY_COLS = 16                                       # Number of LCD Columns
@@ -145,11 +145,11 @@ def FileIterator(file, character):
 	# if no string is found, returns an empty string
 	return_line = ""        # string to return
 	with open (file, 'r') as f:
-		file_string = f.read()  # read the file into a string
-		
+		file_string = f.read()  # read the file into a string		
 		for line in file_string.splitlines():
 			if character in line:
 				return_line = line.split(character)[1]
+				return_line = return_line[:-2]
 				break
 	if DEBUG:
 		print "  " + return_line
@@ -183,129 +183,7 @@ def ReadLCDButton():
 def DelayMilliseconds(milliseconds):
 	seconds = milliseconds / float(1000) # divide milliseconds by 1000 for seconds
 	sleep(seconds)
-  
-def DisplayMenu(menu):
-	if DEBUG:
-		print "==DisplayMenu function=="
-	keep_looping = True
-	menu_loc = 0
-	prev = 0
-	lcd.message(menu[menu_loc][0])
-	if DEBUG:
-		print " - " + menu[menu_loc][0]
 
-	while keep_looping:
-		sleep(.25)				#delay a bit to debounce the switch
-		
-		#Left Button Pressed
-		if(lcd.buttonPressed(lcd.LEFT)):
-			if DEBUG:
-				print " - left button pressed - escaping menu"
-			lcd.clear()
-			keep_looping = False
-
-		#Right Button Pressed
-		if(lcd.buttonPressed(lcd.RIGHT)):
-			if DEBUG:
-				print " -  right button pressed - do nothing"
-			
-		#UP Botton Pressed
-		if(lcd.buttonPressed(lcd.UP)):
-			if DEBUG:
-				print " - up button pressed - move menu"
-			prev = menu_loc
-			menu_loc += -1
-			if (menu_loc < 0):
-				menu_loc = (len(menu)-1)
-			lcd.clear()
-			lcd.message(menu[menu_loc][0])			
-
-		#DOWN Button Pressed
-		if(lcd.buttonPressed(lcd.DOWN)):
-			if DEBUG:
-				print " - down button pressed - move menu"
-			prev = menu_loc
-			menu_loc += 1
-			if (menu_loc > (len(menu)-1)):
-				menu_loc = 0
-			lcd.clear()
-			lcd.message(menu[menu_loc][0])
-
-		#Select Button Pressed
-		if(lcd.buttonPressed(lcd.SELECT)):
-			if DEBUG:
-				print " - select button pressed - select item"
-			exec menu[menu_loc][1]
-		
-			
-		
-
-def ShowIPAddress():
-	if DEBUG:
-		print('==ShowIPAddress function==')
-	lcd.clear()
-	lcd.message(commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:])
-	while 1:
-		if lcd.buttonPressed(lcd.LEFT):
-			break
-		sleep(0.25)
-
-def UpdateSerial():
-	#update serial parameters from config file loaded from webserver
-	if DEBUG:
-		print "==UpdateSerial function=="
-	lcd.clear()
-	lcd.message('Are you sure?\nPress Sel for Y')
-	while 1:
-		if (lcd.buttonPressed(lcd.LEFT)):
-			break
-		if (lcd.buttonPressed(lcd.SELECT)):
-			lcd.clear()
-			lcd.backlight(lcd.RED)
-			if DEBUG:
-				print "  --web file located at--"
-				print "  " + web_serial_config + "\n"
-			if FileAccessable(web_serial_config, "r"):
-				if DEBUG:
-					print " - new web config found"
-					print " - attempting to copy..."
-				lcd.message('new file found\nattempting copy')              
-				if DEBUG:
-					print "  ...file copied\n"
-				lcd.clear()
-				lcd.message('...file copied')
-				shutil.copy(web_serial_config, machine_serial_config) 
-				#create serial object to test new file      
-				CreateSerial()
-				if DEBUG:
-					print " - serial object created to test new parameters"
-				WriteToLog("NOTICE: new serial parameters updated from web")
-				lcd.backlight(lcd.GREEN)
-				break
-			else:
-				if DEBUG:
-					print "  file not found or not accessible"
-				lcd.clear()
-				lcd.message('file not found\nor no permission')
-				sleep(5)
-				WriteToLog("ERROR: Serial parameters not updated from web - file access error")
-				lcd.backlight(lcd.GREEN)
-				break
-
-def ShutdownSys():
-	if DEBUG:
-		print "==ShutdownSys function=="
-	lcd.clear()
-	lcd.message('Are you sure?\nPress Sel for Y')
-	while 1:
-		if lcd.buttonPressed(lcd.LEFT):
-			break
-		if lcd.buttonPressed(lcd.SELECT):
-			lcd.clear()
-			lcd.backlight(lcd.OFF)
-			commands.getoutput("sudo shutdown -h now")
-			quit()
-		sleep(0.25)
 
 def Send():
 	if DEBUG:
@@ -465,6 +343,130 @@ def ReceiveFile():
 		WriteToLog("NOTICE: file sucessfully received from machine")
 		break
 
+def DisplayMenu(menu):
+	if DEBUG:
+		print "==DisplayMenu function=="
+	keep_looping = True
+	menu_loc = 0
+	prev = 0
+	lcd.clear()
+	lcd.message(menu[menu_loc][0])
+	if DEBUG:
+		print " - " + menu[menu_loc][0]
+
+	while keep_looping:
+		sleep(.25)				#delay a bit to debounce the switch
+		
+		#Left Button Pressed
+		if(lcd.buttonPressed(lcd.LEFT)):
+			if DEBUG:
+				print " - left button pressed - escaping menu"
+			lcd.clear()
+			keep_looping = False
+
+		#Right Button Pressed
+		if(lcd.buttonPressed(lcd.RIGHT)):
+			if DEBUG:
+				print " -  right button pressed - do nothing"
+			
+		#UP Botton Pressed
+		if(lcd.buttonPressed(lcd.UP)):
+			if DEBUG:
+				print " - up button pressed - move menu"
+			prev = menu_loc
+			menu_loc += -1
+			if (menu_loc < 0):
+				menu_loc = (len(menu)-1)
+			lcd.clear()
+			lcd.message(menu[menu_loc][0])			
+
+		#DOWN Button Pressed
+		if(lcd.buttonPressed(lcd.DOWN)):
+			if DEBUG:
+				print " - down button pressed - move menu"
+			prev = menu_loc
+			menu_loc += 1
+			if (menu_loc > (len(menu)-1)):
+				menu_loc = 0
+			lcd.clear()
+			lcd.message(menu[menu_loc][0])
+
+		#Select Button Pressed
+		if(lcd.buttonPressed(lcd.SELECT)):
+			if DEBUG:
+				print " - select button pressed - select item"
+			exec menu[menu_loc][1]
+
+
+# ------------------------------------------------
+# --  SETUP FUNCTIONS
+# ------------------------------------------------
+def ShowIPAddress():
+	if DEBUG:
+		print('==ShowIPAddress function==')
+	lcd.clear()
+	lcd.message(commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:])
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		sleep(0.25)
+
+def UpdateSerial():
+	#update serial parameters from config file loaded from webserver
+	if DEBUG:
+		print "==UpdateSerial function=="
+	lcd.clear()
+	lcd.message('Are you sure?\nPress Sel for Y')
+	while 1:
+		if (lcd.buttonPressed(lcd.LEFT)):
+			break
+		if (lcd.buttonPressed(lcd.SELECT)):
+			lcd.clear()
+			lcd.backlight(lcd.RED)
+			if DEBUG:
+				print "  --web file located at--"
+				print "  " + web_serial_config + "\n"
+			if FileAccessable(web_serial_config, "r"):
+				if DEBUG:
+					print " - new web config found"
+					print " - attempting to copy..."
+				lcd.message('new file found\nattempting copy')              
+				if DEBUG:
+					print "  ...file copied\n"
+				lcd.clear()
+				lcd.message('...file copied')
+				shutil.copy(web_serial_config, machine_serial_config) 
+				#create serial object to test new file      
+				CreateSerial()
+				if DEBUG:
+					print " - serial object created to test new parameters"
+				WriteToLog("NOTICE: new serial parameters updated from web")
+				lcd.backlight(lcd.GREEN)
+				break
+			else:
+				if DEBUG:
+					print "  file not found or not accessible"
+				lcd.clear()
+				lcd.message('file not found\nor no permission')
+				sleep(5)
+				WriteToLog("ERROR: Serial parameters not updated from web - file access error")
+				lcd.backlight(lcd.GREEN)
+				break
+
+def ShutdownSys():
+	if DEBUG:
+		print "==ShutdownSys function=="
+	lcd.clear()
+	lcd.message('Are you sure?\nPress Sel for Y')
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		if lcd.buttonPressed(lcd.SELECT):
+			lcd.clear()
+			lcd.backlight(lcd.OFF)
+			commands.getoutput("sudo shutdown -h now")
+			quit()
+		sleep(0.25)
 
 
 # ------------------------------------------------
@@ -485,6 +487,8 @@ def main():
 	
 	while True:
 		sleep(.25)
+		lcd.setCursor(0,0)
+		lcd.message(main_menu[menu_loc][0])
 			
 		#Right Button Pressed
 		if(lcd.buttonPressed(lcd.RIGHT)):
