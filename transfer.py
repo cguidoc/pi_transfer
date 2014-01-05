@@ -512,11 +512,13 @@ def main():
 			lcd.message(main_menu[menu_loc][0])
 			#Right Button Pressed
 			if(lcd.buttonPressed(lcd.RIGHT)):
+				isOnCount = 0
 				if DEBUG:
 					print " - Right Button Pressed - Do nothing"
 
 			#UP Botton Pressed
 			if(lcd.buttonPressed(lcd.UP)):
+				isOnCount = 0
 				menu_loc += -1
 				if (menu_loc < 0):
 					menu_loc = (len(main_menu)-1)
@@ -528,6 +530,7 @@ def main():
 
 			#DOWN Button Pressed
 			if(lcd.buttonPressed(lcd.DOWN)):
+				isOnCount = 0
 				menu_loc += 1
 				if (menu_loc > (len(main_menu)-1)):
 					menu_loc = 0    #roll over
@@ -539,6 +542,7 @@ def main():
 
 			#Select Button Pressed
 			if(lcd.buttonPressed(lcd.SELECT)):
+				isOnCount = 0
 				if DEBUG:
 					print main_menu[menu_loc][0]
 				exec main_menu[menu_loc][1]
@@ -550,7 +554,7 @@ def main():
 				isOn = False
 				sleep(.3)	
 		else: 
-			if lcd.buttonPressed(lcd):
+			if lcd.buttonPressed(lcd.SELECT):
 				lcd.display()
 				lcd.backlight(lcd.ON)
 				lcd.backlight(lcd.GREEN)
