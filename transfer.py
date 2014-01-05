@@ -450,10 +450,13 @@ def UpdateSerial():
 				lcd.message('...file copied')
 				shutil.copy(web_serial_config, machine_serial_config) 
 				#create serial object to test new file      
-				CreateSerial()
-				if DEBUG:
-					print " - serial object created to test new parameters"
-				WriteToLog("NOTICE: new serial parameters updated from web")
+				if CreateSerial():
+					if DEBUG:
+						print " - serial object created to test new parameters"
+					WriteToLog("NOTICE: new serial parameters updated from web")
+				elif
+					if DEBUG:
+						print " - serial object not created"
 				lcd.backlight(lcd.GREEN)
 				break
 			else:
@@ -498,44 +501,62 @@ def main():
 	lcd.clear()
 	lcd.backlight(lcd.GREEN)
 	lcd.message(main_menu[menu_loc][0])
+	isOn = True
 	
 	while True:
 		sleep(.25)
-		lcd.setCursor(0,0)
-		lcd.message(main_menu[menu_loc][0])
-			
-		#Right Button Pressed
-		if(lcd.buttonPressed(lcd.RIGHT)):
-			if DEBUG:
-				print " - Right Button Pressed - Do nothing"
-
-		#UP Botton Pressed
-		if(lcd.buttonPressed(lcd.UP)):
-			menu_loc += -1
-			if (menu_loc < 0):
-				menu_loc = (len(main_menu)-1)
-			lcd.clear()
+		
+		if isOn
 			lcd.setCursor(0,0)
 			lcd.message(main_menu[menu_loc][0])
-			if DEBUG:
-				print " - Menu Location down | " + main_menu[menu_loc][0]
+			#Right Button Pressed
+			if(lcd.buttonPressed(lcd.RIGHT)):
+				if DEBUG:
+					print " - Right Button Pressed - Do nothing"
 
-		#DOWN Button Pressed
-		if(lcd.buttonPressed(lcd.DOWN)):
-			menu_loc += 1
-			if (menu_loc > (len(main_menu)-1)):
-				menu_loc = 0    #roll over
-			lcd.clear()
-			lcd.setCursor(0,0)
-			lcd.message(main_menu[menu_loc][0])
-			if DEBUG:
-				print " - Menu Location up | " + main_menu[menu_loc][0]
+			#UP Botton Pressed
+			if(lcd.buttonPressed(lcd.UP)):
+				menu_loc += -1
+				if (menu_loc < 0):
+					menu_loc = (len(main_menu)-1)
+				lcd.clear()
+				lcd.setCursor(0,0)
+				lcd.message(main_menu[menu_loc][0])
+				if DEBUG:
+					print " - Menu Location down | " + main_menu[menu_loc][0]
 
-		#Select Button Pressed
-		if(lcd.buttonPressed(lcd.SELECT)):
-			if DEBUG:
-				print main_menu[menu_loc][0]
-			exec main_menu[menu_loc][1]
+			#DOWN Button Pressed
+			if(lcd.buttonPressed(lcd.DOWN)):
+				menu_loc += 1
+				if (menu_loc > (len(main_menu)-1)):
+					menu_loc = 0    #roll over
+				lcd.clear()
+				lcd.setCursor(0,0)
+				lcd.message(main_menu[menu_loc][0])
+				if DEBUG:
+					print " - Menu Location up | " + main_menu[menu_loc][0]
+
+			#Select Button Pressed
+			if(lcd.buttonPressed(lcd.SELECT)):
+				if DEBUG:
+					print main_menu[menu_loc][0]
+				exec main_menu[menu_loc][1]
+
+			if isOnCount > 100:
+				lcd.backlight(lcd.OFF)
+				lcd.noDisplay()
+				isOnCount = 0
+				isOn = False
+				sleep(.3)	
+		else: 
+			if lcd.buttonPressed(lcd)
+				lcd.display()
+				lcd.backlight(lcd.ON)
+				lcd.backlight(lcd.GREEN)
+				isOnCount = 0
+				isOn = True
+				sleep(.3)
+		isOnCount += 1
 
 if __name__ == '__main__':
 	WriteToLog("System Initialized")
