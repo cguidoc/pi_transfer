@@ -454,7 +454,7 @@ def UpdateSerial():
 					if DEBUG:
 						print " - serial object created to test new parameters"
 					WriteToLog("NOTICE: new serial parameters updated from web")
-				elif
+				else:
 					if DEBUG:
 						print " - serial object not created"
 				lcd.backlight(lcd.GREEN)
