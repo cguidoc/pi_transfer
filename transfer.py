@@ -121,14 +121,38 @@ def CreateSerial():
 	message = "        xonxoff = " + serial_config.get('serial', 'xonxoff')
 	WriteToLog(message)
 	
-	return serial.Serial(
-		port = serial_config.get('serial', 'port'),
-		baudrate = serial_config.get('serial', 'baudrate'),
-		bytesize = serial_config.getint('serial', 'bytesize'),
-		stopbits = serial_config.getint('serial', 'stopbits'),
-		parity = serial_config.get('serial', 'parity'),
-		xonxoff = serial_config.getboolean('serial', 'xonxoff'))
-	
+	try:
+		ser = serial.Serial(
+			port = serial_config.get('serial', 'port'),
+			baudrate = serial_config.get('serial', 'baudrate'),
+			bytesize = serial_config.getint('serial', 'bytesize'),
+			stopbits = serial_config.getint('serial', 'stopbits'),
+			parity = serial_config.get('serial', 'parity'),
+			xonxoff = serial_config.getboolean('serial', 'xonxoff'))
+		return ser
+	except serial.SerialException as e:
+		if DEBUG:
+			print e
+		lcd.clear()
+		lcd.backlight(lcd.RED)
+		lcd.setCursor(0,0)
+		lcd.message("serial port\nnot found")
+		sleep(5)
+		lcd.backlight(lcd.GREEN)
+		lcd.clear()
+		return
+	except serial.ValueError as e:
+		if DEBUG:
+			print e
+		lcd.clear()
+		lcd.backlight(lcd.RED)
+		lcd.setCursor(0,0)
+		lcd.message("error in serial\nparameters")
+		sleep(5)
+		lcd.backlight(lcd.GREEN)
+		lcd.clear()
+		return
+
 def FileAccessable(filepath, mode):
 	# check if file exists and is accessable with selected mode
 	# use this function to check if file exists and capture IO errors so program doesn't halt
@@ -218,19 +242,7 @@ def SendFile(file):
 		lcd.message("...file converted")
 
 		#open serial object
-		try:
-			ser = CreateSerial()
-		except serial.SerialException as e:
-			if DEBUG:
-				print e
-			lcd.clear()
-			lcd.backlight(lcd.RED)
-			lcd.setCursor(0,0)
-			lcd.message("serial port\nnot found")
-			sleep(5)
-			lcd.backlight(lcd.GREEN)
-			lcd.clear()
-			return
+		ser = CreateSerial()
 		
 		if DEBUG:
 			print " - serial object created"
@@ -285,31 +297,8 @@ def ReceiveFile():
 				return False
 
 	
-		try:
-			ser = CreateSerial()
-		except serial.SerialException as e:
-			if DEBUG:
-				print e
-			lcd.clear()
-			lcd.backlight(lcd.RED)
-			lcd.setCursor(0,0)
-			lcd.message("serial port\nnot found")
-			sleep(5)
-			lcd.backlight(lcd.GREEN)
-			lcd.clear()
-			return
-		except serial.ValueError as e:
-			if DEBUG:
-				print e
-			lcd.clear()
-			lcd.backlight(lcd.RED)
-			lcd.setCursor(0,0)
-			lcd.message("error in serial\nparameters")
-			sleep(5)
-			lcd.backlight(lcd.GREEN)
-			lcd.clear()
-			return
-
+		ser = CreateSerial()
+		
 		if DEBUG:
 			print " - serial object created"
 		lcd.clear()
@@ -461,20 +450,7 @@ def UpdateSerial():
 				lcd.message('...file copied')
 				shutil.copy(web_serial_config, machine_serial_config) 
 				#create serial object to test new file      
-				try:
-					CreateSerial()
-				except serial.SerialException as e:
-					if DEBUG:
-						print e
-					lcd.clear()
-					lcd.backlight(lcd.RED)
-					lcd.setCursor(0,0)
-					lcd.message("serial port\nnot found")
-					sleep(5)
-					lcd.backlight(lcd.GREEN)
-					lcd.clear()
-					return
-
+				CreateSerial()
 				if DEBUG:
 					print " - serial object created to test new parameters"
 				WriteToLog("NOTICE: new serial parameters updated from web")
