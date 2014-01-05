@@ -455,15 +455,8 @@ def UpdateSerial():
 					print "  ...file copied\n"
 				lcd.clear()
 				lcd.message('...file copied')
-				shutil.copy(web_serial_config, machine_serial_config) 
-				#create serial object to test new file      
-				if CreateSerial():
-					if DEBUG:
-						print " - serial object created to test new parameters"
-					WriteToLog("NOTICE: new serial parameters updated from web")
-				else:
-					if DEBUG:
-						print " - serial object not created"
+				shutil.copy(web_serial_config, machine_serial_config)      
+				WriteToLog("NOTICE: new serial parameters updated from web")
 				lcd.backlight(lcd.GREEN)
 				break
 			else:
