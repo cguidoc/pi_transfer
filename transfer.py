@@ -63,7 +63,7 @@ main_menu = (
 	('Setup\n(advanced)', 'DisplayMenu(setup_menu)'))
 setup_menu = (
 	('Show IP', 'ShowIPAddress()'),
-	('Load Serial Params', 'UpdateSerial()'),
+	('Load S Params', 'UpdateSerial()'),
 	('System Shutdown!', 'ShutdownSys()'),
 	('System Test', 'TestHardware()'))
 queued_list = []
@@ -169,21 +169,6 @@ def TestHardware():
 		lcd.message(c[0])
 		lcd.backlight(c[1])
 		sleep(0.5)
-
-def ReadLCDButton():
-	if DEBUG:
-		print "==ReadButton function=="  
-	button = lcd.buttons()
-	# Debounce push buttons
-	if(button != 0):
-		while(lcd.buttons() != 0):
-			DelayMilliseconds(1)
-	return button
-
-def DelayMilliseconds(milliseconds):
-	seconds = milliseconds / float(1000) # divide milliseconds by 1000 for seconds
-	sleep(seconds)
-
 
 def Send():
 	if DEBUG:
@@ -313,7 +298,7 @@ def ReceiveFile():
 			lcd.backlight(lcd.GREEN)
 			lcd.clear()
 			return
-			
+
 		if DEBUG:
 			print " - serial object created"
 		lcd.clear()
@@ -434,6 +419,7 @@ def ShowIPAddress():
 	lcd.message(commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:])
 	while 1:
 		if lcd.buttonPressed(lcd.LEFT):
+			lcd.clear()
 			break
 		sleep(0.25)
 
@@ -443,6 +429,7 @@ def UpdateSerial():
 		print "==UpdateSerial function=="
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
+	sleep(.25)
 	while 1:
 		if (lcd.buttonPressed(lcd.LEFT)):
 			break
