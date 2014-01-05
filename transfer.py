@@ -450,7 +450,20 @@ def UpdateSerial():
 				lcd.message('...file copied')
 				shutil.copy(web_serial_config, machine_serial_config) 
 				#create serial object to test new file      
-				CreateSerial()
+				try
+					CreateSerial()
+				except serial.SerialException as e:
+					if DEBUG:
+						print e
+					lcd.clear()
+					lcd.backlight(lcd.RED)
+					lcd.setCursor(0,0)
+					lcd.message("serial port\nnot found")
+					sleep(5)
+					lcd.backlight(lcd.GREEN)
+					lcd.clear()
+					return
+
 				if DEBUG:
 					print " - serial object created to test new parameters"
 				WriteToLog("NOTICE: new serial parameters updated from web")
@@ -464,6 +477,7 @@ def UpdateSerial():
 				sleep(5)
 				WriteToLog("ERROR: Serial parameters not updated from web - file access error")
 				lcd.backlight(lcd.GREEN)
+				lcd.clear()
 				break
 
 def ShutdownSys():
