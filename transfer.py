@@ -58,8 +58,8 @@ machine_serial_config = 's_config.txt'                              # "local" se
 received_from_machine = web_folder_location + 'from_machine.txt'    # file for receiving from serial            
 serial_config = ConfigParser.RawConfigParser()                      # Serial Parameter Parser object
 main_menu = (
-	('Send File\nto machine', 'Send()'),
-	('Receive File\nfrom machine', 'ReceiveFile()'),
+	('Send File', 'Send()'),
+	('Receive File', 'ReceiveFile()'),
 	('Setup\n(advanced)', 'DisplayMenu(setup_menu)'))
 setup_menu = (
 	('Show IP', 'ShowIPAddress()'),
@@ -351,7 +351,7 @@ def DisplayMenu(menu):
 
 	while keep_looping:
 		sleep(.25)				#delay a bit to debounce the switch
-		setCursor(0,0)
+		lcd.setCursor(0,0)
 		lcd.message(menu[menu_loc][0])
 		
 		#Left Button Pressed
