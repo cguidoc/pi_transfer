@@ -239,11 +239,11 @@ def SendFile(file):
 			if DEBUG:
 				print e
 			lcd.clear()
-			lcd.red()
+			lcd.backlight(lcd.RED)
 			lcd.setCursor(0,0)
 			lcd.message("serial port\nnot found")
 			sleep(5)
-			lcd.green()
+			lcd.backlight(lcd.GREEN)
 			lcd.clear()
 			return
 		
