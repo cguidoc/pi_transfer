@@ -204,8 +204,8 @@ def Send():
 		queued_list.append(widget)
 		if DEBUG:
 			print widget
-			print " - file: " + widget[-1] + "added"
-		message = " - file: " + widget[-1] + "added to list of files"
+			print " - file: " + widget[0] + "added"
+		message = " - file: " + widget[0] + "added to list of files"
 		WriteToLog(message)
 	if DEBUG:
 		print " - queued list updated"
@@ -482,7 +482,7 @@ def main():
 	prev = 0
 	lcd.clear()
 	lcd.backlight(lcd.GREEN)
-	lcd.message(main_menu[menu_loc])
+	lcd.message(main_menu[menu_loc][0])
 	
 	while True:
 		sleep(.25)
