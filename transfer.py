@@ -506,7 +506,7 @@ def main():
 	while True:
 		sleep(.25)
 		
-		if isOn
+		if isOn:
 			lcd.setCursor(0,0)
 			lcd.message(main_menu[menu_loc][0])
 			#Right Button Pressed
@@ -549,7 +549,7 @@ def main():
 				isOn = False
 				sleep(.3)	
 		else: 
-			if lcd.buttonPressed(lcd)
+			if lcd.buttonPressed(lcd):
 				lcd.display()
 				lcd.backlight(lcd.ON)
 				lcd.backlight(lcd.GREEN)
