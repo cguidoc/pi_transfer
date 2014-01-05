@@ -502,6 +502,7 @@ def main():
 	lcd.backlight(lcd.GREEN)
 	lcd.message(main_menu[menu_loc][0])
 	isOn = True
+	isOnCount = 0
 	
 	while True:
 		sleep(.25)
@@ -557,6 +558,8 @@ def main():
 				isOn = True
 				sleep(.3)
 		isOnCount += 1
+		if DEBUG:
+			print "isOnCount = " + isOnCount
 
 if __name__ == '__main__':
 	WriteToLog("System Initialized")
