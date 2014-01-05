@@ -233,7 +233,20 @@ def SendFile(file):
 		lcd.message("...file converted")
 
 		#open serial object
-		ser = CreateSerial()
+		try:
+			ser = CreateSerial()
+		except SerialException as e:
+			if DEBUG:
+				print e
+			lcd.clear()
+			lcd.red()
+			lcd.setCursor(0,0)
+			lcd.message("serial port\nnot found")
+			sleep(5)
+			lcd.green()
+			lcd.clear()
+			return
+		
 		if DEBUG:
 			print " - serial object created"
 		lcd.clear()
@@ -250,6 +263,7 @@ def SendFile(file):
 			print " - sending data..."
 		lcd.clear()
 		lcd.message("sending...")
+		
 		if ser.isOpen():                
 			ser.write(data)
 			if DEBUG:
