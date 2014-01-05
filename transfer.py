@@ -559,7 +559,7 @@ def main():
 				sleep(.3)
 		isOnCount += 1
 		if DEBUG:
-			print "isOnCount = " + isOnCount
+			print "isOnCount = " + str(isOnCount)
 
 if __name__ == '__main__':
 	WriteToLog("System Initialized")
