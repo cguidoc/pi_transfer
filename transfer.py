@@ -141,7 +141,7 @@ def CreateSerial():
 		lcd.backlight(lcd.GREEN)
 		lcd.clear()
 		return
-	except serial.ValueError as e:
+	except ValueError as e:
 		if DEBUG:
 			print e
 		lcd.clear()
