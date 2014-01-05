@@ -560,6 +560,7 @@ def main():
 				isOnCount = 0
 				isOn = False
 				sleep(.3)	
+			isOnCount += 1	
 		else: 
 			if lcd.buttonPressed(lcd.SELECT):
 				lcd.display()
@@ -568,7 +569,6 @@ def main():
 				isOnCount = 0
 				isOn = True
 				sleep(.3)
-		isOnCount += 1
 		if DEBUG:
 			print "isOnCount = " + str(isOnCount)
 
