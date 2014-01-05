@@ -300,7 +300,20 @@ def ReceiveFile():
 				return False
 
 	
-		ser = CreateSerial()
+		try:
+			ser = CreateSerial()
+		except serial.SerialException as e:
+			if DEBUG:
+				print e
+			lcd.clear()
+			lcd.backlight(lcd.RED)
+			lcd.setCursor(0,0)
+			lcd.message("serial port\nnot found")
+			sleep(5)
+			lcd.backlight(lcd.GREEN)
+			lcd.clear()
+			return
+			
 		if DEBUG:
 			print " - serial object created"
 		lcd.clear()
