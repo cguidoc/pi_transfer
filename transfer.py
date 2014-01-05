@@ -189,7 +189,6 @@ def Send():
 	if DEBUG:
 		print "==Send function=="
 	lcd.clear()
-	lcd.backlight(lcd.RED)
 	WriteToLog("NOTICE: attempting to send a file to the machine")
 	WriteToLog(" - Fetching list of new files...")
 	lcd.message("fetching files...")
@@ -205,8 +204,8 @@ def Send():
 		queued_list.append(widget)
 		if DEBUG:
 			print widget
-			print " - file: " + widget[-1][0] + "added"
-		message = " - file: " + widget[-1][0] + "added to list of files"
+			print " - file: " + widget[-1] + "added"
+		message = " - file: " + widget[-1] + "added to list of files"
 		WriteToLog(message)
 	if DEBUG:
 		print " - queued list updated"
@@ -214,11 +213,7 @@ def Send():
 	lcd.message("file list updated")
 	sleep(.5)
 	lcd.clear()
-	lcd.backlight(lcd.VIOLET)
-	lcd.message("pick file")
 	DisplayMenu(queued_list)
-	lcd.backlight(lcd.GREEN)
-
 	
 def SendFile(file):
 	if DEBUG:
@@ -356,6 +351,8 @@ def DisplayMenu(menu):
 
 	while keep_looping:
 		sleep(.25)				#delay a bit to debounce the switch
+		setCursor(0,0)
+		lcd.message(menu[menu_loc][0])
 		
 		#Left Button Pressed
 		if(lcd.buttonPressed(lcd.LEFT)):
