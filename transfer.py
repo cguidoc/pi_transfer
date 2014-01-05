@@ -62,10 +62,10 @@ main_menu = (
 	('Receive File\nfrom machine', 'ReceiveFile()'),
 	('Setup\n(advanced)', 'DisplayMenu(setup_menu)'))
 setup_menu = (
-	('1. Show IP\n  & Address', 'ShowIPAddress()'),
-	('2. Load Serial\n  from website', 'UpdateSerial()'),
-	('3. System\n  Shutdown!', 'ShutdownSys()'),
-	('4. System\n  Test hrdware', 'TestHardware()'))
+	('Show IP', 'ShowIPAddress()'),
+	('Load Serial Params', 'UpdateSerial()'),
+	('System Shutdown!', 'ShutdownSys()'),
+	('System Test', 'TestHardware()'))
 queued_list = []
 DISPLAY_ROWS = 2                                        # Number of LCD Rows
 DISPLAY_COLS = 16                                       # Number of LCD Columns
@@ -378,6 +378,7 @@ def DisplayMenu(menu):
 			if (menu_loc < 0):
 				menu_loc = (len(menu)-1)
 			lcd.clear()
+			lcd.setCursor(0,0)
 			lcd.message(menu[menu_loc][0])			
 
 		#DOWN Button Pressed
@@ -389,6 +390,7 @@ def DisplayMenu(menu):
 			if (menu_loc > (len(menu)-1)):
 				menu_loc = 0
 			lcd.clear()
+			lcd.setCursor(0,0)
 			lcd.message(menu[menu_loc][0])
 
 		#Select Button Pressed
@@ -501,6 +503,7 @@ def main():
 			if (menu_loc < 0):
 				menu_loc = (len(main_menu)-1)
 			lcd.clear()
+			lcd.setCursor(0,0)
 			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print " - Menu Location down | " + main_menu[menu_loc][0]
@@ -511,6 +514,7 @@ def main():
 			if (menu_loc > (len(main_menu)-1)):
 				menu_loc = 0    #roll over
 			lcd.clear()
+			lcd.setCursor(0,0)
 			lcd.message(main_menu[menu_loc][0])
 			if DEBUG:
 				print " - Menu Location up | " + main_menu[menu_loc][0]

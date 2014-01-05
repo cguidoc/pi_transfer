@@ -1,4 +1,4 @@
-[section1]
+[serial]
 port = /dev/ttyUSB0
 baudrate = 4800
 bytesize = 7
