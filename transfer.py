@@ -235,7 +235,7 @@ def SendFile(file):
 		#open serial object
 		try:
 			ser = CreateSerial()
-		except SerialException as e:
+		except serial.SerialException as e:
 			if DEBUG:
 				print e
 			lcd.clear()
