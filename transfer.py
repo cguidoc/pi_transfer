@@ -450,7 +450,7 @@ def UpdateSerial():
 				lcd.message('...file copied')
 				shutil.copy(web_serial_config, machine_serial_config) 
 				#create serial object to test new file      
-				try
+				try:
 					CreateSerial()
 				except serial.SerialException as e:
 					if DEBUG:
