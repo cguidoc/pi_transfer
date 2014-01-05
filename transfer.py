@@ -300,7 +300,7 @@ def ReceiveFile():
 				return False
 
 	
-		ser = CreateSerial():
+		ser = CreateSerial()
 		if ser:
 			if DEBUG:
 				print " - serial object created"
