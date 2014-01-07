@@ -112,7 +112,7 @@ def CreateSerial():
 		message = "ERROR - ConfigParser - No file found"
 		WriteToLog(message)
 		return False
-		
+
 	if DEBUG:
 		print "  serial parameters read from file"
 		print "      port = " + serial_config.get('serial', 'port')
@@ -293,6 +293,7 @@ def SendFile(file):
 			lcd.message("data sent!")
 			sleep(1)
 			WriteToLog("NOTICE: file successfully sent to machine")
+			break
 		else:
 			if DEBUG:
 				print "Serial object not created"
