@@ -293,7 +293,7 @@ def SendFile(file):
 			lcd.message("data sent!")
 			sleep(1)
 			WriteToLog("NOTICE: file successfully sent to machine")
-			break
+			return
 		else:
 			if DEBUG:
 				print "Serial object not created"
