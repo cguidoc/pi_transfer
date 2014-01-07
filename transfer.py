@@ -123,7 +123,7 @@ def CreateSerial():
 		WriteToLog(message)
 		message = "        xonxoff = " + serial_config.get('serial', 'xonxoff')
 		WriteToLog(message)
-	except NoSectionError as e:
+	except ConfigParser.NoSectionError as e:
 		if DEBUG:
 			print e
 		lcd.clear()
