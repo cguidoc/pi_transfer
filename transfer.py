@@ -140,6 +140,8 @@ def CreateSerial():
 		sleep(5)
 		lcd.backlight(lcd.GREEN)
 		lcd.clear()
+		message = "ERROR - Serial Exception - No serial port found"
+		WriteToLog(message)
 		return False
 	except ValueError as e:
 		if DEBUG:
@@ -151,6 +153,9 @@ def CreateSerial():
 		sleep(5)
 		lcd.backlight(lcd.GREEN)
 		lcd.clear()
+		message = "ERROR - Serial Port Value Error"
+		WriteToLog(message)
+		
 		return False
 
 def FileAccessable(filepath, mode):

@@ -22,3 +22,18 @@ N019 ( TOOL 19: .3125 SPOT DRILL )
  M9
  
 %
+
+def ReadLCDButton():
+	if DEBUG:
+		print "==ReadButton function=="  
+	button = lcd.buttons()
+	# Debounce push buttons
+	if(button != 0):
+		while(lcd.buttons() != 0):
+			DelayMilliseconds(1)
+	return button
+
+def DelayMilliseconds(milliseconds):
+	seconds = milliseconds / float(1000) # divide milliseconds by 1000 for seconds
+	sleep(seconds)
+	
