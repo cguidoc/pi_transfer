@@ -65,6 +65,7 @@ setup_menu = (
 	('Show IP', 'ShowIPAddress()'),
 	('Load S Params', 'UpdateSerial()'),
 	('System Shutdown!', 'ShutdownSys()'),
+	('Quit Transfer', 'DoQuit()'),
 	('System Test', 'TestHardware()'))
 queued_list = []
 DISPLAY_ROWS = 2                                        # Number of LCD Rows
@@ -155,7 +156,7 @@ def CreateSerial():
 		lcd.clear()
 		message = "ERROR - Serial Port Value Error"
 		WriteToLog(message)
-		
+
 		return False
 
 def FileAccessable(filepath, mode):
@@ -490,7 +491,17 @@ def ShutdownSys():
 			quit()
 		sleep(0.25)
 
-
+def DoQuit():
+	lcd.clear()
+	lcd.message('Are you sure?\nPress Sel for Y')
+	while 1:
+		if lcd.buttonPressed(lcd.LEFT):
+			break
+		if lcd.buttonPressed(lcd.SELECT):
+			lcd.clear()
+			lcd.backlight(lcd.OFF)
+			quit()
+		sleep(0.25)
 # ------------------------------------------------
 # --  MAIN FUNCTIONS
 # ------------------------------------------------
