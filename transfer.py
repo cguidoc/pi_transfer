@@ -97,8 +97,32 @@ def CreateSerial():
 	if DEBUG:
 		print "==CreateSerial function=="
 	#update serial config parameters using config parser
+	
+	serial_config.read(machine_serial_config)
 	try:
-		serial_config.read(machine_serial_config)
+		if DEBUG:
+			print "  serial parameters read from file"
+			print "      port = " + serial_config.get('serial', 'port')
+			print "  baudrate = " + serial_config.get('serial', 'baudrate')
+			print "  bytesize = " + serial_config.get('serial', 'bytesize')
+			print "  stopbits = " + serial_config.get('serial', 'stopbits')
+			print "    parity = " + serial_config.get('serial', 'parity')
+			print "   xonxoff = " + serial_config.get('serial', 'xonxoff')
+		# Update log file with new serial parameters for troubleshooting on machines
+		message = "  -- serial parameters read from file --"
+		WriteToLog(message)
+		message = "           port = " + serial_config.get('serial', 'port')
+		WriteToLog(message)
+		message = "       baudrate = " + serial_config.get('serial', 'baudrate')
+		WriteToLog(message)
+		message = "       bytesize = " + serial_config.get('serial', 'bytesize')
+		WriteToLog(message)
+		message = "       stopbits = " + serial_config.get('serial', 'stopbits')
+		WriteToLog(message)
+		message = "         parity = " + serial_config.get('serial', 'parity')
+		WriteToLog(message)
+		message = "        xonxoff = " + serial_config.get('serial', 'xonxoff')
+		WriteToLog(message)
 	except NoSectionError as e:
 		if DEBUG:
 			print e
@@ -112,30 +136,6 @@ def CreateSerial():
 		message = "ERROR - ConfigParser - No file found"
 		WriteToLog(message)
 		return False
-
-	if DEBUG:
-		print "  serial parameters read from file"
-		print "      port = " + serial_config.get('serial', 'port')
-		print "  baudrate = " + serial_config.get('serial', 'baudrate')
-		print "  bytesize = " + serial_config.get('serial', 'bytesize')
-		print "  stopbits = " + serial_config.get('serial', 'stopbits')
-		print "    parity = " + serial_config.get('serial', 'parity')
-		print "   xonxoff = " + serial_config.get('serial', 'xonxoff')
-	# Update log file with new serial parameters for troubleshooting on machines
-	message = "  -- serial parameters read from file --"
-	WriteToLog(message)
-	message = "           port = " + serial_config.get('serial', 'port')
-	WriteToLog(message)
-	message = "       baudrate = " + serial_config.get('serial', 'baudrate')
-	WriteToLog(message)
-	message = "       bytesize = " + serial_config.get('serial', 'bytesize')
-	WriteToLog(message)
-	message = "       stopbits = " + serial_config.get('serial', 'stopbits')
-	WriteToLog(message)
-	message = "         parity = " + serial_config.get('serial', 'parity')
-	WriteToLog(message)
-	message = "        xonxoff = " + serial_config.get('serial', 'xonxoff')
-	WriteToLog(message)
 	
 	try:
 		ser = serial.Serial(
