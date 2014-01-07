@@ -97,7 +97,22 @@ def CreateSerial():
 	if DEBUG:
 		print "==CreateSerial function=="
 	#update serial config parameters using config parser
-	serial_config.read(machine_serial_config)
+	try:
+		serial_config.read(machine_serial_config)
+	except NoSectionError as e:
+		if DEBUG:
+			print e
+		lcd.clear()
+		lcd.backlight(lcd.RED)
+		lcd.setCursor(0,0)
+		lcd.message("serial config\nnot found")
+		sleep(5)
+		lcd.backlight(lcd.GREEN)
+		lcd.clear()
+		message = "ERROR - ConfigParser - No file found"
+		WriteToLog(message)
+		return False
+		
 	if DEBUG:
 		print "  serial parameters read from file"
 		print "      port = " + serial_config.get('serial', 'port')
