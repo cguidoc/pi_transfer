@@ -145,7 +145,8 @@ def CreateSerial():
 			bytesize = serial_config.getint('serial', 'bytesize'),
 			stopbits = serial_config.getint('serial', 'stopbits'),
 			parity = serial_config.get('serial', 'parity'),
-			xonxoff = serial_config.getboolean('serial', 'xonxoff'))
+			xonxoff = serial_config.getboolean('serial', 'xonxoff'),
+			timeout = 120)
 		return ser
 	except serial.SerialException as e:
 		if DEBUG:
