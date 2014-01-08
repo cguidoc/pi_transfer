@@ -307,6 +307,7 @@ def ReceiveFile():
 		print "==ReceiveFile function=="
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
+	sleep(0.25)
 	while 1:
 		if lcd.buttonPressed(lcd.LEFT):
 			break
@@ -377,12 +378,18 @@ def ReceiveFile():
 					lcd.message("error w file")
 					if DEBUG:
 						print " - error creating file"
+					sleep(5)
+					lcd.clear()
+					lcd.backlight(lcd.GREEN)
 					return False
 				except IOError:
 					lcd.clear()
 					lcd.message("no data received")
 					if DEBUG:
-						print " - error creating file"
+						print " - error creating file - no file name"
+					sleep(5)
+					lcd.clear()
+					lcd.backlight(lcd.GREEN)
 					return False
 
 
@@ -398,7 +405,8 @@ def ReceiveFile():
 				sleep(1)   
 				lcd.backlight(lcd.GREEN)
 				WriteToLog("NOTICE: file sucessfully received from machine")
-				break
+				lcd.clear()
+				return
 		
 
 def DisplayMenu(menu):
@@ -549,6 +557,7 @@ def main():
 	lcd.begin(DISPLAY_COLS, DISPLAY_ROWS)
 	lcd.backlight(lcd.ON)
 	TestHardware()
+	lcd.clear()
 	lcd.message("East Branch Eng\nDNC System V1.0")
 	sleep(1)    
 
