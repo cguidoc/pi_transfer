@@ -314,8 +314,8 @@ def ReceiveFile():
 			lcd.clear()
 			lcd.backlight(lcd.RED)
 				
-		ser = CreateSerial()
-		if ser:
+			ser = CreateSerial()
+			
 			if DEBUG:
 				print " - serial object created"
 			lcd.clear()
@@ -372,11 +372,19 @@ def ReceiveFile():
 					rfile = open(file_path, 'w+')
 					if DEBUG:
 						print " - creating receiving file"
-				except OSError, IOError:
+				except OSError:
+					lcd.clear()
 					lcd.message("error w file")
 					if DEBUG:
 						print " - error creating file"
 					return False
+				except IOError:
+					lcd.clear()
+					lcd.message("no data received")
+					if DEBUG:
+						print " - error creating file"
+					return False
+
 
 
 				rfile.write(data)
@@ -391,10 +399,7 @@ def ReceiveFile():
 				lcd.backlight(lcd.GREEN)
 				WriteToLog("NOTICE: file sucessfully received from machine")
 				break
-		else:
-			if DEBUG:
-				print "serial object not created"
-			return False
+		
 
 def DisplayMenu(menu):
 	if DEBUG:
