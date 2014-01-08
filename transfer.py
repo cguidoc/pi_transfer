@@ -345,47 +345,56 @@ def ReceiveFile():
 			else:
 				lcd.clear()
 				lcd.message("serial port\nnot open")
-				break              
-			if DEBUG:
-				print " - ...data received"
-			ser.close()
-			if DEBUG:
-				print " - serial object closed"
-			lcd.clear()
-			lcd.message("data received")
-			file_path = received_location + lines[0]
-			data = string.join(lines, "\n")
-			if DEBUG:
-				print " - converting data array to string"
-			lcd.clear()
-			lcd.message("data converted")
-			try:
-				rfile = open(file_path, 'w+')
-				if DEBUG:
-					print " - creating receiving file"
-			except OSError:
-				lcd.message("error w file")
-				if DEBUG:
-					print " - error creating file"
 				return False
 
+			if not lines:
+				if DEBUG:
+					print "...no data received"
+				lcd.clear()
+				lcd.message("no data\nreceived")
+				sleep(5)
+				return
+			else:
+				if DEBUG:
+					print " - ...data received"
+				ser.close()
+				if DEBUG:
+					print " - serial object closed"
+				lcd.clear()
+				lcd.message("data received")
+				file_path = received_location + lines[0]
+				data = string.join(lines, "\n")
+				if DEBUG:
+					print " - converting data array to string"
+				lcd.clear()
+				lcd.message("data converted")
+				try:
+					rfile = open(file_path, 'w+')
+					if DEBUG:
+						print " - creating receiving file"
+				except OSError, IOError:
+					lcd.message("error w file")
+					if DEBUG:
+						print " - error creating file"
+					return False
 
-			rfile.write(data)
-			if DEBUG:
-				print " - writing data to file"
-			rfile.close()
-			if DEBUG:
-				print " - closing file"
-			lcd.clear()
-			lcd.message("data saved") 
-			sleep(1)   
-			lcd.backlight(lcd.GREEN)
-			WriteToLog("NOTICE: file sucessfully received from machine")
-			break
+
+				rfile.write(data)
+				if DEBUG:
+					print " - writing data to file"
+				rfile.close()
+				if DEBUG:
+					print " - closing file"
+				lcd.clear()
+				lcd.message("data saved") 
+				sleep(1)   
+				lcd.backlight(lcd.GREEN)
+				WriteToLog("NOTICE: file sucessfully received from machine")
+				break
 		else:
 			if DEBUG:
 				print "serial object not created"
-			break
+			return False
 
 def DisplayMenu(menu):
 	if DEBUG:
@@ -505,6 +514,7 @@ def ShutdownSys():
 		print "==ShutdownSys function=="
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
+	sleep(0.25)
 	while 1:
 		if lcd.buttonPressed(lcd.LEFT):
 			break
@@ -518,6 +528,7 @@ def ShutdownSys():
 def DoQuit():
 	lcd.clear()
 	lcd.message('Are you sure?\nPress Sel for Y')
+	sleep(0.25)
 	while 1:
 		if lcd.buttonPressed(lcd.LEFT):
 			break
