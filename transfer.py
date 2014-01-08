@@ -231,7 +231,7 @@ def Send():
 	if DEBUG:
 		print " - directory crawled"
 	for file in file_list:
-		widget = [file.replace(web_folder_location, ' ') + "\n" + FileIterator(file, ":")]
+		widget = [file.replace(web_queued, ' ') + "\n" + FileIterator(file, ":")]
 		widget.append('SendFile("' + file + '")')
 		queued_list.append(widget)
 		if DEBUG:
