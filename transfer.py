@@ -50,6 +50,7 @@ import glob
 # Global Directories
 web_folder_location = '/var/www/Pi_web/data/'                       # Data location of the website
 web_queued = web_folder_location + 'queued/'                        # Directory for files queued to transfer
+received_location = web_folder_location + 'received/'				# Directory for incomming files
 
 # Global Variables
 machine_log = web_folder_location + 'machine_log.txt'               # Log File
@@ -311,17 +312,7 @@ def ReceiveFile():
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
 			lcd.backlight(lcd.RED)
-			try:
-				rfile = open(received_from_machine, 'w+')
-				if DEBUG:
-					print " - creating receiving file"
-			except OSError:
-				lcd.message("error w file")
-				if DEBUG:
-					print " - error creating file"
-				return False
-
-	
+				
 		ser = CreateSerial()
 		if ser:
 			if DEBUG:
@@ -349,7 +340,11 @@ def ReceiveFile():
 					while not ser.inWaiting() and timeout > time.time():
 						pass
 					if not ser.inWaiting():
-						break                 
+						break
+			else:
+				lcd.clear()
+				lcd.message("serial port\nnot open")
+				break              
 			if DEBUG:
 				print " - ...data received"
 			ser.close()
@@ -357,11 +352,23 @@ def ReceiveFile():
 				print " - serial object closed"
 			lcd.clear()
 			lcd.message("data received")
+			file_path = received_location + lines[0]
 			data = string.join(lines, "\n")
 			if DEBUG:
 				print " - converting data array to string"
 			lcd.clear()
 			lcd.message("data converted")
+			try:
+				rfile = open(file_path, 'w+')
+				if DEBUG:
+					print " - creating receiving file"
+			except OSError:
+				lcd.message("error w file")
+				if DEBUG:
+					print " - error creating file"
+				return False
+
+
 			rfile.write(data)
 			if DEBUG:
 				print " - writing data to file"
