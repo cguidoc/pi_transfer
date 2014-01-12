@@ -431,7 +431,9 @@ def DisplayMenu(menu, timeout):
 	while keep_looping:
 		sleep(.25)				#delay a bit to debounce the switch
 		lcd.clear()
-		lcd.message(menu[menu_loc][0])
+		if (lcd_update):
+			lcd.message(menu[menu_loc][0])
+			lcd_update = False
 		
 		#Left Button Pressed
 		if(lcd.buttonPressed(lcd.LEFT)):
@@ -455,10 +457,8 @@ def DisplayMenu(menu, timeout):
 			menu_loc += -1
 			if (menu_loc < 0):
 				menu_loc = (len(menu)-1)
-			lcd.clear()
-			lcd.message(menu[menu_loc][0])			
-
-		#DOWN Button Pressed
+			lcd_update = True
+		# DOWN Button Pressed
 		if(lcd.buttonPressed(lcd.DOWN)):
 			isOnCount = 0
 			if DEBUG:
@@ -467,8 +467,7 @@ def DisplayMenu(menu, timeout):
 			menu_loc += 1
 			if (menu_loc > (len(menu)-1)):
 				menu_loc = 0
-			lcd.clear()
-			lcd.message(menu[menu_loc][0])
+			lcd_update = True
 
 		#Select Button Pressed
 		if(lcd.buttonPressed(lcd.SELECT)):
@@ -476,8 +475,10 @@ def DisplayMenu(menu, timeout):
 			if DEBUG:
 				print " - select button pressed - select item"
 			exec menu[menu_loc][1]
+			lcd_update = True
 
 		if isOnCount > timeout:
+			lcd.clear()
 			keep_looping = False	
 		isOnCount += 1	
 
