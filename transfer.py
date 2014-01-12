@@ -416,10 +416,11 @@ def ReceiveFile():
 					return
 			
 
-def DisplayMenu(menu):
+def DisplayMenu(menu, timeout):
 	if DEBUG:
 		print "==DisplayMenu function=="
 	keep_looping = True
+	isOnCount = 0
 	menu_loc = 0
 	prev = 0
 	lcd.clear()
@@ -429,7 +430,6 @@ def DisplayMenu(menu):
 
 	while keep_looping:
 		sleep(.25)				#delay a bit to debounce the switch
-		lcd.setCursor(0,0)
 		lcd.message(menu[menu_loc][0])
 		
 		#Left Button Pressed
@@ -441,11 +441,13 @@ def DisplayMenu(menu):
 
 		#Right Button Pressed
 		if(lcd.buttonPressed(lcd.RIGHT)):
+			isOnCount = 0
 			if DEBUG:
 				print " -  right button pressed - do nothing"
 			
 		#UP Botton Pressed
 		if(lcd.buttonPressed(lcd.UP)):
+			isOnCount = 0
 			if DEBUG:
 				print " - up button pressed - move menu"
 			prev = menu_loc
@@ -458,6 +460,7 @@ def DisplayMenu(menu):
 
 		#DOWN Button Pressed
 		if(lcd.buttonPressed(lcd.DOWN)):
+			isOnCount = 0
 			if DEBUG:
 				print " - down button pressed - move menu"
 			prev = menu_loc
@@ -470,9 +473,14 @@ def DisplayMenu(menu):
 
 		#Select Button Pressed
 		if(lcd.buttonPressed(lcd.SELECT)):
+			isOnCount = 0
 			if DEBUG:
 				print " - select button pressed - select item"
 			exec menu[menu_loc][1]
+
+		if isOnCount > timeout:
+			keep_looping = false	
+		isOnCount += 1	
 
 
 # ------------------------------------------------
