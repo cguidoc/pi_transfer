@@ -164,7 +164,7 @@ def CreateSerial():
 		message = "ERROR - Serial Exception - No serial port found"
 		WriteToLog(message)
 		return False
-	except ValueError, serial.NoOptionError as e:
+	except (ValueError, serial.NoOptionError), e:
 		if DEBUG:
 			print e
 		lcd.clear()
