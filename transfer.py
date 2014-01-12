@@ -494,8 +494,8 @@ def SetupGateway():
 def ShowParameters():
 	serial_config.read(machine_serial_config)
 	parameters = []
-	widget = []
 	try:
+		widget = []
 		widget = ("Serial Baudrate\n" + serial_config.get('serial', 'baudrate'))
 		widget.append("return")
 		parameters.append(widget)
