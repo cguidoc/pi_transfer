@@ -486,6 +486,39 @@ def ShowIPAddress():
 			break
 		sleep(0.25)
 
+def SetupGateway():
+
+def ShowParameters():
+	serial_config.read(machine_serial_config)
+	parameters = []
+	try:
+		parameters.append(("Serial Baudrate\n" + serial_config.get('serial', 'baudrate')), return)
+		parameters.append(("Serial Bytesize\n" + serial_config.get('serial', 'bytesize')), return)
+		parameters.append(("Serial Stopbits\n" + serial_config.get('serial', 'stopbits')), return)
+		parameters.append(("Serial Parity\n" + serial_config.get('serial', 'parity')), return)
+		parameters.append(("Serial H.Shake\n" + serial_config.get('serial', 'xonxoff')), return)
+		parameters.append(("Machine Name\n" + serial_config.get('machine', 'machine_name')), return)
+		parameters.append(("File Extension\n" + serial_config.get('machine', 'file_extension')), return)
+
+	except ConfigParser.NoSectionError as e:
+		if DEBUG:
+			print e
+		lcd.clear()
+		lcd.backlight(lcd.RED)
+		lcd.setCursor(0,0)
+		lcd.message("serial config\nnot found")
+		sleep(5)
+		lcd.backlight(lcd.GREEN)
+		lcd.clear()
+		message = "ERROR - ConfigParser - No file found"
+		WriteToLog(message)
+		return False
+
+	lcd.clear()
+	DisplayMenu(parameters)
+
+	
+
 def UpdateSerial():
 	#update serial parameters from config file loaded from webserver
 	if DEBUG:
