@@ -425,6 +425,7 @@ def DisplayMenu(menu, timeout):
 	prev = 0
 	lcd.clear()
 	lcd.message(menu[menu_loc][0])
+	lcd_update = False
 	if DEBUG:
 		print " - " + menu[menu_loc][0]
 
@@ -500,29 +501,29 @@ def ShowIPAddress():
 def SetupGateway():
 	lcd.clear()
 	lcd.backlight(lcd.RED)
-	lcd.message('Enter PW|Sel=back')
+	lcd.message('Sel to go back\nPassword')
 	sleep(.25)
 	current_password = []
 	while (current_password != password):
 		if (lcd.buttonPressed(lcd.LEFT)):
 			current_password.append("L")
 			lcd.setCursor(0,1)
-			lcd.message('*'*len(current_password))
+			lcd.message('password: ' + '*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.RIGHT)):
 			current_password.append("R")
 			lcd.setCursor(0,1)
-			lcd.message('*'*len(current_password))
+			lcd.message('password: ' + '*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.UP)):
 			current_password.append("U")
 			lcd.setCursor(0,1)
-			lcd.message('*'*len(current_password))
+			lcd.message('password: ' + '*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.DOWN)):
 			current_password.append("D")			
 			lcd.setCursor(0,1)
-			lcd.message('*'*len(current_password))
+			lcd.message('password: ' + '*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.SELECT)):
 			lcd.backlight(lcd.GREEN)
