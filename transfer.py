@@ -492,27 +492,36 @@ def ShowIPAddress():
 def SetupGateway():
 	lcd.clear()
 	lcd.backlight(lcd.RED)
-	lcd.message('Enter Password\nSel to go back')
+	lcd.message('Enter PW|Sel=back')
 	sleep(.25)
 	current_password = []
 	while (current_password != password):
 		if (lcd.buttonPressed(lcd.LEFT)):
 			current_password.append("L")
+			lcd.setCursor(0,1)
+			lcd.message('*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.RIGHT)):
 			current_password.append("R")
+			lcd.setCursor(0,1)
+			lcd.message('*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.UP)):
 			current_password.append("U")
+			lcd.setCursor(0,1)
+			lcd.message('*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.DOWN)):
 			current_password.append("D")			
+			lcd.setCursor(0,1)
+			lcd.message('*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.SELECT)):
 			lcd.backlight(lcd.GREEN)
 			lcd.clear()
 			return
 	lcd.clear()
+	lcd.backlight(lcd.GREEN)
 	DisplayMenu(setup_menu)
 
 	return
