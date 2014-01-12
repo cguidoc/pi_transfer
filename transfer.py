@@ -496,8 +496,7 @@ def ShowParameters():
 	parameters = []
 	widget = []
 	try:
-		widget = "Serial Baudrate\n" + serial_config.get('serial', 'baudrate')
-		widget.append("return")
+		widget = (("Serial Baudrate\n" + serial_config.get('serial', 'baudrate')), "return")
 		parameters.append(widget)
 		widget = ("Serial Bytesize\n" + serial_config.get('serial', 'bytesize'))
 		widget.append("return")
