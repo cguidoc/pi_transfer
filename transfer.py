@@ -487,7 +487,8 @@ def ShowIPAddress():
 		sleep(0.25)
 
 def SetupGateway():
-
+	return
+	
 def ShowParameters():
 	serial_config.read(machine_serial_config)
 	parameters = []
