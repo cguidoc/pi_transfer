@@ -58,6 +58,7 @@ web_serial_config = web_folder_location + 'wconfig.txt'             # Serial par
 machine_serial_config = 's_config.txt'                              # "local" serial config parameters  
 received_from_machine = web_folder_location + 'from_machine.txt'    # file for receiving from serial            
 serial_config = ConfigParser.RawConfigParser()                      # Serial Parameter Parser object
+save_extension = 'ncf'												# file extension for receiving
 main_menu = (
 	('Send File', 'Send()'),
 	('Receive File', 'ReceiveFile()'),
@@ -124,6 +125,7 @@ def CreateSerial():
 		WriteToLog(message)
 		message = "        xonxoff = " + serial_config.get('serial', 'xonxoff')
 		WriteToLog(message)
+
 	except ConfigParser.NoSectionError as e:
 		if DEBUG:
 			print e
@@ -147,6 +149,7 @@ def CreateSerial():
 			parity = serial_config.get('serial', 'parity'),
 			xonxoff = serial_config.getboolean('serial', 'xonxoff'),
 			timeout = 10)
+		save_extension = serial_config.get('machine', 'file_extension')
 		return ser
 	except serial.SerialException as e:
 		if DEBUG:
@@ -329,7 +332,8 @@ def ReceiveFile():
 				print " - serial object re-openend"
 				print " - receiving data..."
 			lcd.clear()
-			lcd.message("receiving...")
+			message = "receiving data...\nas *." + save_extension
+			lcd.message(message)
 			if ser.isOpen():
 				timeout=1
 				lines = []
