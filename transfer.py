@@ -69,7 +69,7 @@ setup_menu = (
 	('Show Params', 'ShowParameters()'),
 	('System Shutdown!', 'ShutdownSys()'),
 	('Quit Transfer', 'DoQuit()'),
-	('System Test', 'TestHardware()'))s
+	('System Test', 'TestHardware()'))
 	
 queued_list = []
 DISPLAY_ROWS = 2                                        # Number of LCD Rows
