@@ -431,8 +431,8 @@ def DisplayMenu(menu, timeout):
 
 	while keep_looping:
 		sleep(.25)				#delay a bit to debounce the switch
-		lcd.clear()
 		if (lcd_update):
+			lcd.clear()
 			lcd.message(menu[menu_loc][0])
 			lcd_update = False
 		
