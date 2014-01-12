@@ -430,6 +430,7 @@ def DisplayMenu(menu, timeout):
 
 	while keep_looping:
 		sleep(.25)				#delay a bit to debounce the switch
+		lcd.clear()
 		lcd.message(menu[menu_loc][0])
 		
 		#Left Button Pressed
@@ -455,7 +456,6 @@ def DisplayMenu(menu, timeout):
 			if (menu_loc < 0):
 				menu_loc = (len(menu)-1)
 			lcd.clear()
-			lcd.setCursor(0,0)
 			lcd.message(menu[menu_loc][0])			
 
 		#DOWN Button Pressed
@@ -468,7 +468,6 @@ def DisplayMenu(menu, timeout):
 			if (menu_loc > (len(menu)-1)):
 				menu_loc = 0
 			lcd.clear()
-			lcd.setCursor(0,0)
 			lcd.message(menu[menu_loc][0])
 
 		#Select Button Pressed
@@ -479,7 +478,7 @@ def DisplayMenu(menu, timeout):
 			exec menu[menu_loc][1]
 
 		if isOnCount > timeout:
-			keep_looping = false	
+			keep_looping = False	
 		isOnCount += 1	
 
 
