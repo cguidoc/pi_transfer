@@ -176,7 +176,6 @@ def CreateSerial():
 		lcd.clear()
 		message = "ERROR - Serial Port Value Error"
 		WriteToLog(message)
-
 		return False
 
 def FileAccessable(filepath, mode):
@@ -319,99 +318,100 @@ def ReceiveFile():
 			lcd.backlight(lcd.RED)
 				
 			ser = CreateSerial()
-			
-			if DEBUG:
-				print " - serial object created"
-			lcd.clear()
-			lcd.message("opening port...")
-			ser.close()
-			if DEBUG:
-				print " - serial object closed"
-			ser.open()
-			if DEBUG:
-				print " - serial object re-openend"
-				print " - receiving data..."
-			lcd.clear()
-			message = "receiving data...\nas *." + save_extension
-			lcd.message(message)
-			if ser.isOpen():
-				timeout=1
-				lines = []
-				while True:
-					line = ser.readline()
-					lines.append(line.decode('utf-8').rstrip())
-
-					# wait for new data after each line
-					timeout = time.time() + 0.1
-					while not ser.inWaiting() and timeout > time.time():
-						pass
-					if not ser.inWaiting():
-						break
-			else:
-				lcd.clear()
-				lcd.message("serial port\nnot open")
-				return False
-
-			if not lines:
+			if ser:
+				
 				if DEBUG:
-					print "...no data received"
+					print " - serial object created"
 				lcd.clear()
-				lcd.message("no data\nreceived")
-				sleep(5)
-				return
-			else:
-				if DEBUG:
-					print " - ...data received"
+				lcd.message("opening port...")
 				ser.close()
 				if DEBUG:
 					print " - serial object closed"
-				lcd.clear()
-				lcd.message("data received")
-				file_path = received_location + lines[0]
-				data = string.join(lines, "\n")
+				ser.open()
 				if DEBUG:
-					print " - converting data array to string"
+					print " - serial object re-openend"
+					print " - receiving data..."
 				lcd.clear()
-				lcd.message("data converted")
-				try:
-					rfile = open(file_path, 'w+')
-					if DEBUG:
-						print " - creating receiving file"
-				except OSError:
+				message = "receiving data...\nas *." + save_extension
+				lcd.message(message)
+				if ser.isOpen():
+					timeout=1
+					lines = []
+					while True:
+						line = ser.readline()
+						lines.append(line.decode('utf-8').rstrip())
+
+						# wait for new data after each line
+						timeout = time.time() + 0.1
+						while not ser.inWaiting() and timeout > time.time():
+							pass
+						if not ser.inWaiting():
+							break
+				else:
 					lcd.clear()
-					lcd.message("error w file")
-					if DEBUG:
-						print " - error creating file"
-					sleep(5)
-					lcd.clear()
-					lcd.backlight(lcd.GREEN)
-					return False
-				except IOError:
-					lcd.clear()
-					lcd.message("no data received")
-					if DEBUG:
-						print " - error creating file - no file name"
-					sleep(5)
-					lcd.clear()
-					lcd.backlight(lcd.GREEN)
+					lcd.message("serial port\nnot open")
 					return False
 
+				if not lines:
+					if DEBUG:
+						print "...no data received"
+					lcd.clear()
+					lcd.message("no data\nreceived")
+					sleep(5)
+					return
+				else:
+					if DEBUG:
+						print " - ...data received"
+					ser.close()
+					if DEBUG:
+						print " - serial object closed"
+					lcd.clear()
+					lcd.message("data received")
+					file_path = received_location + lines[0]
+					data = string.join(lines, "\n")
+					if DEBUG:
+						print " - converting data array to string"
+					lcd.clear()
+					lcd.message("data converted")
+					try:
+						rfile = open(file_path, 'w+')
+						if DEBUG:
+							print " - creating receiving file"
+					except OSError:
+						lcd.clear()
+						lcd.message("error w file")
+						if DEBUG:
+							print " - error creating file"
+						sleep(5)
+						lcd.clear()
+						lcd.backlight(lcd.GREEN)
+						return False
+					except IOError:
+						lcd.clear()
+						lcd.message("no data received")
+						if DEBUG:
+							print " - error creating file - no file name"
+						sleep(5)
+						lcd.clear()
+						lcd.backlight(lcd.GREEN)
+						return False
 
 
-				rfile.write(data)
-				if DEBUG:
-					print " - writing data to file"
-				rfile.close()
-				if DEBUG:
-					print " - closing file"
-				lcd.clear()
-				lcd.message("data saved") 
-				sleep(1)   
-				lcd.backlight(lcd.GREEN)
-				WriteToLog("NOTICE: file sucessfully received from machine")
-				lcd.clear()
-				return
-		
+
+					rfile.write(data)
+					if DEBUG:
+						print " - writing data to file"
+					rfile.close()
+					if DEBUG:
+						print " - closing file"
+					lcd.clear()
+					lcd.message("data saved") 
+					sleep(1)   
+					lcd.backlight(lcd.GREEN)
+					WriteToLog("NOTICE: file sucessfully received from machine")
+					lcd.clear()
+					return
+			
 
 def DisplayMenu(menu):
 	if DEBUG:
