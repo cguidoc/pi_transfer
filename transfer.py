@@ -250,7 +250,7 @@ def Send():
 	lcd.message("file list updated")
 	sleep(.5)
 	lcd.clear()
-	DisplayMenu(queued_list, 100)
+	DisplayMenu(queued_list, 100, lcd.GREEN)
 	
 def SendFile(file):
 	if DEBUG:
@@ -416,7 +416,7 @@ def ReceiveFile():
 					return
 			
 
-def DisplayMenu(menu, timeout):
+def DisplayMenu(menu, timeout, color):
 	if DEBUG:
 		print "==DisplayMenu function=="
 	keep_looping = True
@@ -433,6 +433,7 @@ def DisplayMenu(menu, timeout):
 		sleep(.25)				#delay a bit to debounce the switch
 		if (lcd_update):
 			lcd.clear()
+			lcd.backlight(color)
 			lcd.message(menu[menu_loc][0])
 			lcd_update = False
 		
@@ -501,37 +502,35 @@ def ShowIPAddress():
 def SetupGateway():
 	lcd.clear()
 	lcd.backlight(lcd.RED)
-	lcd.message('Sel to go back\nPassword')
+	lcd.message('Sel to go back\nPassword:')
 	sleep(.25)
 	current_password = []
 	while (current_password != password):
 		if (lcd.buttonPressed(lcd.LEFT)):
 			current_password.append("L")
 			lcd.setCursor(0,1)
-			lcd.message('password: ' + '*'*len(current_password))
+			lcd.message('Password: ' + '*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.RIGHT)):
 			current_password.append("R")
 			lcd.setCursor(0,1)
-			lcd.message('password: ' + '*'*len(current_password))
+			lcd.message('Password: ' + '*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.UP)):
 			current_password.append("U")
 			lcd.setCursor(0,1)
-			lcd.message('password: ' + '*'*len(current_password))
+			lcd.message('Password: ' + '*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.DOWN)):
 			current_password.append("D")			
 			lcd.setCursor(0,1)
-			lcd.message('password: ' + '*'*len(current_password))
+			lcd.message('Password: ' + '*'*len(current_password))
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.SELECT)):
-			lcd.backlight(lcd.GREEN)
 			lcd.clear()
 			return
 	lcd.clear()
-	lcd.backlight(lcd.GREEN)
-	DisplayMenu(setup_menu, 100)
+	DisplayMenu(setup_menu, 100, lcd.VIOLET)
 
 	return
 
@@ -570,7 +569,7 @@ def ShowParameters():
 		return False
 
 	lcd.clear()
-	DisplayMenu(parameters, 100)
+	DisplayMenu(parameters, 100, lcd.VIOLET)
 
 	
 
@@ -601,7 +600,6 @@ def UpdateSerial():
 				lcd.message('...file copied')
 				shutil.copy(web_serial_config, machine_serial_config)      
 				WriteToLog("NOTICE: new serial parameters updated from web")
-				lcd.backlight(lcd.GREEN)
 				lcd.clear()
 				break
 			else:
@@ -611,7 +609,6 @@ def UpdateSerial():
 				lcd.message('file not found\nor no permission')
 				sleep(5)
 				WriteToLog("ERROR: Serial parameters not updated from web - file access error")
-				lcd.backlight(lcd.GREEN)
 				lcd.clear()
 				break
 
