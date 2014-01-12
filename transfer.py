@@ -66,9 +66,11 @@ main_menu = (
 setup_menu = (
 	('Show IP', 'ShowIPAddress()'),
 	('Load S Params', 'UpdateSerial()'),
+	('Show Params', 'ShowParameters()'),
 	('System Shutdown!', 'ShutdownSys()'),
 	('Quit Transfer', 'DoQuit()'),
-	('System Test', 'TestHardware()'))
+	('System Test', 'TestHardware()'))s
+	
 queued_list = []
 DISPLAY_ROWS = 2                                        # Number of LCD Rows
 DISPLAY_COLS = 16                                       # Number of LCD Columns
