@@ -414,6 +414,9 @@ def ReceiveFile():
 					WriteToLog("NOTICE: file sucessfully received from machine")
 					lcd.clear()
 					return
+			else:
+				return
+				
 			
 
 def DisplayMenu(menu, timeout, color):
@@ -534,6 +537,7 @@ def SetupGateway():
 			lcd.clear()
 			lcd.message("INCORRECT\nPASSWORD")
 			sleep(1)
+			lcd.clear()
 			return	
 	lcd.clear()
 	DisplayMenu(setup_menu, 100, lcd.VIOLET)
