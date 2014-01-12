@@ -250,7 +250,7 @@ def Send():
 	lcd.message("file list updated")
 	sleep(.5)
 	lcd.clear()
-	DisplayMenu(queued_list)
+	DisplayMenu(queued_list, 100)
 	
 def SendFile(file):
 	if DEBUG:
@@ -530,7 +530,7 @@ def SetupGateway():
 			return
 	lcd.clear()
 	lcd.backlight(lcd.GREEN)
-	DisplayMenu(setup_menu)
+	DisplayMenu(setup_menu, 100)
 
 	return
 
@@ -569,7 +569,7 @@ def ShowParameters():
 		return False
 
 	lcd.clear()
-	DisplayMenu(parameters)
+	DisplayMenu(parameters, 100)
 
 	
 
