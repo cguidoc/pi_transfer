@@ -425,6 +425,7 @@ def DisplayMenu(menu, timeout, color):
 	prev = 0
 	lcd.clear()
 	lcd.message(menu[menu_loc][0])
+	lcd.backlight(color)
 	lcd_update = False
 	if DEBUG:
 		print " - " + menu[menu_loc][0]
@@ -529,6 +530,11 @@ def SetupGateway():
 		if (lcd.buttonPressed(lcd.SELECT)):
 			lcd.clear()
 			return
+		if (len(current_password) > 4):
+			lcd.clear()
+			lcd.message("INCORRECT\nPASSWORD")
+			sleep(1)
+			return	
 	lcd.clear()
 	DisplayMenu(setup_menu, 100, lcd.VIOLET)
 
@@ -701,6 +707,7 @@ def main():
 				if DEBUG:
 					print main_menu[menu_loc][0]
 				exec main_menu[menu_loc][1]
+				lcd.backlight(lcd.GREEN)
 
 			if isOnCount > 100:
 				lcd.backlight(lcd.OFF)
