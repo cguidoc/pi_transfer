@@ -53,6 +53,7 @@ web_queued = web_folder_location + 'queued/'                        # Directory 
 received_location = web_folder_location + 'received/'				# Directory for incomming files
 
 # Global Variables
+password = [U, D, U, D]												# Password to get into setup menu
 machine_log = web_folder_location + 'machine_log.txt'               # Log File
 web_serial_config = web_folder_location + 'wconfig.txt'             # Serial parameters from website
 machine_serial_config = 's_config.txt'                              # "local" serial config parameters  
@@ -62,7 +63,7 @@ save_extension = 'ncf'												# file extension for receiving
 main_menu = (
 	('Send File', 'Send()'),
 	('Receive File', 'ReceiveFile()'),
-	('Setup\n(advanced)', 'DisplayMenu(setup_menu)'))
+	('Setup\n(advanced)', 'SetupGateway()'))
 setup_menu = (
 	('Show IP', 'ShowIPAddress()'),
 	('Load S Params', 'UpdateSerial()'),
@@ -489,6 +490,30 @@ def ShowIPAddress():
 		sleep(0.25)
 
 def SetupGateway():
+	lcd.clear()
+	lcd.backlight(lcd.RED)
+	lcd.message('Enter Password\nSel to go back')
+	sleep(.25)
+	current_password = []
+	while (current_password != password):
+		if (lcd.buttonPressed(lcd.LEFT)):
+			current_password.append(L)
+			sleep(.25)
+		if (lcd.buttonPressed(lcd.RIGHT)):
+			current_password.append(R)
+			sleep(.25)
+		if (lcd.buttonPressed(lcd.UP)):
+			current_password.append(U)
+			sleep(.25)
+		if (lcd.buttonPressed(lcd.DOWN)):
+			current_password.append(D)			
+			sleep(.25)
+		if (lcd.buttonPressed(lcd.SELECT)):
+			lcd.backlight(lcd.GREEN)
+			lcd.clear()
+			return
+	DisplayMenu(setup_menu)
+
 	return
 
 def ShowParameters():
@@ -542,7 +567,6 @@ def UpdateSerial():
 			break
 		if (lcd.buttonPressed(lcd.SELECT)):
 			lcd.clear()
-			lcd.backlight(lcd.RED)
 			if DEBUG:
 				print "  --web file located at--"
 				print "  " + web_serial_config + "\n"
@@ -550,7 +574,8 @@ def UpdateSerial():
 				if DEBUG:
 					print " - new web config found"
 					print " - attempting to copy..."
-				lcd.message('new file found\nattempting copy')              
+				lcd.message('new file found\nattempting copy')
+				sleep(.5)              
 				if DEBUG:
 					print "  ...file copied\n"
 				lcd.clear()
@@ -558,6 +583,7 @@ def UpdateSerial():
 				shutil.copy(web_serial_config, machine_serial_config)      
 				WriteToLog("NOTICE: new serial parameters updated from web")
 				lcd.backlight(lcd.GREEN)
+				lcd.clear()
 				break
 			else:
 				if DEBUG:
