@@ -53,7 +53,7 @@ web_queued = web_folder_location + 'queued/'                        # Directory 
 received_location = web_folder_location + 'received/'				# Directory for incomming files
 
 # Global Variables
-password = [U, D, U, D]												# Password to get into setup menu
+password = ["U", "D", "U", "D"]												# Password to get into setup menu
 machine_log = web_folder_location + 'machine_log.txt'               # Log File
 web_serial_config = web_folder_location + 'wconfig.txt'             # Serial parameters from website
 machine_serial_config = 's_config.txt'                              # "local" serial config parameters  
@@ -497,21 +497,22 @@ def SetupGateway():
 	current_password = []
 	while (current_password != password):
 		if (lcd.buttonPressed(lcd.LEFT)):
-			current_password.append(L)
+			current_password.append("L")
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.RIGHT)):
-			current_password.append(R)
+			current_password.append("R")
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.UP)):
-			current_password.append(U)
+			current_password.append("U")
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.DOWN)):
-			current_password.append(D)			
+			current_password.append("D")			
 			sleep(.25)
 		if (lcd.buttonPressed(lcd.SELECT)):
 			lcd.backlight(lcd.GREEN)
 			lcd.clear()
 			return
+	lcd.clear()
 	DisplayMenu(setup_menu)
 
 	return
