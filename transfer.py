@@ -364,10 +364,11 @@ def ReceiveFile():
 					cleaned_lines = []
 					print lines
 					for each_line in lines:
-						cleaned_lines.append(each_line.replace("\r","").strip())
-						if DEBUG:
-							print "**************line*******************"
-							print each_line
+						if not each_line:
+							cleaned_lines.append(each_line.replace("\r","").strip())
+							if DEBUG:
+								print "**************line*******************"
+								print each_line
 					file_path = received_location + "received1." + save_extension
 					data = "\n".join(cleaned_lines)
 					if DEBUG:
