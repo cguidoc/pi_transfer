@@ -359,16 +359,19 @@ def ReceiveFile():
 				else:
 					lcd.clear()
 					lcd.message("data received")
+					table = maketrans("\r\r", "")
 					for each_line in lines:
-						each_line.replace("'\r'", "")
+						each_line.translate(table)
 					file_path = received_location + "received1." + save_extension
 					data = string.join(lines, "\n")
 					if DEBUG:
+						print "-----------------------------"
+						print "lines -----------------------"
+						print "-----------------------------"
 						print lines
-						print data
-					# data.replace(";","\n")
-					if DEBUG:
-						print "after replace"
+						print "-----------------------------"
+						print "data ------------------------"
+						print "-----------------------------"
 						print data
 					lcd.clear()
 					lcd.message("data converted")
