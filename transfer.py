@@ -370,7 +370,7 @@ def ReceiveFile():
 						print " - serial object closed"
 					lcd.clear()
 					lcd.message("data received")
-					file_path = received_location + lines[0]
+					file_path = received_location + "received1"
 					data = string.join(lines, ";")
 					if DEBUG:
 						print " - converting data array to string"
