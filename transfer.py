@@ -320,7 +320,7 @@ def ReceiveFile():
 			break
 		if lcd.buttonPressed(lcd.SELECT):
 			lcd.clear()
-			lcd.backlight(lcd.RED)
+			lcd.backlight(lcd.VIOLET)
 				
 			ser = CreateSerial()
 			if ser:
