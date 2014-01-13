@@ -360,11 +360,10 @@ def ReceiveFile():
 				else:
 					lcd.clear()
 					lcd.message("data received")
-					table = maketrans("\r"," ")
 					cleaned_lines = []
 					print lines
 					for each_line in lines:
-						if not each_line:
+						if each_line:
 							cleaned_lines.append(each_line.replace("\r","").strip())
 							if DEBUG:
 								print "**************line*******************"
