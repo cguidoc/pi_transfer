@@ -364,6 +364,8 @@ def ReceiveFile():
 					for each_line in lines:
 						each_line.translate(table)
 						each_line.rstrip()
+						if DEBUG:
+							print "**************line*******************"
 					file_path = received_location + "received1." + save_extension
 					data = string.join(lines, "\n")
 					if DEBUG:
