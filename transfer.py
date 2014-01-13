@@ -336,7 +336,7 @@ def ReceiveFile():
 					lines = []
 					while True:
 						line = ser.readline()
-						lines.append(line.rstrip())
+						lines.append(line.decode('utf-8').rstrip())
 						if DEBUG:
 							print line
 						# wait for new data after each line
@@ -368,7 +368,7 @@ def ReceiveFile():
 							print "**************line*******************"
 							print each_line
 					file_path = received_location + "received1." + save_extension
-					data = string.join(lines, "\n")
+					data = string.join(lines, "")
 					if DEBUG:
 						print "-----------------------------"
 						print "lines -----------------------"
