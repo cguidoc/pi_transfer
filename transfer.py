@@ -323,18 +323,10 @@ def ReceiveFile():
 				
 			ser = CreateSerial()
 			if ser:
-				
-				if DEBUG:
-					print " - serial object created"
 				lcd.clear()
 				lcd.message("opening port...")
 				ser.close()
-				if DEBUG:
-					print " - serial object closed"
 				ser.open()
-				if DEBUG:
-					print " - serial object re-openend"
-					print " - receiving data..."
 				lcd.clear()
 				message = "receiving data...\nas *." + save_extension
 				lcd.message(message)
@@ -344,34 +336,30 @@ def ReceiveFile():
 					while True:
 						line = ser.readline()
 						lines.append(line.rstrip())
-
+						if DEBUG:
+							print line
 						# wait for new data after each line
 						timeout = time.time() + 0.1
 						while not ser.inWaiting() and timeout > time.time():
 							pass
 						if not ser.inWaiting():
+							if DEBUG:
+								print "ser.inWainting() break"
 							break
 				else:
 					lcd.clear()
 					lcd.message("serial port\nnot open")
 					return False
-
+				ser.close()				
 				if not lines:
-					if DEBUG:
-						print "...no data received"
 					lcd.clear()
 					lcd.message("no data\nreceived")
 					sleep(5)
 					return
 				else:
-					if DEBUG:
-						print " - ...data received"
-					ser.close()
-					if DEBUG:
-						print " - serial object closed"
 					lcd.clear()
 					lcd.message("data received")
-					file_path = received_location + "received1" + save_extension
+					file_path = received_location + "received1." + save_extension
 					data = string.join(lines, "\n")
 					if DEBUG:
 						print lines
@@ -380,19 +368,14 @@ def ReceiveFile():
 					if DEBUG:
 						print "after replace"
 						print data
-					if DEBUG:
-						print " - converting data array to string"
 					lcd.clear()
 					lcd.message("data converted")
+					
 					try:
 						rfile = open(file_path, 'w+')
-						if DEBUG:
-							print " - creating receiving file"
 					except OSError:
 						lcd.clear()
 						lcd.message("error w file")
-						if DEBUG:
-							print " - error creating file"
 						sleep(5)
 						lcd.clear()
 						lcd.backlight(lcd.GREEN)
@@ -400,8 +383,6 @@ def ReceiveFile():
 					except IOError:
 						lcd.clear()
 						lcd.message("no data received")
-						if DEBUG:
-							print " - error creating file - no file name"
 						sleep(5)
 						lcd.clear()
 						lcd.backlight(lcd.GREEN)
