@@ -336,7 +336,7 @@ def ReceiveFile():
 					lines = []
 					while True:
 						line = ser.readline()
-						lines.append(line.decode('utf-8').rstrip())
+						lines.append(line.decode('utf-16').rstrip())
 						if DEBUG:
 							print line
 						# wait for new data after each line
