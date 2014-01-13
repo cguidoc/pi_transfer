@@ -360,7 +360,7 @@ def ReceiveFile():
 				else:
 					lcd.clear()
 					lcd.message("data received")
-					table = maketrans(u"\r", None)
+					table = maketrans(u"\r", u" ")
 					for each_line in lines:
 						each_line.translate(table)
 						each_line.rstrip()
