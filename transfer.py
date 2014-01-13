@@ -364,7 +364,7 @@ def ReceiveFile():
 					cleaned_lines = []
 					print lines
 					for each_line in lines:
-						cleaned_lines.append(each_line.translate(table).strip())
+						cleaned_lines.append(each_line.replace("\r","").strip())
 						if DEBUG:
 							print "**************line*******************"
 							print each_line
