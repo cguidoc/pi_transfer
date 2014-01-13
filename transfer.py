@@ -371,7 +371,8 @@ def ReceiveFile():
 					lcd.clear()
 					lcd.message("data received")
 					file_path = received_location + "received1"
-					data = string.join(lines, ";")
+					lines.replace(";","\n")
+					data = string.join(lines, "\n")
 					if DEBUG:
 						print " - converting data array to string"
 					lcd.clear()
