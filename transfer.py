@@ -365,6 +365,7 @@ def ReceiveFile():
 					for each_line in lines:
 						if each_line:
 							each_line = each_line.replace("\x00", "")
+							each_line = each_line.replace("\x12", "")
 							cleaned_lines.append(each_line.replace("\r","").strip())
 							if DEBUG:
 								print "**************line*******************"
