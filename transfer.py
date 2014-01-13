@@ -55,7 +55,7 @@ web_queued = web_folder_location + 'queued/'                        # Directory 
 received_location = web_folder_location + 'received/'				# Directory for incomming files
 
 # Global Variables
-password = ["U", "D", "U", "D"]												# Password to get into setup menu
+password = ["U", "D", "U", "D"]										# Password to get into setup menu
 machine_log = web_folder_location + 'machine_log.txt'               # Log File
 web_serial_config = web_folder_location + 'wconfig.txt'             # Serial parameters from website
 machine_serial_config = 's_config.txt'                              # "local" serial config parameters  
@@ -360,9 +360,10 @@ def ReceiveFile():
 				else:
 					lcd.clear()
 					lcd.message("data received")
-					table = maketrans("\r\r", "")
+					table = maketrans("\r\r", "    ")
 					for each_line in lines:
 						each_line.translate(table)
+						each_line.rstrip()
 					file_path = received_location + "received1." + save_extension
 					data = string.join(lines, "\n")
 					if DEBUG:
