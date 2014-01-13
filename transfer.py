@@ -408,7 +408,7 @@ def ReceiveFile():
 
 
 
-					rfile.write(data)
+					rfile.write(lines)
 					if DEBUG:
 						print " - writing data to file"
 					rfile.close()
