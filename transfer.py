@@ -361,14 +361,15 @@ def ReceiveFile():
 					lcd.clear()
 					lcd.message("data received")
 					table = maketrans(u"\r", u" ")
+					cleaned_lines = []
 					for each_line in lines:
-						each_line.translate(table)
-						each_line.rstrip()
+						cleaned_lines.append(each_line.translate(table).rstrip())
 						if DEBUG:
 							print "**************line*******************"
-							print each_line
+							print "old" + each_line
+							print "new" + cleaned_lines
 					file_path = received_location + "received1." + save_extension
-					data = "".join(lines)
+					data = "".join(cleaned_lines)
 					if DEBUG:
 						print "-----------------------------"
 						print "lines -----------------------"
