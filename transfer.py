@@ -336,7 +336,7 @@ def ReceiveFile():
 					lines = []
 					while True:
 						line = ser.readline()
-						lines.append(line.decode('utf-8').rstrip())
+						lines.append(line.rstrip())
 						if DEBUG:
 							print line
 						# wait for new data after each line
@@ -360,7 +360,7 @@ def ReceiveFile():
 				else:
 					lcd.clear()
 					lcd.message("data received")
-					table = maketrans(u"\r", u" ")
+					table = maketrans("\r", " ")
 					cleaned_lines = []
 					for each_line in lines:
 						cleaned_lines.append(each_line.translate(table).rstrip())
