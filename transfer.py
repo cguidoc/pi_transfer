@@ -45,6 +45,7 @@ import smbus
 import shutil
 import os
 import glob
+import io
 
 
 # Global Directories
@@ -337,18 +338,19 @@ def ReceiveFile():
 				lcd.clear()
 				message = "receiving data...\nas *." + save_extension
 				lcd.message(message)
-				if ser.isOpen():
+				sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
+				if sio.isOpen():
 					timeout=1
 					lines = []
 					while True:
-						line = ser.readline()
-						lines.append(line.decode('utf-8').rstrip())
+						line = sio.readline()
+						lines.append(line.rstrip())
 
 						# wait for new data after each line
 						timeout = time.time() + 0.1
-						while not ser.inWaiting() and timeout > time.time():
+						while not sio.inWaiting() and timeout > time.time():
 							pass
-						if not ser.inWaiting():
+						if not sio.inWaiting():
 							break
 				else:
 					lcd.clear()
@@ -370,12 +372,12 @@ def ReceiveFile():
 						print " - serial object closed"
 					lcd.clear()
 					lcd.message("data received")
-					file_path = received_location + "received1"
+					file_path = received_location + "received1" + save_extension
 					data = string.join(lines, "\n")
 					if DEBUG:
 						print lines
 						print data
-					data.replace(";","\n")
+					# data.replace(";","\n")
 					if DEBUG:
 						print "after replace"
 						print data
@@ -408,7 +410,7 @@ def ReceiveFile():
 
 
 
-					rfile.write(lines)
+					rfile.write(data)
 					if DEBUG:
 						print " - writing data to file"
 					rfile.close()
