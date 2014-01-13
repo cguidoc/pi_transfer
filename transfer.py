@@ -369,7 +369,7 @@ def ReceiveFile():
 							print "**************line*******************"
 							print each_line
 					file_path = received_location + "received1." + save_extension
-					data = "".join(cleaned_lines)
+					data = "\n".join(cleaned_lines)
 					if DEBUG:
 						print "-----------------------------"
 						print "lines -----------------------"
