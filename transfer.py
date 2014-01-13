@@ -338,19 +338,18 @@ def ReceiveFile():
 				lcd.clear()
 				message = "receiving data...\nas *." + save_extension
 				lcd.message(message)
-				sio = io.TextIOWrapper(io.BufferedRWPair(ser, ser))
-				if sio.isOpen():
+				if ser.isOpen():
 					timeout=1
 					lines = []
 					while True:
-						line = sio.readline()
+						line = ser.readline()
 						lines.append(line.rstrip())
 
 						# wait for new data after each line
 						timeout = time.time() + 0.1
-						while not sio.inWaiting() and timeout > time.time():
+						while not ser.inWaiting() and timeout > time.time():
 							pass
-						if not sio.inWaiting():
+						if not ser.inWaiting():
 							break
 				else:
 					lcd.clear()
