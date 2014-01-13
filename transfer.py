@@ -151,7 +151,7 @@ def CreateSerial():
 			stopbits = serial_config.getint('serial', 'stopbits'),
 			parity = serial_config.get('serial', 'parity'),
 			xonxoff = serial_config.getboolean('serial', 'xonxoff'),
-			timeout = 10)
+			timeout = 30)
 		save_extension = serial_config.get('machine', 'file_extension')
 		return ser
 	except serial.SerialException as e:
@@ -370,8 +370,8 @@ def ReceiveFile():
 						print " - serial object closed"
 					lcd.clear()
 					lcd.message("data received")
-					file_path = received_location + lines[0]
-					data = string.join(lines, "\n")
+					file_path = received_location + lines[0] + save_extension
+					data = string.join(lines, ";")
 					if DEBUG:
 						print " - converting data array to string"
 					lcd.clear()
