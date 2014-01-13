@@ -366,8 +366,7 @@ def ReceiveFile():
 						cleaned_lines.append(each_line.translate(table).rstrip())
 						if DEBUG:
 							print "**************line*******************"
-							print "old" + each_line
-							print "new" + cleaned_lines
+							print "old " + each_line
 					file_path = received_location + "received1." + save_extension
 					data = "".join(cleaned_lines)
 					if DEBUG:
