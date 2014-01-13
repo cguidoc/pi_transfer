@@ -360,12 +360,13 @@ def ReceiveFile():
 				else:
 					lcd.clear()
 					lcd.message("data received")
-					table = maketrans("\r\r", "  ")
+					table = maketrans("\r", " ")
 					for each_line in lines:
 						each_line.translate(table)
 						each_line.rstrip()
 						if DEBUG:
 							print "**************line*******************"
+							print each_line
 					file_path = received_location + "received1." + save_extension
 					data = string.join(lines, "\n")
 					if DEBUG:
